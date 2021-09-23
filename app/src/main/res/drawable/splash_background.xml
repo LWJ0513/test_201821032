@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:opacity="opaque">
+
+    <item android:drawable="@android:color/white" />
+
+
+    <item
+        android:width="500dp"
+        android:height="500dp"
+        android:gravity="center">
+
+
+        <bitmap
+            android:mipMap="true"
+            android:gravity="fill"
+            android:src="@drawable/img_start_logo" />
+
+    </item>
+
+</layer-list>
