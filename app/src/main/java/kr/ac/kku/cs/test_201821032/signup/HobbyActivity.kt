@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import kr.ac.kku.cs.test_201821032.LoginActivity
+import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
 
 class HobbyActivity : AppCompatActivity() {
@@ -27,9 +28,9 @@ class HobbyActivity : AppCompatActivity() {
     }
 
 
-    public override fun onBackPressed() {
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-    }
+//    public override fun onBackPressed() {
+//        startActivity(Intent(this, MainActivity::class.java))
+//        finish()
+//    }
 
 }

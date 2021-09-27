@@ -57,6 +57,12 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    public override fun onBackPressed() {
+        startActivity(Intent(this, HobbyActivity::class.java))
+        finish()
+    }
+
+
 
     private fun getCurrentUserID(): String {
         if (auth.currentUser == null) {
