@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_201821032">
         <activity
+            android:name=".EmailLoginActivity"
+            android:exported="true" />
+        <activity
             android:name=".memberslist.AddMembersActivity"
             android:exported="true" />
         <activity

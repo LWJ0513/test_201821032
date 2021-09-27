@@ -8,23 +8,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_EMAIL
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_ID
-import kr.ac.kku.cs.test_201821032.signup.HobbyActivity
-import kr.ac.kku.cs.test_201821032.signup.SignUpActivity
 
-class LoginActivity : AppCompatActivity() {
+class EmailLoginActivity : AppCompatActivity() {
 
     //이메일과 password를 입력받아 firebase auth에다가 전달
     private lateinit var auth: FirebaseAuth
@@ -34,27 +24,16 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_email_login)
 
         userDB = Firebase.database.reference.child("Users")
         auth = Firebase.auth    // = FirebaseAuth.getInstance()랑 똑같음
         callbackManager = CallbackManager.Factory.create()
 
-        initEmailLoginButton()
 
-//        initSignUpButton()
-//        initLoginButton()
-//        initEmailAndPasswordEditText()
-        initFacebookLoginButton()
-    }
-
-    private fun initEmailLoginButton() {
-        val emailLoginButton: Button = findViewById<Button>(R.id.emailLoginButton)
-
-        emailLoginButton.setOnClickListener {
-            startActivity(Intent(this, EmailLoginActivity::class.java))
-            finish()
-        }
+        initSignUpButton()
+        initLoginButton()
+        initEmailAndPasswordEditText()
     }
 
     private fun initSignUpButton() {
@@ -68,10 +47,10 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val userId = auth.currentUser?.uid.orEmpty()
                         val currentUserDB =
-                            Firebase.database.reference.child(DB_USERS).child(userId)
+                            Firebase.database.reference.child(DBKey.DB_USERS).child(userId)
                         val user = mutableMapOf<String, Any>()
-                        user[DB_USER_ID] = userId
-                        user[DB_EMAIL] = email
+                        user[DBKey.DB_USER_ID] = userId
+                        user[DBKey.DB_EMAIL] = email
                         currentUserDB.updateChildren(user)
 
                         Toast.makeText(
@@ -105,7 +84,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     private fun initEmailAndPasswordEditText() {
         val emailEditText = findViewById<EditText>(R.id.emailEditText)
         val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
@@ -125,41 +103,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun initFacebookLoginButton() {
-        val facebookLoginButton = findViewById<LoginButton>(R.id.facebookLoginButton)
-
-        facebookLoginButton.setPermissions("email", "public_profile")   //페북 계정에서 어떤 정보를 가져올건지
-        facebookLoginButton.registerCallback(
-            callbackManager,
-            object : FacebookCallback<LoginResult> {
-
-                override fun onSuccess(result: LoginResult) {  // 로그인 성공
-                    val credential = FacebookAuthProvider.getCredential(result.accessToken.token)
-                    auth.signInWithCredential(credential)
-                        .addOnCompleteListener(this@LoginActivity) { task ->
-                            if (task.isSuccessful) {
-                                handleSuccessLogin()
-                            } else {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    "페이스북 로그인이 실패했습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                }
-
-                override fun onCancel() {}      // 로그인 하다 취소
-
-
-                override fun onError(error: FacebookException?) {       // 에러러
-                    Toast.makeText(this@LoginActivity, "페이스북 로그인이 실패했습니다.", Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-            })
-    }
-
     private fun getInputEmail(): String {
         return findViewById<EditText>(R.id.emailEditText).text.toString()
     }
@@ -168,6 +111,11 @@ class LoginActivity : AppCompatActivity() {
         return findViewById<EditText>(R.id.passwordEditText).text.toString()
     }
 
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        callbackManager.onActivityResult(requestCode, resultCode, data)
+//    }
 
     private fun handleSuccessLogin() {
         if (auth.currentUser == null) {
@@ -176,6 +124,5 @@ class LoginActivity : AppCompatActivity() {
         }
         finish()
     }
-
 
 }
