@@ -11,35 +11,36 @@
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이름"
-        android:textSize="25sp"
+        android:text="닉네임"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@id/backButton"
-        app:layout_constraintEnd_toStartOf="@id/nameEditText"
+        app:layout_constraintEnd_toStartOf="@id/userNameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
 
     <EditText
-        android:id="@+id/nameEditText"
+        android:id="@+id/userNameEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:maxLength="10"
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="@id/nameTextView"
-        app:layout_constraintEnd_toStartOf="@id/checkIdButton"
+        app:layout_constraintEnd_toStartOf="@id/checkUserNameButton"
         app:layout_constraintStart_toEndOf="@id/nameTextView"
         app:layout_constraintTop_toTopOf="@id/nameTextView" />
 
     <Button
-        android:id="@+id/checkIdButton"
+        android:id="@+id/checkUserNameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="중복 확인"
         app:layout_constraintBottom_toBottomOf="@id/nameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/nameEditText"
+        app:layout_constraintStart_toEndOf="@id/userNameEditText"
         app:layout_constraintTop_toTopOf="@id/nameTextView" />
 
     <Button
@@ -57,6 +58,7 @@
         android:id="@+id/signUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="완료"
         app:layout_constraintBottom_toBottomOf="@id/backButton"
         app:layout_constraintEnd_toEndOf="parent"

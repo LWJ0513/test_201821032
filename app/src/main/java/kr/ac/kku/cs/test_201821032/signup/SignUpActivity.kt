@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_EMAIL
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_ID
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
@@ -29,6 +28,7 @@ class SignUpActivity : AppCompatActivity() {
 
         initSignUpButton()
         initBackButton()
+        initUserNameEditText()
     }
 
 
@@ -36,7 +36,7 @@ class SignUpActivity : AppCompatActivity() {
         val signUpButton: Button = findViewById<Button>(R.id.signUpButton)
 
         signUpButton.setOnClickListener {
-            val nameEditText = findViewById<EditText>(R.id.nameEditText)
+            val nameEditText = findViewById<EditText>(R.id.userNameEditText)
             val userId = getCurrentUserID()
             val currentUserDB = userDB.child(userId)
             val user = mutableMapOf<String, Any>()
@@ -62,7 +62,17 @@ class SignUpActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun initUserNameEditText() {
+        val nameEditText = findViewById<EditText>(R.id.userNameEditText)
+        val checkUserNameButton = findViewById<Button>(R.id.checkUserNameButton)
+        val signUpButton = findViewById<Button>(R.id.signUpButton)
 
+        nameEditText.addTextChangedListener {
+            val enable = nameEditText.text.isNotEmpty()
+            checkUserNameButton.isEnabled = enable
+            signUpButton.isEnabled = enable
+        }
+    }
 
     private fun getCurrentUserID(): String {
         if (auth.currentUser == null) {
