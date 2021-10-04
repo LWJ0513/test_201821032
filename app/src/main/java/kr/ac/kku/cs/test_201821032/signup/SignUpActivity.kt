@@ -33,7 +33,7 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun initSignUpButton() {
-        val signUpButton: Button = findViewById<Button>(R.id.signUpButton)
+        val signUpButton: Button = findViewById<Button>(R.id.signUpTextView)
 
         signUpButton.setOnClickListener {
             val nameEditText = findViewById<EditText>(R.id.userNameEditText)
@@ -65,7 +65,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun initUserNameEditText() {
         val nameEditText = findViewById<EditText>(R.id.userNameEditText)
         val checkUserNameButton = findViewById<Button>(R.id.checkUserNameButton)
-        val signUpButton = findViewById<Button>(R.id.signUpButton)
+        val signUpButton = findViewById<Button>(R.id.signUpTextView)
 
         nameEditText.addTextChangedListener {
             val enable = nameEditText.text.isNotEmpty()

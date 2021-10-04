@@ -2,7 +2,7 @@ package kr.ac.kku.cs.test_201821032
 
 class DBKey {
     companion object {
-        const val DB_MEMBERS = "Members"
+        const val DB_MEMBERS_LIST = "MembersList"
         const val DB_USERS = "Users"
         const val DB_USER_ID = "user_id"
         const val DB_USER_NAME = "user_name"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmailLoginActivity">
+    tools:context=".EmailSignUpActivity">
 
     <EditText
         android:id="@+id/emailEditText"
@@ -28,45 +28,20 @@
         android:hint="비밀번호"
         android:inputType="textPassword"
         android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@id/loginButton"
+        app:layout_constraintBottom_toTopOf="@id/signUpButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/signUpButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:text="로그인"
+        android:text="회원가입"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        app:layout_constraintBottom_toTopOf="@id/askTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/askTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="아직 계정이 없으신가요?"
-        app:layout_constraintEnd_toStartOf="@id/signUpTextView"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
-
-    <TextView
-        android:id="@+id/signUpTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:gravity="center"
-        android:text="가입하기"
-        android:textColor="@color/red"
-        app:layout_constraintBottom_toBottomOf="@id/askTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/askTextView"
-        app:layout_constraintTop_toTopOf="@id/askTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
