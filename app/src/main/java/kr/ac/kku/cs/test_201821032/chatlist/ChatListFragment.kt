@@ -14,8 +14,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
-import kr.ac.kku.cs.test_201821032.LoginActivity
-import kr.ac.kku.cs.test_201821032.MainActivity
+import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
 import kr.ac.kku.cs.test_201821032.databinding.FragmentChatlistBinding

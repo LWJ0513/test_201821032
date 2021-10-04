@@ -17,10 +17,10 @@
             android:name=".grouplist.AddGroupsActivity"
             android:exported="true" />
         <activity
-            android:name=".EmailSignUpActivity"
+            android:name=".signIn.EmailSignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".EmailLoginActivity"
+            android:name=".signIn.EmailLoginActivity"
             android:exported="true" />
         <activity
             android:name=".memberslist.AddMembersActivity"
@@ -29,10 +29,10 @@
             android:name=".chatdetail.ChatRoomActivity"
             android:exported="true" />
         <activity
-            android:name=".signup.SignUpActivity"
+            android:name="kr.ac.kku.cs.test_201821032.signIn.signup.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".signup.HobbyActivity"
+            android:name="kr.ac.kku.cs.test_201821032.signIn.signup.HobbyActivity"
             android:exported="true" />
         <activity
             android:name=".HomeActivity"
@@ -41,7 +41,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".signIn.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".SplashActivity"

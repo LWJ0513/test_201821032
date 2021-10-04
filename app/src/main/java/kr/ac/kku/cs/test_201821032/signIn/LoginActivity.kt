@@ -1,4 +1,4 @@
-package kr.ac.kku.cs.test_201821032
+package kr.ac.kku.cs.test_201821032.signIn
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kr.ac.kku.cs.test_201821032.R
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,7 +24,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
     private lateinit var userDB: DatabaseReference
-    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
 
         emailLoginButton.setOnClickListener {
             startActivity(Intent(this, EmailLoginActivity::class.java))
-            finish()
+
         }
     }
 
@@ -87,8 +87,6 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    public override fun onBackPressed() {
-        finish()
-    }
+
 
 }

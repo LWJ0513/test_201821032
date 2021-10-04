@@ -17,7 +17,7 @@ import kr.ac.kku.cs.test_201821032.chatlist.ChatListFragment
 import kr.ac.kku.cs.test_201821032.grouplist.GroupsFragment
 import kr.ac.kku.cs.test_201821032.memberslist.MembersFragment
 import kr.ac.kku.cs.test_201821032.mypage.MyPageFragment
-import kr.ac.kku.cs.test_201821032.signup.HobbyActivity
+import kr.ac.kku.cs.test_201821032.signIn.signup.HobbyActivity
 
 class HomeActivity : AppCompatActivity() {
 

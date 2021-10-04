@@ -1,4 +1,4 @@
-package kr.ac.kku.cs.test_201821032.signup
+package kr.ac.kku.cs.test_201821032.signIn.signup
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

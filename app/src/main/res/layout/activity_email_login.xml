@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmailLoginActivity">
+    tools:context=".signIn.EmailLoginActivity">
 
     <EditText
         android:id="@+id/emailEditText"
@@ -38,19 +38,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
+        android:enabled="false"
         android:text="로그인"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
         app:layout_constraintBottom_toTopOf="@id/askTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
     <TextView
         android:id="@+id/askTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:text="아직 계정이 없으신가요?"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/signUpTextView"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"

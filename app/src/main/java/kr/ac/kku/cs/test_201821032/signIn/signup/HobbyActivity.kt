@@ -1,11 +1,9 @@
-package kr.ac.kku.cs.test_201821032.signup
+package kr.ac.kku.cs.test_201821032.signIn.signup
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import kr.ac.kku.cs.test_201821032.LoginActivity
-import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
 
 class HobbyActivity : AppCompatActivity() {

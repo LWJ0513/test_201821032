@@ -15,14 +15,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kr.ac.kku.cs.test_201821032.DBKey
-import kr.ac.kku.cs.test_201821032.LoginActivity
+import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.FragmentGrouplistBinding
-import kr.ac.kku.cs.test_201821032.databinding.FragmentMemberslistBinding
-import kr.ac.kku.cs.test_201821032.memberslist.AddMembersActivity
-import kr.ac.kku.cs.test_201821032.memberslist.MembersAdapter
-import kr.ac.kku.cs.test_201821032.memberslist.MembersModel
 
 class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
 

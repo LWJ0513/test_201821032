@@ -11,7 +11,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kr.ac.kku.cs.test_201821032.signup.HobbyActivity
+import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
+import kr.ac.kku.cs.test_201821032.signIn.signup.HobbyActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         userDB = Firebase.database.reference.child("Users")
 
