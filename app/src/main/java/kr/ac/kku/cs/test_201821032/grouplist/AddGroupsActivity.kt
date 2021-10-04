@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -17,12 +18,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.activity_add_group.*
 import kr.ac.kku.cs.test_201821032.DBKey
-import kr.ac.kku.cs.test_201821032.R
-import kr.ac.kku.cs.test_201821032.memberslist.MembersModel
+import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupBinding
+import kr.ac.kku.cs.test_201821032.signIn.signup.SignUpActivity
 
 class AddGroupsActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAddGroupBinding
     private var selectedUri: Uri? = null
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -38,9 +41,10 @@ class AddGroupsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_group)
+        binding = ActivityAddGroupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        findViewById<Button>(R.id.imageAddButton).setOnClickListener {
+        imageAddButton.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
                     this,
@@ -60,9 +64,24 @@ class AddGroupsActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.submitButton).setOnClickListener {
-            val title = findViewById<EditText>(R.id.titleEditText).text.toString().orEmpty()
-            val description = findViewById<EditText>(R.id.descriptionEditText).text.toString().orEmpty()
+        meetToggleButton.setOnToggledListener { toggleButton, isOn ->
+
+            if (!isOn) {
+                meetTextView.text = "오프라인 모임"
+                searchLocationButton.visibility = View.VISIBLE
+            } else {
+                meetTextView.text = "온라인 모임"
+                searchLocationButton.visibility = View.INVISIBLE
+            }
+        }
+
+        searchLocationButton.setOnClickListener {
+            startActivity(Intent(this, AddGroupSecondActivity::class.java))
+        }
+
+        submitButton.setOnClickListener {
+            val title = titleEditText.text.toString().orEmpty()
+            val description = descriptionEditText.text.toString().orEmpty()
             val roomManager = auth.currentUser?.uid.orEmpty()
 
             showProgress()
@@ -70,7 +89,7 @@ class AddGroupsActivity : AppCompatActivity() {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
-                        uploadMember(roomManager, title, description, uri)
+                        uploadGroup(roomManager, title, description, uri)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
@@ -78,18 +97,18 @@ class AddGroupsActivity : AppCompatActivity() {
                     }
                 )
             } else {    // 동기
-                uploadMember(roomManager, title, description, "")
+                uploadGroup(roomManager, title, description, "")
             }
         }
     }
 
     private fun uploadPhoto(uri: Uri, successHandler: (String) -> Unit, errorHandler: () -> Unit) {
         val fileName = "${System.currentTimeMillis()}.png"
-        storage.reference.child("members/photo").child(fileName)
+        storage.reference.child("groups/photo").child(fileName)
             .putFile(uri)
             .addOnCompleteListener {
                 if (it.isSuccessful) {          // 업로드가 성공적
-                    storage.reference.child("members/photo").child(fileName)
+                    storage.reference.child("groups/photo").child(fileName)
                         .downloadUrl
                         .addOnSuccessListener { uri ->
                             successHandler(uri.toString())
@@ -102,8 +121,8 @@ class AddGroupsActivity : AppCompatActivity() {
             }
     }
 
-    private fun uploadMember(roomManager: String, title: String, description: String, imageUrl: String) {
-        val model = MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+    private fun uploadGroup(roomManager: String, title: String, description: String, imageUrl: String) {
+        val model = GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
         groupsDB.push().setValue(model)
         hideProgress()
         finish()
@@ -134,11 +153,11 @@ class AddGroupsActivity : AppCompatActivity() {
     }
 
     private fun showProgress() {
-        findViewById<ProgressBar>(R.id.progressBar).isVisible = true
+        progressBar.isVisible = true
     }
 
     private fun hideProgress() {
-        findViewById<ProgressBar>(R.id.progressBar).isVisible = false
+       progressBar.isVisible = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -151,7 +170,7 @@ class AddGroupsActivity : AppCompatActivity() {
             2020 -> {
                 val uri = data?.data
                 if (uri != null) {
-                    findViewById<ImageView>(R.id.photoImageView).setImageURI(uri)
+                    photoImageView.setImageURI(uri)
                     selectedUri = uri
                 } else {
                     Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()

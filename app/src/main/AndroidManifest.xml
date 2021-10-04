@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_201821032">
         <activity
+            android:name=".grouplist.AddGroupSecondActivity"
+            android:exported="true" />
+        <activity
             android:name=".grouplist.AddGroupsActivity"
             android:exported="true" />
         <activity
@@ -29,10 +32,10 @@
             android:name=".chatdetail.ChatRoomActivity"
             android:exported="true" />
         <activity
-            android:name="kr.ac.kku.cs.test_201821032.signIn.signup.SignUpActivity"
+            android:name=".signIn.signup.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name="kr.ac.kku.cs.test_201821032.signIn.signup.HobbyActivity"
+            android:name=".signIn.signup.HobbyActivity"
             android:exported="true" />
         <activity
             android:name=".HomeActivity"

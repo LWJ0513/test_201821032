@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        // 로그인 정보가 firebase currentUser에 저장됨
+        // 로그인 정보가 firebase currentUser 에 저장됨
         if (auth.currentUser == null) { // 로그인이 안되어 있으면
-            startActivity(Intent(this, LoginActivity::class.java))      // LoginActivity로 이동
+            startActivity(Intent(this, LoginActivity::class.java))      // LoginActivity 로 이동
             finish()
         }/* else if (userDB.child("user_name").get() == null){
             startActivity(Intent(this, HobbyActivity::class.java))
