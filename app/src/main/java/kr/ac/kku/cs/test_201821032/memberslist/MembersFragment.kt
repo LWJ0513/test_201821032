@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
@@ -61,7 +61,7 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
         memberList.clear()
         userDB = Firebase.database.reference.child(DB_USERS)
-        memberDB = Firebase.database.reference.child(DB_MEMBERS)
+        memberDB = Firebase.database.reference.child(DB_MEMBERS_LIST)
         memberAdapter = MembersAdapter(onItemClicked = { membersModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != membersModel.roomManager) {        // 다른사람이면 채팅방 열기
