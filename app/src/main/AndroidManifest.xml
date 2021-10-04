@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_201821032">
         <activity
+            android:name=".grouplist.AddGroupsActivity"
+            android:exported="true" />
+        <activity
             android:name=".EmailSignUpActivity"
             android:exported="true" />
         <activity

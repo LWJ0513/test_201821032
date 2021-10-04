@@ -1,4 +1,4 @@
-package kr.ac.kku.cs.test_201821032.memberslist
+package kr.ac.kku.cs.test_201821032.grouplist
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -17,10 +17,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
+import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
+import kr.ac.kku.cs.test_201821032.memberslist.MembersModel
 
-class AddMembersActivity : AppCompatActivity() {
+class AddGroupsActivity : AppCompatActivity() {
 
     private var selectedUri: Uri? = null
     private val auth: FirebaseAuth by lazy {
@@ -31,13 +32,13 @@ class AddMembersActivity : AppCompatActivity() {
         Firebase.storage
     }
 
-    private val membersDB: DatabaseReference by lazy {
-        Firebase.database.reference.child(DB_MEMBERS_LIST)
+    private val groupsDB: DatabaseReference by lazy {
+        Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_members)
+        setContentView(R.layout.activity_add_group)
 
         findViewById<Button>(R.id.imageAddButton).setOnClickListener {
             when {
@@ -103,7 +104,7 @@ class AddMembersActivity : AppCompatActivity() {
 
     private fun uploadMember(roomManager: String, title: String, description: String, imageUrl: String) {
         val model = MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
-        membersDB.push().setValue(model)
+        groupsDB.push().setValue(model)
         hideProgress()
         finish()
     }

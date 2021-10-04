@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListFragment
-import kr.ac.kku.cs.test_201821032.grouplist.GroupListFragment
+import kr.ac.kku.cs.test_201821032.grouplist.GroupsFragment
 import kr.ac.kku.cs.test_201821032.memberslist.MembersFragment
 import kr.ac.kku.cs.test_201821032.mypage.MyPageFragment
 import kr.ac.kku.cs.test_201821032.signup.HobbyActivity
@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
         userDB = Firebase.database.reference.child("Users")
 
         val membersFragment = MembersFragment()
-        val groupFragment = GroupListFragment()
+        val groupFragment = GroupsFragment()
         val chatListFragment = ChatListFragment()
         val myPageFragment = MyPageFragment()
 

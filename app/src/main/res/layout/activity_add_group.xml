@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".grouplist.AddGroupsActivity">
+
+    <LinearLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="모임 개설"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/toolbarUnderLineView"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/gray_cc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+
+    <ImageView
+        android:id="@+id/photoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@id/imageAddButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarUnderLineView"/>
+
+    <Button
+        android:id="@+id/imageAddButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/main_color"
+        android:text="이미지 등록하기"
+        app:layout_constraintEnd_toEndOf="@id/photoImageView"
+        app:layout_constraintBottom_toTopOf="@id/titleEditText"
+        app:layout_constraintStart_toStartOf="@id/photoImageView"
+        app:layout_constraintTop_toBottomOf="@id/photoImageView" />
+
+
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imageAddButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/descriptionEditText"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="모임 이름"/>
+
+    <EditText
+        android:id="@+id/descriptionEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="모임 설명"
+        android:lines="1"
+        app:layout_constraintBottom_toTopOf="@id/hashtagEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+
+    <EditText
+        android:id="@+id/hashtagEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/descriptionEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="해시태그 설정" />
+
+    <Spinner
+        android:id="@+id/hobbySpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hashtagEditText"
+        app:layout_constraintBottom_toTopOf="@id/submitButton"
+        app:layout_constraintEnd_toStartOf="@id/hobbyDetailSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Spinner
+        android:id="@+id/hobbyDetailSpinner"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/hobbySpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/hobbySpinner"
+        app:layout_constraintBottom_toBottomOf="@id/hobbySpinner"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/main_color"
+        android:text="등록하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
