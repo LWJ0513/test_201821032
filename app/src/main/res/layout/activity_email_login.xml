@@ -54,4 +54,25 @@
         app:layout_constraintEnd_toStartOf="@id/loginButton"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
+<!--    <TextView
+        android:id="@+id/askTextView"
+        android:text="아직 계정이 없으신가요?"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf=""
+        android:gravity="center"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/signUpButton"
+        android:textColor="@color/red"
+        android:text="가입하기"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toTopOf="@id/askTextView"
+        app:layout_constraintStart_toEndOf="@id/askTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"/>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

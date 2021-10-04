@@ -87,5 +87,8 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+    public override fun onBackPressed() {
+        finish()
+    }
 
 }

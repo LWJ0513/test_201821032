@@ -20,9 +20,13 @@ class MainActivity : AppCompatActivity() {
         // 로그인 정보가 firebase currentUser에 저장됨
         if (auth.currentUser == null) { // 로그인이 안되어 있으면
             startActivity(Intent(this, LoginActivity::class.java))      // LoginActivity로 이동
+            finish()
         } else {
-            startActivity(Intent(this,HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
+
+
     }
+
 }
