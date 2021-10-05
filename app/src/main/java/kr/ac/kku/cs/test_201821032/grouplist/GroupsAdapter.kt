@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.ac.kku.cs.test_201821032.databinding.ItemGroupsBinding
-import kr.ac.kku.cs.test_201821032.databinding.ItemMembersBinding
-import kr.ac.kku.cs.test_201821032.memberslist.MembersModel
 import java.util.*
 
 class GroupsAdapter (val onItemClicked: (GroupsModel) -> Unit) :

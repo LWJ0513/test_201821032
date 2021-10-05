@@ -43,6 +43,13 @@ class AddMembersActivity : AppCompatActivity() {
         binding = ActivityAddMembersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        initImageAddMembersButton()
+        initSubmitMembersButton()
+
+    }
+
+    private fun initImageAddMembersButton() {
         imageAddMembersButton.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
@@ -62,7 +69,9 @@ class AddMembersActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun initSubmitMembersButton() {
         submitMembersButton.setOnClickListener {
             val title = titleMembersEditText.text.toString().orEmpty()
             val description = descriptionMembersEditText.text.toString().orEmpty()

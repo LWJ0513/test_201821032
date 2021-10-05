@@ -42,6 +42,12 @@ class AddGroupsActivity : AppCompatActivity() {
         binding = ActivityAddGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initImageAddMembersButton()
+        initMeetToggleButton()
+        initSubmitMembersButton()
+    }
+
+    private fun initImageAddMembersButton() {
         imageAddMembersButton.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
@@ -61,7 +67,9 @@ class AddGroupsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun initMeetToggleButton() {
         meetToggleButton.setOnToggledListener { toggleButton, isOn ->
 
             if (!isOn) {
@@ -72,16 +80,32 @@ class AddGroupsActivity : AppCompatActivity() {
                 submitMembersButton.text = "등록하기"
             }
         }
+    }
 
-
-
+    private fun initSubmitMembersButton() {
         submitMembersButton.setOnClickListener {
             val title = titleMembersEditText.text.toString().orEmpty()
             val description = descriptionMembersEditText.text.toString().orEmpty()
             val roomManager = auth.currentUser?.uid.orEmpty()
 
             showProgress()
-            if (meetToggleButton.isOn) {
+            if (!meetToggleButton.isOn) {   // 오프라인
+                val intent = Intent(this, AddGroupSecondActivity::class.java)
+                intent.putExtra("title", title)
+                intent.putExtra("description", description)
+                intent.putExtra("roomManager", roomManager)
+                if (selectedUri != null) {
+                    intent.data = selectedUri
+                }
+
+                if (selectedUri != null) {
+                    val photoUri = selectedUri ?: return@setOnClickListener
+                    intent.putExtra("photoUri", photoUri)
+                } else {
+                    intent.putExtra("photoUri", "")
+                }
+                startActivity(intent)
+            } else {            // 온라인
                 if (selectedUri != null) {            // 이미지가 있으면 업로드
                     val photoUri = selectedUri ?: return@setOnClickListener
                     uploadPhoto(photoUri,
@@ -96,21 +120,17 @@ class AddGroupsActivity : AppCompatActivity() {
                 } else {    // 동기
                     uploadGroup(roomManager, title, description, "")
                 }
-            } else {
-                startActivity(Intent(this, AddGroupSecondActivity::class.java))
             }
-
-
         }
     }
 
     private fun uploadPhoto(uri: Uri, successHandler: (String) -> Unit, errorHandler: () -> Unit) {
         val fileName = "${System.currentTimeMillis()}.png"
-        storage.reference.child("groups/photo").child(fileName)
+        storage.reference.child("groups/online/photo").child(fileName)
             .putFile(uri)
             .addOnCompleteListener {
                 if (it.isSuccessful) {          // 업로드가 성공적
-                    storage.reference.child("groups/photo").child(fileName)
+                    storage.reference.child("groups/online/photo").child(fileName)
                         .downloadUrl
                         .addOnSuccessListener { uri ->
                             successHandler(uri.toString())

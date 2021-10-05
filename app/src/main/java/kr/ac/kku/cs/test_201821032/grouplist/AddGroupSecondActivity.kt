@@ -1,6 +1,7 @@
 package kr.ac.kku.cs.test_201821032.grouplist
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +15,7 @@ import kr.ac.kku.cs.test_201821032.location.response.search.Poi
 import kr.ac.kku.cs.test_201821032.location.response.search.Pois
 import kr.ac.kku.cs.test_201821032.location.utillity.RetrofitUtil
 import kotlinx.coroutines.*
-import kotlinx.coroutines.GlobalScope.coroutineContext
+import kr.ac.kku.cs.test_201821032.grouplist.AddGroupsThirdActivity.Companion.SEARCH_RESULT_EXTRA_KEY
 import kotlin.coroutines.CoroutineContext
 
 class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
@@ -23,12 +24,17 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var adapter: SearchRecyclerAdapter
     private lateinit var job: Job
 
+    private lateinit var title: String
+    private lateinit var description: String
+    private lateinit var roomManager: String
+    private var photoUri: Uri? = null
+
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
         binding = ActivityAddGroupSecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -38,6 +44,15 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
         initViews()
         bindViews()
         initData()
+
+
+        title = intent.getStringExtra("title").toString()
+        description = intent.getStringExtra("description").toString()
+        roomManager = intent.getStringExtra("roomManager").toString()
+        photoUri = intent.data
+
+        Toast.makeText(this, "$photoUri", Toast.LENGTH_SHORT).show()
+
     }
 
     private fun initAdapter() {
@@ -78,55 +93,59 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
                 "빌딩 이름: ${it.name} , 주소 : ${it.fullAddress} , 위도/경도 : ${it.locationLatLng}",
                 Toast.LENGTH_SHORT
             ).show()
-           /*  startActivity(Intent(this, MapActivity::class.java).apply {
-                 putExtra(SEARCH_RESULT_EXTRA_KEY, it)
-        })*/
+            startActivity(Intent(this, AddGroupsThirdActivity::class.java).apply {
+                putExtra(SEARCH_RESULT_EXTRA_KEY, it)
+                putExtra("title", title)
+                putExtra("description", description)
+                putExtra("roomManager", roomManager)
+                data = photoUri
+            })
+        }
     }
-}
 
-// 코르틴으로 IO스레드로 바꿨다가 성공적으로 데이터를 받아오면 다시 메인스레드로 바꿔줌
-private fun searchKeyword(keywordString: String) {
-    launch(coroutineContext) {
-        try {
-            withContext(Dispatchers.IO) {
-                val response = RetrofitUtil.apiService.getSearchLocation(
-                    keyword = keywordString
-                )
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    withContext(Dispatchers.Main) {
-                        Log.e("response", body.toString())
-                        body?.let { searchResponse ->
-                            setData(searchResponse.searchPoiInfo.pois)
+    // 코르틴으로 IO스레드로 바꿨다가 성공적으로 데이터를 받아오면 다시 메인스레드로 바꿔줌
+    private fun searchKeyword(keywordString: String) {
+        launch(coroutineContext) {
+            try {
+                withContext(Dispatchers.IO) {
+                    val response = RetrofitUtil.apiService.getSearchLocation(
+                        keyword = keywordString
+                    )
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        withContext(Dispatchers.Main) {
+                            Log.e("response", body.toString())
+                            body?.let { searchResponse ->
+                                setData(searchResponse.searchPoiInfo.pois)
+                            }
                         }
                     }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(
+                    this@AddGroupSecondActivity,
+                    "검색하는 과정에서 에러가 발생했습니다. : ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(
-                this@AddGroupSecondActivity,
-                "검색하는 과정에서 에러가 발생했습니다. : ${e.message}",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
-}
 
 
-private fun makeMainAddress(poi: Poi): String =
-    if (poi.secondNo?.trim().isNullOrEmpty()) {
-        (poi.upperAddrName?.trim() ?: "") + " " +
-                (poi.middleAddrName?.trim() ?: "") + " " +
-                (poi.lowerAddrName?.trim() ?: "") + " " +
-                (poi.detailAddrName?.trim() ?: "") + " " +
-                poi.firstNo?.trim()
-    } else {
-        (poi.upperAddrName?.trim() ?: "") + " " +
-                (poi.middleAddrName?.trim() ?: "") + " " +
-                (poi.lowerAddrName?.trim() ?: "") + " " +
-                (poi.detailAddrName?.trim() ?: "") + " " +
-                (poi.firstNo?.trim() ?: "") + " " +
-                poi.secondNo?.trim()
-    }
+    private fun makeMainAddress(poi: Poi): String =
+        if (poi.secondNo?.trim().isNullOrEmpty()) {
+            (poi.upperAddrName?.trim() ?: "") + " " +
+                    (poi.middleAddrName?.trim() ?: "") + " " +
+                    (poi.lowerAddrName?.trim() ?: "") + " " +
+                    (poi.detailAddrName?.trim() ?: "") + " " +
+                    poi.firstNo?.trim()
+        } else {
+            (poi.upperAddrName?.trim() ?: "") + " " +
+                    (poi.middleAddrName?.trim() ?: "") + " " +
+                    (poi.lowerAddrName?.trim() ?: "") + " " +
+                    (poi.detailAddrName?.trim() ?: "") + " " +
+                    (poi.firstNo?.trim() ?: "") + " " +
+                    poi.secondNo?.trim()
+        }
 }
