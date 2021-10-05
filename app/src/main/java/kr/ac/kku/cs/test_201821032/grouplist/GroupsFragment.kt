@@ -22,7 +22,8 @@ import kr.ac.kku.cs.test_201821032.databinding.FragmentGrouplistBinding
 
 class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
 
-    private lateinit var groupDB: DatabaseReference
+    private lateinit var groupOnlineDB: DatabaseReference
+    private lateinit var groupOfflineDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var groupAdapter: GroupsAdapter
 
@@ -60,7 +61,9 @@ class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
 
         groupList.clear()
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
-        groupDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
+        groupOnlineDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
+        groupOfflineDB = Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
+
         groupAdapter = GroupsAdapter(onItemClicked = { groupsModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != groupsModel.roomManager) {        // 다른사람이면 채팅방 열기
@@ -110,7 +113,8 @@ class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
             }
         }
 
-        groupDB.addChildEventListener(listener)
+        groupOnlineDB.addChildEventListener(listener)
+        groupOfflineDB.addChildEventListener(listener)
     }
     override fun onResume() {
         super.onResume()
@@ -132,6 +136,7 @@ class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        groupDB.removeEventListener(listener)
+        groupOnlineDB.removeEventListener(listener)
+        groupOfflineDB.removeEventListener(listener)
     }
 }

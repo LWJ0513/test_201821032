@@ -6,6 +6,7 @@ class DBKey {
         const val DB_CHATS = "Chats"
 
 
+        const val DB_GROUPS_LIST = "GroupsList"
         const val DB_ONLINE_GROUPS_LIST = "GroupsList/Online"
         const val DB_OFFLINE_GROUPS_LIST = "GroupsList/Offline"
 
