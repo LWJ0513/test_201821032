@@ -60,7 +60,7 @@ class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
 
         groupList.clear()
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
-        groupDB = Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
+        groupDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
         groupAdapter = GroupsAdapter(onItemClicked = { groupsModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != groupsModel.roomManager) {        // 다른사람이면 채팅방 열기

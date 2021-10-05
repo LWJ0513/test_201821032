@@ -98,6 +98,9 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
                 putExtra("title", title)
                 putExtra("description", description)
                 putExtra("roomManager", roomManager)
+                putExtra("Place", it.name)
+                putExtra("address", it.fullAddress)
+                putExtra("location", it.locationLatLng)
                 data = photoUri
             })
         }

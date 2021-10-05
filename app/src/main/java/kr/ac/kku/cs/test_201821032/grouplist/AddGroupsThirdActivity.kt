@@ -56,7 +56,11 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     private lateinit var title: String
     private lateinit var description: String
     private lateinit var roomManager: String
+    private lateinit var Place: String
+    private lateinit var address: String
+    private lateinit var location: LocationLatLngEntity
     private var photoUri: Uri? = null
+
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
@@ -64,7 +68,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         Firebase.storage
     }
     private val groupsDB: DatabaseReference by lazy {
-        Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
+        Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
     }
 
 
@@ -119,6 +123,8 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
                         uploadGroup(roomManager, title, description, uri)
+                        // todo 업로드
+
                     }
                 ) {
                     Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
@@ -127,7 +133,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
             } else {    // 동기
                 uploadGroup(roomManager, title, description, "")
             }
-            // TODO fdsdsfsdfsfdfsdsf
+            // TODO 홈 액티비티의 그룹 fragment로 이동해야됨
             val intent = Intent(application, HomeActivity::class.java)
             startActivity(intent)
             finish()

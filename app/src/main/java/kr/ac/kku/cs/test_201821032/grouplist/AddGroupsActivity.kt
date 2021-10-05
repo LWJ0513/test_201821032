@@ -34,7 +34,7 @@ class AddGroupsActivity : AppCompatActivity() {
     }
 
     private val groupsDB: DatabaseReference by lazy {
-        Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
+        Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
