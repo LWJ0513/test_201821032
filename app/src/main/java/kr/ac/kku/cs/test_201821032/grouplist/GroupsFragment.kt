@@ -115,6 +115,8 @@ class GroupsFragment: Fragment(R.layout.fragment_grouplist) {
     override fun onResume() {
         super.onResume()
 
+        groupAdapter.notifyDataSetChanged()
+
         if (auth.currentUser == null) { // 로그인이 안되어 있으면
             activity?.let {
                 val intent = Intent(context, LoginActivity::class.java)// LoginActivity로 이동

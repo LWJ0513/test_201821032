@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -21,7 +20,6 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_group.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupBinding
-import kr.ac.kku.cs.test_201821032.signIn.signup.SignUpActivity
 
 class AddGroupsActivity : AppCompatActivity() {
 
@@ -44,7 +42,7 @@ class AddGroupsActivity : AppCompatActivity() {
         binding = ActivityAddGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        imageAddButton.setOnClickListener {
+        imageAddMembersButton.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
                     this,
@@ -68,37 +66,41 @@ class AddGroupsActivity : AppCompatActivity() {
 
             if (!isOn) {
                 meetTextView.text = "오프라인 모임"
-                searchLocationButton.visibility = View.VISIBLE
+                submitMembersButton.text = "장소 정하기"
             } else {
                 meetTextView.text = "온라인 모임"
-                searchLocationButton.visibility = View.INVISIBLE
+                submitMembersButton.text = "등록하기"
             }
         }
 
-        searchLocationButton.setOnClickListener {
-            startActivity(Intent(this, AddGroupSecondActivity::class.java))
-        }
 
-        submitButton.setOnClickListener {
-            val title = titleEditText.text.toString().orEmpty()
-            val description = descriptionEditText.text.toString().orEmpty()
+
+        submitMembersButton.setOnClickListener {
+            val title = titleMembersEditText.text.toString().orEmpty()
+            val description = descriptionMembersEditText.text.toString().orEmpty()
             val roomManager = auth.currentUser?.uid.orEmpty()
 
             showProgress()
-            if (selectedUri != null) {            // 이미지가 있으면 업로드
-                val photoUri = selectedUri ?: return@setOnClickListener
-                uploadPhoto(photoUri,
-                    successHandler = { uri ->     // 비동기
-                        uploadGroup(roomManager, title, description, uri)
-                    },
-                    errorHandler = {
-                        Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
-                        hideProgress()
-                    }
-                )
-            } else {    // 동기
-                uploadGroup(roomManager, title, description, "")
+            if (meetToggleButton.isOn) {
+                if (selectedUri != null) {            // 이미지가 있으면 업로드
+                    val photoUri = selectedUri ?: return@setOnClickListener
+                    uploadPhoto(photoUri,
+                        successHandler = { uri ->     // 비동기
+                            uploadGroup(roomManager, title, description, uri)
+                        },
+                        errorHandler = {
+                            Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
+                            hideProgress()
+                        }
+                    )
+                } else {    // 동기
+                    uploadGroup(roomManager, title, description, "")
+                }
+            } else {
+                startActivity(Intent(this, AddGroupSecondActivity::class.java))
             }
+
+
         }
     }
 
@@ -121,8 +123,14 @@ class AddGroupsActivity : AppCompatActivity() {
             }
     }
 
-    private fun uploadGroup(roomManager: String, title: String, description: String, imageUrl: String) {
-        val model = GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+    private fun uploadGroup(
+        roomManager: String,
+        title: String,
+        description: String,
+        imageUrl: String
+    ) {
+        val model =
+            GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
         groupsDB.push().setValue(model)
         hideProgress()
         finish()
@@ -157,7 +165,7 @@ class AddGroupsActivity : AppCompatActivity() {
     }
 
     private fun hideProgress() {
-       progressBar.isVisible = false
+        progressBar.isVisible = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -170,7 +178,7 @@ class AddGroupsActivity : AppCompatActivity() {
             2020 -> {
                 val uri = data?.data
                 if (uri != null) {
-                    photoImageView.setImageURI(uri)
+                    photoMembersImageView.setImageURI(uri)
                     selectedUri = uri
                 } else {
                     Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()

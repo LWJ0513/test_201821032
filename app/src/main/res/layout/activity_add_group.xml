@@ -37,55 +37,56 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
     <ImageView
-        android:id="@+id/photoImageView"
+        android:id="@+id/photoMembersImageView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:layout_constraintBottom_toTopOf="@id/imageAddButton"
+        app:layout_constraintBottom_toTopOf="@id/imageAddMembersButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarUnderLineView" />
 
     <Button
-        android:id="@+id/imageAddButton"
+        android:id="@+id/imageAddMembersButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/main_color"
         android:layout_marginHorizontal="10dp"
         android:text="이미지 등록하기"
-        app:layout_constraintBottom_toTopOf="@id/titleEditText"
+        app:layout_constraintBottom_toTopOf="@id/titleMembersEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/photoImageView" />
+        app:layout_constraintTop_toBottomOf="@id/photoMembersImageView" />
 
     <EditText
-        android:id="@+id/titleEditText"
+        android:id="@+id/titleMembersEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:hint="모임 이름"
-        app:layout_constraintBottom_toTopOf="@id/descriptionEditText"
+        app:layout_constraintBottom_toTopOf="@id/descriptionMembersEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageAddButton"
+        app:layout_constraintTop_toBottomOf="@id/imageAddMembersButton"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <EditText
-        android:id="@+id/descriptionEditText"
+        android:id="@+id/descriptionMembersEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="모임 설명"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/hashtagEditText"
+        app:layout_constraintBottom_toTopOf="@id/hashtagMembersEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+        app:layout_constraintTop_toBottomOf="@id/titleMembersEditText" />
 
     <EditText
-        android:id="@+id/hashtagEditText"
+        android:id="@+id/hashtagMembersEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -94,17 +95,17 @@
         app:layout_constraintBottom_toTopOf="@id/hobbySpinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionEditText" />
+        app:layout_constraintTop_toBottomOf="@id/descriptionMembersEditText" />
 
     <Spinner
         android:id="@+id/hobbySpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintBottom_toTopOf="@id/meetTextView"
         app:layout_constraintEnd_toStartOf="@id/hobbyDetailSpinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hashtagEditText" />
+        app:layout_constraintTop_toBottomOf="@id/hashtagMembersEditText" />
 
     <Spinner
         android:id="@+id/hobbyDetailSpinner"
@@ -122,7 +123,7 @@
         android:layout_marginTop="25dp"
         android:text="온라인 모임"
         android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@id/searchLocationButton"
+        app:layout_constraintBottom_toTopOf="@id/submitMembersButton"
         app:layout_constraintEnd_toStartOf="@id/meetToggleButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -145,35 +146,19 @@
         app:textOn="On"
         tools:ignore="MissingConstraints" />
 
-
     <Button
-        android:id="@+id/searchLocationButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/main_color"
-        android:visibility="invisible"
-        android:text="장소 정하기"
-        app:layout_constraintBottom_toTopOf="@id/submitButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/meetTextView" />
-
-    <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/submitMembersButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/main_color"
+        android:layout_marginTop="25dp"
         android:text="등록하기"
-        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchLocationButton" />
+        app:layout_constraintTop_toBottomOf="@id/meetTextView" />
 
 
     <ProgressBar

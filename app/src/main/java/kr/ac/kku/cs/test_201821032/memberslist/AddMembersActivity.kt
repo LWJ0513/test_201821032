@@ -17,11 +17,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.activity_add_members.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.R
+import kr.ac.kku.cs.test_201821032.databinding.ActivityAddMembersBinding
 
 class AddMembersActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAddMembersBinding
     private var selectedUri: Uri? = null
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -37,9 +40,10 @@ class AddMembersActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_members)
+        binding = ActivityAddMembersBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        findViewById<Button>(R.id.imageAddButton).setOnClickListener {
+        imageAddMembersButton.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
                     this,
@@ -59,9 +63,9 @@ class AddMembersActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.submitButton).setOnClickListener {
-            val title = findViewById<EditText>(R.id.titleEditText).text.toString().orEmpty()
-            val description = findViewById<EditText>(R.id.descriptionEditText).text.toString().orEmpty()
+        submitMembersButton.setOnClickListener {
+            val title = titleMembersEditText.text.toString().orEmpty()
+            val description = descriptionMembersEditText.text.toString().orEmpty()
             val roomManager = auth.currentUser?.uid.orEmpty()
 
             showProgress()
@@ -101,8 +105,14 @@ class AddMembersActivity : AppCompatActivity() {
             }
     }
 
-    private fun uploadMember(roomManager: String, title: String, description: String, imageUrl: String) {
-        val model = MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+    private fun uploadMember(
+        roomManager: String,
+        title: String,
+        description: String,
+        imageUrl: String
+    ) {
+        val model =
+            MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
         membersDB.push().setValue(model)
         hideProgress()
         finish()
@@ -133,11 +143,11 @@ class AddMembersActivity : AppCompatActivity() {
     }
 
     private fun showProgress() {
-        findViewById<ProgressBar>(R.id.progressBar).isVisible = true
+        membersProgressBar.isVisible = true
     }
 
     private fun hideProgress() {
-        findViewById<ProgressBar>(R.id.progressBar).isVisible = false
+        membersProgressBar.isVisible = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -150,7 +160,7 @@ class AddMembersActivity : AppCompatActivity() {
             2020 -> {
                 val uri = data?.data
                 if (uri != null) {
-                    findViewById<ImageView>(R.id.photoImageView).setImageURI(uri)
+                    findViewById<ImageView>(R.id.photoMembersImageView).setImageURI(uri)
                     selectedUri = uri
                 } else {
                     Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
