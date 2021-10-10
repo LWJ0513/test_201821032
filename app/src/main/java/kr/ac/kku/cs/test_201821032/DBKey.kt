@@ -19,6 +19,7 @@ class DBKey {
             const val DB_EMAIL = "email"
             const val DB_USER_ID = "user_id"
             const val DB_USER_NAME = "user_name"
+            const val DB_USER_PROFILE_IMAGE = "profile_image"
 
     }
 }

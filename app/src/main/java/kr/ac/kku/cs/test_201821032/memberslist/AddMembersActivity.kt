@@ -58,9 +58,9 @@ class AddMembersActivity : AppCompatActivity() {
                 ) == PackageManager.PERMISSION_GRANTED -> {
                     startContentProvider()
                 }
-                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+             /*   shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                     showPermissionContextPopup()
-                }
+                }*/
                 else -> {
                     requestPermissions(
                         arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -181,14 +181,14 @@ class AddMembersActivity : AppCompatActivity() {
         }
     }
 
-    private fun showPermissionContextPopup() {
-        AlertDialog.Builder(this)
-            .setTitle("권한이 필요합니다.")
-            .setMessage("사진을 가져오기 위해 필요합니다.")
-            .setPositiveButton("동의", { _, _ ->
-                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
-            })
-            .create()
-            .show()
-    }
+    /* private fun showPermissionContextPopup() {
+         AlertDialog.Builder(this)
+             .setTitle("권한이 필요합니다.")
+             .setMessage("사진을 가져오기 위해 필요합니다.")
+             .setPositiveButton("동의", { _, _ ->
+                 requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
+             })
+             .create()
+             .show()
+     }*/
 }
