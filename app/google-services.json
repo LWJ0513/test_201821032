@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "762777289795",
+    "firebase_url": "https://kku-with-us-default-rtdb.firebaseio.com",
     "project_id": "kku-with-us",
     "storage_bucket": "kku-with-us.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "762777289795-uh329apgr0tu5q34amqjtic3dn61fktm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.ac.kku.cs.test_201821032",
+            "certificate_hash": "5ce984850bebcbe4b5f32b88682a79147d8754bf"
+          }
+        },
         {
           "client_id": "762777289795-7e223bhg95lsbrao3qcnrss9mg6afgl0.apps.googleusercontent.com",
           "client_type": 3
