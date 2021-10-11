@@ -15,12 +15,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
+import kr.ac.kku.cs.test_201821032.DBKey
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.databinding.ActivityLoginBinding
 
@@ -143,6 +146,16 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 아이디, 비밀번호 맞을 때
                     if (auth.currentUser != null) {
+
+                        // db에 사용자 정보 userid랑 이메일 넣는거
+                        val userId = auth.currentUser?.uid.orEmpty()
+                        val user = mutableMapOf<String, Any>()
+                        val currentUserDB = userDB.child(userId)
+
+                        user[DBKey.DB_USER_ID] = userId
+                        user[DBKey.DB_EMAIL] = auth.currentUser!!.email.toString()
+                        currentUserDB.updateChildren(user)
+
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }

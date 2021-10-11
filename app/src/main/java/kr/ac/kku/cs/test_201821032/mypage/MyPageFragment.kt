@@ -13,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_mypage.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_PROFILE_IMAGE
 import kr.ac.kku.cs.test_201821032.MainActivity
@@ -32,8 +33,26 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         val fragmentMypageBinding = FragmentMypageBinding.bind(view)
         binding = fragmentMypageBinding
 
+        userDB = Firebase.database.reference.child(DB_USERS)
 
-        fragmentMypageBinding.signOutButton.setOnClickListener {        // 로그아웃
+
+        /*val uri =
+            userDB.child(auth.currentUser!!.uid).child(DB_USER_PROFILE_IMAGE).toString()
+        Toast.makeText(context, uri, Toast.LENGTH_SHORT).show()
+        if (uri.isNotEmpty()) {
+            Glide.with(binding.userProfileImageView)
+                .load(uri)
+                .into(binding.userProfileImageView)
+        }*/
+
+
+        initLogoutButton()
+
+
+    }
+
+    private fun initLogoutButton(){
+        signOutButton.setOnClickListener {        // 로그아웃
 
             auth.signOut()  // 이메일 계정 로그인일 경우
             LoginManager.getInstance().logOut()
@@ -43,7 +62,6 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             }
         }
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -55,16 +73,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             }
         } else {
             binding?.let { binding ->
-                userDB = Firebase.database.reference.child(DB_USERS)
 
-                val uri =
-                    userDB.child(auth.currentUser!!.uid).child(DB_USER_PROFILE_IMAGE).toString()
-                Toast.makeText(context, uri, Toast.LENGTH_SHORT).show()
-                if (uri.isNotEmpty()) {
-                    Glide.with(binding.userProfileImageView)
-                        .load(uri)
-                        .into(binding.userProfileImageView)
-                }
                 binding.emailEditText.setText(auth.currentUser!!.email)
                 binding.emailEditText.isEnabled = false
 
