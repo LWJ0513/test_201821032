@@ -19,9 +19,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_PROFILE_IMAGE
 import kr.ac.kku.cs.test_201821032.MainActivity
+import kr.ac.kku.cs.test_201821032.UserModel
 import kr.ac.kku.cs.test_201821032.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
@@ -74,17 +73,15 @@ class SignUpActivity : AppCompatActivity() {
     private fun initSignUpButton() {
         signUpTextView.setOnClickListener {
             val userId = getCurrentUserID()
-            val currentUserDB = userDB.child(userId)
-            val user = mutableMapOf<String, Any>()
 
             if (selectedUri != null) {            // 이미지가 있으면 업로드
                 showProgress()
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
-                        user[DB_USER_PROFILE_IMAGE] = uri
-                        user[DB_USER_NAME] = userNameEditText.text.toString()   // 닉 저장
-                        currentUserDB.updateChildren(user)
+                        val model = UserModel(userNameEditText.text.toString(), userId, auth.currentUser!!.email.toString(),uri)
+                        userDB.child(userId).setValue(model)
+
                         hideProgress()
 
                         startActivity(Intent(this, MainActivity::class.java))
@@ -92,11 +89,9 @@ class SignUpActivity : AppCompatActivity() {
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
-
                     }
                 )
-            } else {    // 동기
-
+            } else {
                 Toast.makeText(this, "프로필 사진을 추가해주세요.", Toast.LENGTH_SHORT).show()
             }
 
@@ -146,7 +141,7 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    public override fun onBackPressed() {
+    override fun onBackPressed() {
         startActivity(Intent(this, HobbyActivity::class.java))
         finish()
     }

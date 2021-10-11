@@ -1,10 +1,10 @@
 package kr.ac.kku.cs.test_201821032.signIn
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.facebook.CallbackManager
 import com.google.firebase.auth.FirebaseAuth
@@ -12,7 +12,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
 
 class EmailSignUpActivity : AppCompatActivity() {
@@ -43,13 +42,14 @@ class EmailSignUpActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        val userId = auth.currentUser?.uid.orEmpty()
-                        val currentUserDB =
-                            Firebase.database.reference.child(DBKey.DB_USERS).child(userId)
-                        val user = mutableMapOf<String, Any>()
-                        user[DBKey.DB_USER_ID] = userId
-                        user[DBKey.DB_EMAIL] = email
-                        currentUserDB.updateChildren(user)
+
+                        /* val userId = auth.currentUser?.uid.orEmpty()
+                         val currentUserDB =
+                             Firebase.database.reference.child(DBKey.DB_USERS).child(userId)
+                         val user = mutableMapOf<String, Any>()
+                         user[DBKey.DB_USER_ID] = userId
+                         user[DBKey.DB_EMAIL] = email
+                         currentUserDB.updateChildren(user)*/
 
                         Toast.makeText(
                             this,

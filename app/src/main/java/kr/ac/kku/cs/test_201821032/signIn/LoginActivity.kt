@@ -29,7 +29,6 @@ import kr.ac.kku.cs.test_201821032.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    //이메일과 password를 입력받아 firebase auth에다가 전달
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
@@ -146,16 +145,6 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 아이디, 비밀번호 맞을 때
                     if (auth.currentUser != null) {
-
-                        // db에 사용자 정보 userid랑 이메일 넣는거
-                        val userId = auth.currentUser?.uid.orEmpty()
-                        val user = mutableMapOf<String, Any>()
-                        val currentUserDB = userDB.child(userId)
-
-                        user[DBKey.DB_USER_ID] = userId
-                        user[DBKey.DB_EMAIL] = auth.currentUser!!.email.toString()
-                        currentUserDB.updateChildren(user)
-
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }
