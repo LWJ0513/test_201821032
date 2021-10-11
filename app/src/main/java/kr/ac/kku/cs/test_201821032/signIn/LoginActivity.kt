@@ -145,6 +145,14 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 아이디, 비밀번호 맞을 때
                     if (auth.currentUser != null) {
+                        val userId = auth.currentUser?.uid.orEmpty()
+                        val currentUserDB =
+                            Firebase.database.reference.child(DBKey.DB_USERS).child(userId)
+                        val user = mutableMapOf<String, Any>()
+                        user[DBKey.DB_USER_ID] = userId
+                        user[DBKey.DB_EMAIL] = auth.currentUser!!.email.toString()
+                        currentUserDB.updateChildren(user)
+
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     }

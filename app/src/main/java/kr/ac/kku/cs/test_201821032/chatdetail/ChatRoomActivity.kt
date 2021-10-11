@@ -1,11 +1,8 @@
 package kr.ac.kku.cs.test_201821032.chatdetail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -14,11 +11,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_chat_room.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_CHATS
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
-import kr.ac.kku.cs.test_201821032.R
-import kr.ac.kku.cs.test_201821032.memberslist.MembersAdapter
+import kr.ac.kku.cs.test_201821032.databinding.ActivityChatRoomBinding
 
 class ChatRoomActivity : AppCompatActivity() {
 
@@ -30,10 +25,12 @@ class ChatRoomActivity : AppCompatActivity() {
     private val adapter = ChatItemAdapter()
     private lateinit var chatDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
+    private lateinit var binding: ActivityChatRoomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat_room)
+        binding = ActivityChatRoomBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val chatKey = intent.getLongExtra("chatKey", -1)
         chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
@@ -58,19 +55,20 @@ class ChatRoomActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {}
         })
 
-        findViewById<RecyclerView>(R.id.chatRecyclerView).adapter = adapter
-        findViewById<RecyclerView>(R.id.chatRecyclerView).layoutManager = LinearLayoutManager(this)
+        chatRecyclerView.adapter = adapter
+        chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        findViewById<Button>(R.id.sendButton).setOnClickListener {
+        sendButton.setOnClickListener {
             userDB = Firebase.database.reference
 
             val chatItem = ChatItem(
                 senderName = auth.currentUser!!.uid,
-                message = findViewById<EditText>(R.id.messageEditText).text.toString()
+                message = messageEditText.text.toString()
             )
 
-            chatDB!!.push()?.setValue(chatItem)
-            findViewById<EditText>(R.id.messageEditText).setText("")
+            chatDB.push().setValue(chatItem)
+            messageEditText.setText("")
         }
+
     }
 }

@@ -33,8 +33,8 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fragmentMypageBinding = FragmentMypageBinding.bind(view)
-        binding = fragmentMypageBinding
+        val fragmentMyPageBinding = FragmentMypageBinding.bind(view)
+        binding = fragmentMyPageBinding
 
         userDB = Firebase.database.reference.child(DB_USERS)
         val userId = auth.currentUser?.uid.orEmpty()
@@ -44,7 +44,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                    var photoImageUrl = dataSnapshot.getValue(String::class.java)
+                    val photoImageUrl = dataSnapshot.getValue(String::class.java)
 
                     Glide.with(this@MyPageFragment)
                         .load(photoImageUrl)
@@ -57,14 +57,14 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
                         .centerCrop()
                         .into(userProfileImageView)*/
                 }
+
                 override fun onCancelled(databaseError: DatabaseError) {        // 에러문 출력
                     Toast.makeText(context, "사진을 불러오는 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
                 }
             })
 
+
         initLogoutButton()
-
-
     }
 
 

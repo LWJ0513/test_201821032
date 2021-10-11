@@ -45,12 +45,12 @@ class EmailSignUpActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
 
                         val userId = auth.currentUser?.uid.orEmpty()
-                         val currentUserDB =
-                             Firebase.database.reference.child(DBKey.DB_USERS).child(userId)
-                         val user = mutableMapOf<String, Any>()
-                         user[DBKey.DB_USER_ID] = userId
-                         user[DBKey.DB_EMAIL] = email
-                         currentUserDB.updateChildren(user)
+                        val currentUserDB =
+                            Firebase.database.reference.child(DBKey.DB_USERS).child(userId)
+                        val user = mutableMapOf<String, Any>()
+                        user[DBKey.DB_USER_ID] = userId
+                        user[DBKey.DB_EMAIL] = email
+                        currentUserDB.updateChildren(user)
 
                         Toast.makeText(
                             this,
