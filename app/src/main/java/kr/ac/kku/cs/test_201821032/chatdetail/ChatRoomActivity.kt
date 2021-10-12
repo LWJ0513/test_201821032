@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_chat_room.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_CHATS
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
 import kr.ac.kku.cs.test_201821032.databinding.ActivityChatRoomBinding
 
 class ChatRoomActivity : AppCompatActivity() {
@@ -31,6 +30,8 @@ class ChatRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userDB = Firebase.database.reference.child(DB_USERS)
 
         val chatKey = intent.getLongExtra("chatKey", -1)
         chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
@@ -59,16 +60,25 @@ class ChatRoomActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
         sendButton.setOnClickListener {
-            userDB = Firebase.database.reference
+            var userName: String
+            var chatItem: ChatItem
+            userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-            val chatItem = ChatItem(
-                senderName = auth.currentUser!!.uid,
-                message = messageEditText.text.toString()
-            )
+                    userName = dataSnapshot.getValue(String::class.java)!!
 
-            chatDB.push().setValue(chatItem)
-            messageEditText.setText("")
+
+                    chatItem = ChatItem(
+                        senderName = userName,
+                        message = messageEditText.text.toString()
+                    )
+                    chatDB.push().setValue(chatItem)
+                    messageEditText.setText("")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
         }
-
     }
 }

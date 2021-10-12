@@ -99,5 +99,4 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             }
         }
     }
-
 }
