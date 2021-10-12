@@ -150,7 +150,7 @@ class AddGroupsActivity : AppCompatActivity() {
         imageUrl: String
     ) {
         val model =
-            GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+            GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl,"","",0F,0F)
         groupsDB.push().setValue(model)
         hideProgress()
         finish()

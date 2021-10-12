@@ -18,7 +18,7 @@ class SearchRecyclerAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindData(data: SearchResultEntity) = with(binding) {      // 뷰 초기화
-            textTextView.text = data.name
+            textTextView.text = data.locationName
             subtextTextView.text = data.fullAddress
         }
 

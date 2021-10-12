@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingStart="16dp"
     android:paddingTop="16dp"
     android:paddingEnd="16dp">
@@ -21,8 +22,8 @@
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxLines="2"
         android:layout_marginStart="16dp"
+        android:maxLines="2"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +51,33 @@
         app:layout_constraintStart_toStartOf="@id/titleTextView"
         app:layout_constraintTop_toBottomOf="@id/dateTextView" />
 
+    <ImageView
+        android:id="@+id/locationImageView"
+        app:layout_constraintEnd_toStartOf="@id/locationTextView"
+        app:layout_constraintTop_toTopOf="@id/locationTextView"
+        app:layout_constraintBottom_toBottomOf="@id/locationTextView"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:src="@drawable/ic_baseline_location_on_24"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:gravity="right"
+        tools:text="스타벅스"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/lineView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold" />
+
     <View
+        android:id="@+id/lineView"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/gray_cc"

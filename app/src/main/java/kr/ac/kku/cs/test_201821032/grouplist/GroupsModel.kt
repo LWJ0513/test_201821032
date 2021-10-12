@@ -5,7 +5,11 @@ data class GroupsModel (
     val title: String,
     val createAt: Long,
     val description: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val locationName: String,    //빌딩이름
+    val locationAddress: String,
+    val latitude: Float,    //위도
+    val longitude: Float   //경도
 ) {
-    constructor(): this("", "", 0, "", "")
+    constructor(): this("", "", 0, "", "","","",0F,0F)
 }

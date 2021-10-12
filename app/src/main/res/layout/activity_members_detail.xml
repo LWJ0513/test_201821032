@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".memberslist.membersdetail.MembersDetailActivity">
+
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_arrow_back_24" />
+
+
+    <ImageView
+        android:id="@+id/membersRoomImageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+
+        android:layout_below="@id/backButton" />
+
+    <TextView
+        android:id="@+id/membersRoomTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/membersRoomImageView"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/membersRoomDescriptionTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/membersRoomImageView"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="영화 보실 분" />
+
+    <TextView
+        android:id="@+id/membersRoomManagerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/membersRoomTitleTextView"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/membersRoomCreateAtTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/membersRoomTitleTextView"
+        tools:text="임원정" />
+
+    <TextView
+        android:id="@+id/membersRoomCreateAtTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/membersRoomManagerTextView"
+        android:layout_alignEnd="@id/membersRoomManagerTextView"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/membersRoomManagerTextView"
+        tools:text="2021.10.12" />
+
+
+    <TextView
+        android:id="@+id/membersRoomDescriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/membersRoomTitleTextView"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_alignStart="@id/membersRoomTitleTextView"
+        tools:text="같이 영화보고 쇼핑할 사람 구해요" />
+
+    <Button
+        android:id="@+id/participateButton"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:text="함께하기"/>
+
+
+</RelativeLayout>

@@ -78,7 +78,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
     private fun setData(pois: Pois) {
         val dataList = pois.poi.map {
             SearchResultEntity(
-                name = it.name ?: "빌딩명 없음",
+                locationName = it.name ?: "빌딩명 없음",
                 fullAddress = makeMainAddress(it),
                 locationLatLng = LocationLatLngEntity(
                     it.noorLat,
@@ -90,18 +90,19 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
         adapter.setSearchResultList(dataList) {
             Toast.makeText(
                 this,
-                "빌딩 이름: ${it.name} , 주소 : ${it.fullAddress} , 위도/경도 : ${it.locationLatLng}",
+                "빌딩 이름: ${it.locationName} , 주소 : ${it.fullAddress} , 위도 : ${it.locationLatLng.latitude} , 경도 : ${it.locationLatLng.longitude}",
                 Toast.LENGTH_SHORT
             ).show()
             startActivity(Intent(this, AddGroupsThirdActivity::class.java).apply {
                 putExtra(SEARCH_RESULT_EXTRA_KEY, it)
+                putExtra("roomManager", roomManager)
                 putExtra("title", title)
                 putExtra("description", description)
-                putExtra("roomManager", roomManager)
-                putExtra("Place", it.name)
-                putExtra("address", it.fullAddress)
-                putExtra("location", it.locationLatLng)
                 data = photoUri
+                putExtra("locationName", it.locationName)
+                putExtra("address", it.fullAddress)
+                putExtra("latitude", it.locationLatLng.latitude)
+                putExtra("longitude", it.locationLatLng.longitude)
             })
         }
     }

@@ -9,10 +9,10 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -42,7 +42,6 @@ import kr.ac.kku.cs.test_201821032.location.model.LocationLatLngEntity
 import kr.ac.kku.cs.test_201821032.location.model.SearchResultEntity
 import kr.ac.kku.cs.test_201821032.location.utillity.RetrofitUtil
 import kotlin.coroutines.CoroutineContext
-import kr.ac.kku.cs.test_201821032.grouplist.GroupsFragment
 
 class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, CoroutineScope {
 
@@ -53,13 +52,15 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     private lateinit var locationManager: LocationManager
     private lateinit var myLocationListener: MyLocationListener
 
+    private lateinit var roomManager: String
     private lateinit var title: String
     private lateinit var description: String
-    private lateinit var roomManager: String
-    private lateinit var Place: String
-    private lateinit var address: String
-    private lateinit var location: LocationLatLngEntity
     private var photoUri: Uri? = null
+    private lateinit var locationName: String
+    private lateinit var address: String
+    private var latitude: Float = 0F
+    private var longitude: Float = 0F
+
 
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -100,10 +101,15 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         bindViews()
         initSubmitOfflineGroupButton()
 
+        roomManager = intent.getStringExtra("roomManager").toString()
         title = intent.getStringExtra("title").toString()
         description = intent.getStringExtra("description").toString()
-        roomManager = intent.getStringExtra("roomManager").toString()
         photoUri = intent.data
+        locationName = intent.getStringExtra("locationName").toString()
+        address = intent.getStringExtra("address").toString()
+        latitude = intent.getFloatExtra("latitude", 0F)
+        longitude = intent.getFloatExtra("longitude", 0F)
+
 
     }
 
@@ -122,7 +128,16 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 val photoUri = photoUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
-                        uploadGroup(roomManager, title, description, uri)
+                        uploadGroup(
+                            roomManager,
+                            title,
+                            description,
+                            uri,
+                            locationName,
+                            address,
+                            latitude,
+                            longitude
+                        )
                         // todo 업로드
 
                     }
@@ -130,8 +145,17 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                     Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
                     hideProgress()
                 }
-            } else {    // 동기
-                uploadGroup(roomManager, title, description, "")
+            } else {
+                uploadGroup(
+                    roomManager,
+                    title,
+                    description,
+                    "",
+                    locationName,
+                    address,
+                    latitude,
+                    longitude
+                )
             }
             // TODO 홈 액티비티의 그룹 fragment로 이동해야됨
             val intent = Intent(application, HomeActivity::class.java)
@@ -139,6 +163,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
             finish()
         }
     }
+
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .apply {
@@ -188,7 +213,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         )
         val markerOptions = MarkerOptions().apply {
             position(positionLatLng)
-            title(searchResult.name)
+            title(searchResult.locationName)
             snippet(searchResult.fullAddress)
         }
         map.moveCamera(
@@ -280,7 +305,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                                 currentSelectMarker = setupMarker(
                                     SearchResultEntity(
                                         fullAddress = it.addressInfo.fullAddress ?: "주소 정보 없음",
-                                        name = "내 위치",
+                                        locationName = "내 위치",
                                         locationLatLng = locationLatLngEntity
                                     )
                                 )
@@ -338,10 +363,24 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         roomManager: String,
         title: String,
         description: String,
-        imageUrl: String
+        imageUrl: String,
+        locationName: String,    //빌딩이름
+        locationAddress: String,
+        latitude: Float,
+        longitude: Float
     ) {
         val model =
-            GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+            GroupsModel(
+                roomManager,
+                title,
+                System.currentTimeMillis(),
+                description,
+                imageUrl,
+                locationName,
+                locationAddress,
+                latitude,
+                longitude
+            )
         groupsDB.push().setValue(model)
         hideProgress()
         finish()

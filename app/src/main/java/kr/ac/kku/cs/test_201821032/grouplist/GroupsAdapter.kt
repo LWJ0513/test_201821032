@@ -3,6 +3,7 @@ package kr.ac.kku.cs.test_201821032.grouplist
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
@@ -26,6 +27,10 @@ class GroupsAdapter (val onItemClicked: (GroupsModel) -> Unit) :
             binding.titleTextView.text = groupModel.title
             binding.dateTextView.text = format.format(date).toString()
             binding.descriptionTextView.text = groupModel.description
+            binding.locationTextView.text = groupModel.locationName
+            if (binding.locationTextView.text != "") {
+                binding.locationImageView.visibility = View.VISIBLE
+            }
 
             if (groupModel.imageUrl.isNotEmpty()) {
                 Glide.with(binding.thumbnailImageView)

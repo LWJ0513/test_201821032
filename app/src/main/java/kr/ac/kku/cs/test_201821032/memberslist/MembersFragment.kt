@@ -3,6 +3,7 @@ package kr.ac.kku.cs.test_201821032.memberslist
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -20,6 +21,7 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMemberslistBinding
+import kr.ac.kku.cs.test_201821032.memberslist.membersdetail.MembersDetailActivity
 
 class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
@@ -66,25 +68,36 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != membersModel.roomManager) {        // 다른사람이면 채팅방 열기
 
+                    Toast.makeText(context, membersModel.toString(), Toast.LENGTH_SHORT).show()
+
+                    // todo 데이터 넘겨주기 ***********************************
+
+
+                    // todo 디테일 창 열기
+                    startActivity(Intent(context, MembersDetailActivity::class.java).apply {
+
+                    })
+
+
+
+
                     val chatRoom = ChatListItem(
                         entryId = auth.currentUser!!.uid,
                         managerId = membersModel.roomManager,
                         roomName = membersModel.title,
                         key = System.currentTimeMillis()
                     )
+                       userDB.child(auth.currentUser!!.uid)   // 클릭한사람 채팅방 생성
+                           .child(CHILD_CHAT)
+                           .push()
+                           .setValue(chatRoom)
 
-                    userDB.child(auth.currentUser!!.uid)
-                        .child(CHILD_CHAT)
-                        .push()
-                        .setValue(chatRoom)
+                       userDB.child(membersModel.roomManager)   // 방개설자 채팅방 생성
+                           .child(CHILD_CHAT)
+                           .push()
+                           .setValue(chatRoom)
 
-                    userDB.child(membersModel.roomManager)
-                        .child(CHILD_CHAT)
-                        .push()
-                        .setValue(chatRoom)
-
-                    Snackbar.make(view, "채팅방이 생성되었습니다. 채팅챕에서 확인해주세요", Snackbar.LENGTH_LONG).show()
-
+                       Snackbar.make(view, "채팅방이 생성되었습니다. 채팅 탭에서 확인해주세요", Snackbar.LENGTH_LONG).show()
                 } else {     // 내가 올린 아이템
                     Snackbar.make(view, "내가 올린 게시글입니다.", Snackbar.LENGTH_LONG).show()
                 }
