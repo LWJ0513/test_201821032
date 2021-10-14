@@ -74,10 +74,10 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
 
                     // todo 디테일 창 열기
-                    startActivity(Intent(context, MembersDetailActivity::class.java).apply {
+                  /*  startActivity(Intent(context, MembersDetailActivity::class.java).apply {
 
                     })
-
+*/
 
 
 
