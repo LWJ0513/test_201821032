@@ -12,6 +12,22 @@ import kotlinx.android.synthetic.main.activity_hobby.*
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityHobbyBinding
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.BEAUTY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.COUNSELING
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.DIY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ENTERTAINMENT
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FASHION
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FOOD
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FUND
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.GAME
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.IT
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.PET
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.READING
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.RIDE
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
 
 
 class HobbyActivity : AppCompatActivity() {
@@ -349,146 +365,146 @@ class HobbyActivity : AppCompatActivity() {
             if (selected > 0) {
                 if (sportsClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "A"
-                        hobby2 == "" -> hobby2 = "A"
-                        hobby3 == "" -> hobby3 = "A"
-                        hobby4 == "" -> hobby4 = "A"
-                        hobby5 == "" -> hobby5 = "A"
+                        hobby1 == "" -> hobby1 = SPORTS
+                        hobby2 == "" -> hobby2 = SPORTS
+                        hobby3 == "" -> hobby3 = SPORTS
+                        hobby4 == "" -> hobby4 = SPORTS
+                        hobby5 == "" -> hobby5 = SPORTS
                     }
                 }
                 if (fashionClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "B"
-                        hobby2 == "" -> hobby2 = "B"
-                        hobby3 == "" -> hobby3 = "B"
-                        hobby4 == "" -> hobby4 = "B"
-                        hobby5 == "" -> hobby5 = "B"
+                        hobby1 == "" -> hobby1 = FASHION
+                        hobby2 == "" -> hobby2 = FASHION
+                        hobby3 == "" -> hobby3 = FASHION
+                        hobby4 == "" -> hobby4 = FASHION
+                        hobby5 == "" -> hobby5 = FASHION
                     }
                 }
                 if (fundClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "C"
-                        hobby2 == "" -> hobby2 = "C"
-                        hobby3 == "" -> hobby3 = "C"
-                        hobby4 == "" -> hobby4 = "C"
-                        hobby5 == "" -> hobby5 = "C"
+                        hobby1 == "" -> hobby1 = FUND
+                        hobby2 == "" -> hobby2 = FUND
+                        hobby3 == "" -> hobby3 = FUND
+                        hobby4 == "" -> hobby4 = FUND
+                        hobby5 == "" -> hobby5 = FUND
                     }
                 }
                 if (itClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "D"
-                        hobby2 == "" -> hobby2 = "D"
-                        hobby3 == "" -> hobby3 = "D"
-                        hobby4 == "" -> hobby4 = "D"
-                        hobby5 == "" -> hobby5 = "D"
+                        hobby1 == "" -> hobby1 = IT
+                        hobby2 == "" -> hobby2 = IT
+                        hobby3 == "" -> hobby3 = IT
+                        hobby4 == "" -> hobby4 = IT
+                        hobby5 == "" -> hobby5 = IT
                     }
                 }
                 if (gameClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "E"
-                        hobby2 == "" -> hobby2 = "E"
-                        hobby3 == "" -> hobby3 = "E"
-                        hobby4 == "" -> hobby4 = "E"
-                        hobby5 == "" -> hobby5 = "E"
+                        hobby1 == "" -> hobby1 = GAME
+                        hobby2 == "" -> hobby2 = GAME
+                        hobby3 == "" -> hobby3 = GAME
+                        hobby4 == "" -> hobby4 = GAME
+                        hobby5 == "" -> hobby5 = GAME
                     }
                 }
                 if (studyClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "F"
-                        hobby2 == "" -> hobby2 = "F"
-                        hobby3 == "" -> hobby3 = "F"
-                        hobby4 == "" -> hobby4 = "F"
-                        hobby5 == "" -> hobby5 = "F"
+                        hobby1 == "" -> hobby1 = STUDY
+                        hobby2 == "" -> hobby2 = STUDY
+                        hobby3 == "" -> hobby3 = STUDY
+                        hobby4 == "" -> hobby4 = STUDY
+                        hobby5 == "" -> hobby5 = STUDY
                     }
                 }
                 if (readClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "G"
-                        hobby2 == "" -> hobby2 = "G"
-                        hobby3 == "" -> hobby3 = "G"
-                        hobby4 == "" -> hobby4 = "G"
-                        hobby5 == "" -> hobby5 = "G"
+                        hobby1 == "" -> hobby1 = READING
+                        hobby2 == "" -> hobby2 = READING
+                        hobby3 == "" -> hobby3 = READING
+                        hobby4 == "" -> hobby4 = READING
+                        hobby5 == "" -> hobby5 = READING
                     }
                 }
                 if (travelClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "H"
-                        hobby2 == "" -> hobby2 = "H"
-                        hobby3 == "" -> hobby3 = "H"
-                        hobby4 == "" -> hobby4 = "H"
-                        hobby5 == "" -> hobby5 = "H"
+                        hobby1 == "" -> hobby1 = TRAVEL
+                        hobby2 == "" -> hobby2 = TRAVEL
+                        hobby3 == "" -> hobby3 = TRAVEL
+                        hobby4 == "" -> hobby4 = TRAVEL
+                        hobby5 == "" -> hobby5 = TRAVEL
                     }
                 }
                 if (entertainmentClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "I"
-                        hobby2 == "" -> hobby2 = "I"
-                        hobby3 == "" -> hobby3 = "I"
-                        hobby4 == "" -> hobby4 = "I"
-                        hobby5 == "" -> hobby5 = "I"
+                        hobby1 == "" -> hobby1 = ENTERTAINMENT
+                        hobby2 == "" -> hobby2 = ENTERTAINMENT
+                        hobby3 == "" -> hobby3 = ENTERTAINMENT
+                        hobby4 == "" -> hobby4 = ENTERTAINMENT
+                        hobby5 == "" -> hobby5 = ENTERTAINMENT
                     }
                 }
                 if (companionClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "J"
-                        hobby2 == "" -> hobby2 = "J"
-                        hobby3 == "" -> hobby3 = "J"
-                        hobby4 == "" -> hobby4 = "J"
-                        hobby5 == "" -> hobby5 = "J"
+                        hobby1 == "" -> hobby1 = PET
+                        hobby2 == "" -> hobby2 = PET
+                        hobby3 == "" -> hobby3 = PET
+                        hobby4 == "" -> hobby4 = PET
+                        hobby5 == "" -> hobby5 = PET
                     }
                 }
                 if (foodClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "K"
-                        hobby2 == "" -> hobby2 = "K"
-                        hobby3 == "" -> hobby3 = "K"
-                        hobby4 == "" -> hobby4 = "K"
-                        hobby5 == "" -> hobby5 = "K"
+                        hobby1 == "" -> hobby1 = FOOD
+                        hobby2 == "" -> hobby2 = FOOD
+                        hobby3 == "" -> hobby3 = FOOD
+                        hobby4 == "" -> hobby4 = FOOD
+                        hobby5 == "" -> hobby5 = FOOD
                     }
                 }
                 if (beautyClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "L"
-                        hobby2 == "" -> hobby2 = "L"
-                        hobby3 == "" -> hobby3 = "L"
-                        hobby4 == "" -> hobby4 = "L"
-                        hobby5 == "" -> hobby5 = "L"
+                        hobby1 == "" -> hobby1 = BEAUTY
+                        hobby2 == "" -> hobby2 = BEAUTY
+                        hobby3 == "" -> hobby3 = BEAUTY
+                        hobby4 == "" -> hobby4 = BEAUTY
+                        hobby5 == "" -> hobby5 = BEAUTY
                     }
                 }
                 if (artClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "M"
-                        hobby2 == "" -> hobby2 = "M"
-                        hobby3 == "" -> hobby3 = "M"
-                        hobby4 == "" -> hobby4 = "M"
-                        hobby5 == "" -> hobby5 = "M"
+                        hobby1 == "" -> hobby1 = ART
+                        hobby2 == "" -> hobby2 = ART
+                        hobby3 == "" -> hobby3 = ART
+                        hobby4 == "" -> hobby4 = ART
+                        hobby5 == "" -> hobby5 = ART
                     }
                 }
                 if (diyClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "N"
-                        hobby2 == "" -> hobby2 = "N"
-                        hobby3 == "" -> hobby3 = "N"
-                        hobby4 == "" -> hobby4 = "N"
-                        hobby5 == "" -> hobby5 = "N"
+                        hobby1 == "" -> hobby1 = DIY
+                        hobby2 == "" -> hobby2 = DIY
+                        hobby3 == "" -> hobby3 = DIY
+                        hobby4 == "" -> hobby4 = DIY
+                        hobby5 == "" -> hobby5 = DIY
                     }
                 }
                 if (sangdamClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "O"
-                        hobby2 == "" -> hobby2 = "O"
-                        hobby3 == "" -> hobby3 = "O"
-                        hobby4 == "" -> hobby4 = "O"
-                        hobby5 == "" -> hobby5 = "O"
+                        hobby1 == "" -> hobby1 = COUNSELING
+                        hobby2 == "" -> hobby2 = COUNSELING
+                        hobby3 == "" -> hobby3 = COUNSELING
+                        hobby4 == "" -> hobby4 = COUNSELING
+                        hobby5 == "" -> hobby5 = COUNSELING
                     }
                 }
-                if (rideClicked ) {
+                if (rideClicked) {
                     when {
-                        hobby1 == "" -> hobby1 = "P"
-                        hobby2 == "" -> hobby2 = "P"
-                        hobby3 == "" -> hobby3 = "P"
-                        hobby4 == "" -> hobby4 = "P"
-                        hobby5 == "" -> hobby5 = "P"
+                        hobby1 == "" -> hobby1 = RIDE
+                        hobby2 == "" -> hobby2 = RIDE
+                        hobby3 == "" -> hobby3 = RIDE
+                        hobby4 == "" -> hobby4 = RIDE
+                        hobby5 == "" -> hobby5 = RIDE
                     }
                 }
 

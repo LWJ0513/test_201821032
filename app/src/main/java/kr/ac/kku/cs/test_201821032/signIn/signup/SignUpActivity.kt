@@ -149,7 +149,6 @@ class SignUpActivity : AppCompatActivity() {
     private fun initUserNameEditText() {
         userNameEditText.addTextChangedListener {
             val enable = userNameEditText.text.isNotEmpty()
-            checkUserNameButton.isEnabled = enable
             signUpTextView.isEnabled = enable
         }
     }

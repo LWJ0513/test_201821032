@@ -1,13 +1,12 @@
 package kr.ac.kku.cs.test_201821032.memberslist
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
@@ -18,14 +17,33 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_members.*
+import kotlinx.android.synthetic.main.activity_add_members.view.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddMembersBinding
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.BEAUTY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.COUNSELING
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.DIY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ENTERTAINMENT
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FASHION
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FOOD
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FUND
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.GAME
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.IT
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.PET
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.READING
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.RIDE
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
 
 class AddMembersActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddMembersBinding
     private var selectedUri: Uri? = null
+    private var selectedHobby: String = ""
+    private var hobbyDB: String = ""
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
@@ -43,6 +61,34 @@ class AddMembersActivity : AppCompatActivity() {
         binding = ActivityAddMembersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val hobby = resources.getStringArray(R.array.hobby)
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
+        hobbyDropDownMenu.setAdapter(arrayAdapter)
+        hobbyDropDownMenu.setOnItemClickListener { adapterView, view, i, l ->
+            selectedHobby = hobby[i]
+            when (selectedHobby) {
+                "운동/스포츠" -> hobbyDB = SPORTS
+                "패션" -> hobbyDB = FASHION
+                "금융" -> hobbyDB = FUND
+                "IT" -> hobbyDB = IT
+                "게임" -> hobbyDB = GAME
+                "공부" -> hobbyDB = STUDY
+                "독서" -> hobbyDB = READING
+                "여행" -> hobbyDB = TRAVEL
+                "엔터테인먼트" -> hobbyDB = ENTERTAINMENT
+                "애완" -> hobbyDB = PET
+                "사교" -> hobbyDB = FOOD
+                "미용" -> hobbyDB = BEAUTY
+                "예술" -> hobbyDB = ART
+                "DIY" -> hobbyDB = DIY
+                "고민상담" -> hobbyDB = COUNSELING
+                "탈 것" -> hobbyDB = RIDE
+            }
+
+
+            selectedTextView.text = hobby[i] + "," + hobbyDB
+        }
+
 
         initImageAddMembersButton()
         initSubmitMembersButton()
@@ -51,16 +97,16 @@ class AddMembersActivity : AppCompatActivity() {
 
     private fun initImageAddMembersButton() {
         imageAddMembersButton.setOnClickListener {
-            when {
+            when (PackageManager.PERMISSION_GRANTED) {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
                     this,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED -> {
+                ) -> {
                     startContentProvider()
                 }
-             /*   shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                    showPermissionContextPopup()
-                }*/
+                /*   shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                       showPermissionContextPopup()
+                   }*/
                 else -> {
                     requestPermissions(
                         arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -77,8 +123,9 @@ class AddMembersActivity : AppCompatActivity() {
             val description = descriptionMembersEditText.text.toString().orEmpty()
             val roomManager = auth.currentUser?.uid.orEmpty()
 
-            showProgress()
+
             if (selectedUri != null) {            // 이미지가 있으면 업로드
+                showProgress()
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
@@ -89,8 +136,9 @@ class AddMembersActivity : AppCompatActivity() {
                         hideProgress()
                     }
                 )
-            } else {    // 동기
-                uploadMember(roomManager, title, description, "")
+            } else {
+                //uploadMember(roomManager, title, description, "")
+                Toast.makeText(this, "이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -120,11 +168,16 @@ class AddMembersActivity : AppCompatActivity() {
         description: String,
         imageUrl: String
     ) {
-        val model =
-            MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
-        membersDB.push().setValue(model)
-        hideProgress()
-        finish()
+        if (hobbyDB=="") {
+            hideProgress()
+            Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
+        } else {
+            val model =
+                MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+            membersDB.child(hobbyDB).push().setValue(model)
+            hideProgress()
+            finish()
+        }
     }
 
     override fun onRequestPermissionsResult(

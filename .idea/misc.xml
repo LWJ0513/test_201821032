@@ -13,7 +13,7 @@
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_add_group_second.xml" value="0.13425925925925927" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_add_groups_third.xml" value="0.29074074074074074" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_add_member.xml" value="0.33125" />
-        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_add_members.xml" value="0.22" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_add_members.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_chat_room.xml" value="0.33125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_email_login.xml" value="0.2046875" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_email_sign_up.xml" value="0.25" />
@@ -23,6 +23,7 @@
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_main.xml" value="0.33125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_members_detail.xml" value="0.297554347826087" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/dropdown_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fraagment_grouplist.xml" value="0.11851851851851852" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_chatlist.xml" value="0.33125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_grouplist.xml" value="0.21348314606741572" />
