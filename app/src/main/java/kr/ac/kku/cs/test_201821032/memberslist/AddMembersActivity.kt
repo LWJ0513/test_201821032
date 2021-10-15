@@ -85,7 +85,6 @@ class AddMembersActivity : AppCompatActivity() {
                 "탈 것" -> hobbyDB = RIDE
             }
 
-
             selectedTextView.text = hobby[i] + "," + hobbyDB
         }
 

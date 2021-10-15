@@ -27,6 +27,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var title: String
     private lateinit var description: String
     private lateinit var roomManager: String
+    private lateinit var selectedHobby: String
     private var photoUri: Uri? = null
 
     override val coroutineContext: CoroutineContext
@@ -49,6 +50,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
         title = intent.getStringExtra("title").toString()
         description = intent.getStringExtra("description").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
+        selectedHobby = intent.getStringExtra("selectedHobby").toString()
         photoUri = intent.data
 
         Toast.makeText(this, "$photoUri", Toast.LENGTH_SHORT).show()
@@ -103,6 +105,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
                 putExtra("address", it.fullAddress)
                 putExtra("latitude", it.locationLatLng.latitude)
                 putExtra("longitude", it.locationLatLng.longitude)
+                putExtra("selectedHobby", selectedHobby)
             })
         }
     }

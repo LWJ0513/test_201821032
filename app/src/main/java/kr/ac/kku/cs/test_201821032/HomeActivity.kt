@@ -50,7 +50,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         initUserInformation()
-
     }
 
     private fun initUserInformation() {
@@ -83,5 +82,7 @@ class HomeActivity : AppCompatActivity() {
                 commit()
             }
     }
+
+
 
 }

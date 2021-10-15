@@ -18,13 +18,24 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_group.*
+import kotlinx.android.synthetic.main.activity_add_group.descriptionMembersEditText
+import kotlinx.android.synthetic.main.activity_add_group.hobbyDropDownMenu
+import kotlinx.android.synthetic.main.activity_add_group.imageAddMembersButton
+import kotlinx.android.synthetic.main.activity_add_group.photoMembersImageView
+import kotlinx.android.synthetic.main.activity_add_group.submitMembersButton
+import kotlinx.android.synthetic.main.activity_add_group.titleMembersEditText
+import kotlinx.android.synthetic.main.activity_add_members.*
 import kr.ac.kku.cs.test_201821032.DBKey
+import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupBinding
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist
 
 class AddGroupsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddGroupBinding
     private var selectedUri: Uri? = null
+    private var selectedHobby: String = ""
+    private var hobbyDB: String = ""
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
@@ -42,12 +53,43 @@ class AddGroupsActivity : AppCompatActivity() {
         binding = ActivityAddGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initImageAddMembersButton()
+        val hobby = resources.getStringArray(R.array.hobby)
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
+        hobbyDropDownMenu.setAdapter(arrayAdapter)
+        hobbyDropDownMenu.setOnItemClickListener { adapterView, view, i, l ->
+            selectedHobby = hobby[i]
+            when (selectedHobby) {
+                "운동/스포츠" -> hobbyDB = Hobbylist.SPORTS
+                "패션" -> hobbyDB = Hobbylist.FASHION
+                "금융" -> hobbyDB = Hobbylist.FUND
+                "IT" -> hobbyDB = Hobbylist.IT
+                "게임" -> hobbyDB = Hobbylist.GAME
+                "공부" -> hobbyDB = Hobbylist.STUDY
+                "독서" -> hobbyDB = Hobbylist.READING
+                "여행" -> hobbyDB = Hobbylist.TRAVEL
+                "엔터테인먼트" -> hobbyDB = Hobbylist.ENTERTAINMENT
+                "애완" -> hobbyDB = Hobbylist.PET
+                "사교" -> hobbyDB = Hobbylist.FOOD
+                "미용" -> hobbyDB = Hobbylist.BEAUTY
+                "예술" -> hobbyDB = Hobbylist.ART
+                "DIY" -> hobbyDB = Hobbylist.DIY
+                "고민상담" -> hobbyDB = Hobbylist.COUNSELING
+                "탈 것" -> hobbyDB = Hobbylist.RIDE
+            }
+
+
+            textView.text = hobby[i] + "," + hobbyDB
+        }
+
+
+
+
+        initImageAddGroupsButton()
         initMeetToggleButton()
-        initSubmitMembersButton()
+        initSubmitGroupsButton()
     }
 
-    private fun initImageAddMembersButton() {
+    private fun initImageAddGroupsButton() {
         imageAddMembersButton.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
@@ -82,31 +124,35 @@ class AddGroupsActivity : AppCompatActivity() {
         }
     }
 
-    private fun initSubmitMembersButton() {
+    private fun initSubmitGroupsButton() {
         submitMembersButton.setOnClickListener {
-            val title = titleMembersEditText.text.toString().orEmpty()
-            val description = descriptionMembersEditText.text.toString().orEmpty()
+            val title = titleMembersEditText.text.toString()
+            val description = descriptionMembersEditText.text.toString()
             val roomManager = auth.currentUser?.uid.orEmpty()
 
-            showProgress()
-            if (!meetToggleButton.isOn) {   // 오프라인
-                val intent = Intent(this, AddGroupSecondActivity::class.java)
-                intent.putExtra("title", title)
-                intent.putExtra("description", description)
-                intent.putExtra("roomManager", roomManager)
-                if (selectedUri != null) {
+
+            if (!meetToggleButton.isOn) {   // 오프라인 선택시
+                if (selectedUri == null) {
+                    Toast.makeText(this, "이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
+                }else if (hobbyDB==""  ) {
+                    hideProgress()
+                    Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
+                }   else {
+                    showProgress()
+                    val intent = Intent(this, AddGroupSecondActivity::class.java)
+                    intent.putExtra("title", title)
+                    intent.putExtra("description", description)
+                    intent.putExtra("roomManager", roomManager)
+                    intent.putExtra("selectedHobby", hobbyDB)
                     intent.data = selectedUri
+
+                    startActivity(intent)
+                    hideProgress()
                 }
 
-                if (selectedUri != null) {
-                    val photoUri = selectedUri ?: return@setOnClickListener
-                    intent.putExtra("photoUri", photoUri)
-                } else {
-                    intent.putExtra("photoUri", "")
-                }
-                startActivity(intent)
-            } else {            // 온라인
-                if (selectedUri != null) {            // 이미지가 있으면 업로드
+            } else {            // 온라인 선택시
+                if (selectedUri != null) {            // 이미지가 있으면
+                    showProgress()
                     val photoUri = selectedUri ?: return@setOnClickListener
                     uploadPhoto(photoUri,
                         successHandler = { uri ->     // 비동기
@@ -117,8 +163,8 @@ class AddGroupsActivity : AppCompatActivity() {
                             hideProgress()
                         }
                     )
-                } else {    // 동기
-                    uploadGroup(roomManager, title, description, "")
+                } else {
+                    Toast.makeText(this, "이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -149,9 +195,13 @@ class AddGroupsActivity : AppCompatActivity() {
         description: String,
         imageUrl: String
     ) {
+        if (hobbyDB=="") {
+           hideProgress()
+            Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
+        }
         val model =
             GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl,"","",0F,0F)
-        groupsDB.push().setValue(model)
+        groupsDB.child(hobbyDB).push().setValue(model)
         hideProgress()
         finish()
     }

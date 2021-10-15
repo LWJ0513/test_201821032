@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -33,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_group.*
 import kotlinx.android.synthetic.main.activity_add_groups_third.*
+import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.coroutines.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.HomeActivity
@@ -60,8 +62,8 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     private lateinit var address: String
     private var latitude: Float = 0F
     private var longitude: Float = 0F
-
-
+    private var hobbyDB: String = ""
+    private var selectedHobby: String = ""
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
@@ -109,7 +111,12 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         address = intent.getStringExtra("address").toString()
         latitude = intent.getFloatExtra("latitude", 0F)
         longitude = intent.getFloatExtra("longitude", 0F)
+        selectedHobby = intent.getStringExtra("selectedHobby").toString()
 
+
+        val hobby = resources.getStringArray(R.array.hobby)
+        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
+        //todo
 
     }
 
@@ -123,8 +130,9 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         submitOfflineGroupButton.setOnClickListener {
             val roomManager = auth.currentUser?.uid.orEmpty()
 
-            showProgress()
+
             if (photoUri != null) {            // 이미지가 있으면 업로드
+                showProgress()
                 val photoUri = photoUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
@@ -140,22 +148,13 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                         )
                         // todo 업로드
 
-                    }
-                ) {
-                    Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
-                    hideProgress()
-                }
+                    },
+                    errorHandler = {
+                        Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
+                        hideProgress()
+                    })
             } else {
-                uploadGroup(
-                    roomManager,
-                    title,
-                    description,
-                    "",
-                    locationName,
-                    address,
-                    latitude,
-                    longitude
-                )
+                Toast.makeText(this, "이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
             }
             // TODO 홈 액티비티의 그룹 fragment로 이동해야됨
             val intent = Intent(application, HomeActivity::class.java)
@@ -369,6 +368,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         latitude: Float,
         longitude: Float
     ) {
+
         val model =
             GroupsModel(
                 roomManager,
@@ -381,9 +381,10 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 latitude,
                 longitude
             )
-        groupsDB.push().setValue(model)
+        groupsDB.child(selectedHobby).push().setValue(model)
         hideProgress()
         finish()
+
     }
 
     private fun startContentProvider() {

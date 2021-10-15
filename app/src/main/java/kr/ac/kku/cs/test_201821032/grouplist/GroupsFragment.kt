@@ -28,7 +28,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
     private lateinit var groupOfflineDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var groupAdapter: GroupsAdapter
-    private var on:Boolean = true
+    private var online:Boolean = true
 
     private val groupList = mutableListOf<GroupsModel>()
     private val listener = object : ChildEventListener {
@@ -39,6 +39,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
             groupList.add(groupModel)
             groupAdapter.submitList(groupList)
+            groupAdapter.notifyDataSetChanged()
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -70,12 +71,15 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
 
         onOffToggleButton.setOnToggledListener { toggleButton, isOn ->
-            when (on) {
+            when (isOn) {
                 true -> {
+                    groupOfflineDB.removeEventListener(listener)
                     groupOnlineDB.addChildEventListener(listener)
                     Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
+                    online = true
                 }
                 false ->{
+                    groupOnlineDB.removeEventListener(listener)
                     groupOfflineDB.addChildEventListener(listener)
                     Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
                 }

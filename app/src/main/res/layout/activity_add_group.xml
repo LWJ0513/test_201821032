@@ -42,16 +42,16 @@
         android:layout_height="200dp"
         app:layout_constraintBottom_toTopOf="@id/imageAddMembersButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarUnderLineView" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarUnderLineView"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/imageAddMembersButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/main_color"
         android:layout_marginHorizontal="10dp"
+        android:backgroundTint="@color/main_color"
         android:text="이미지 등록하기"
         app:layout_constraintBottom_toTopOf="@id/titleMembersEditText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,29 +92,45 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="해시태그 설정"
-        app:layout_constraintBottom_toTopOf="@id/hobbySpinner"
+        app:layout_constraintBottom_toTopOf="@id/TextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/descriptionMembersEditText" />
 
-    <Spinner
-        android:id="@+id/hobbySpinner"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        app:layout_constraintBottom_toTopOf="@id/meetTextView"
-        app:layout_constraintEnd_toStartOf="@id/hobbyDetailSpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hashtagMembersEditText" />
-
-    <Spinner
-        android:id="@+id/hobbyDetailSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/hobbySpinner"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:hint="주제"
+        app:layout_constraintBottom_toTopOf="@id/meetToggleButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/hobbySpinner"
-        app:layout_constraintTop_toTopOf="@id/hobbySpinner" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hashtagMembersEditText"
+        app:startIconDrawable="@drawable/ic_baseline_favorite_border_24">
+
+        <AutoCompleteTextView
+            android:id="@+id/hobbyDropDownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:inputType="none"
+            android:paddingVertical="16dp"
+            android:text="관심사를 선택해주세요" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:text="관심사"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TextInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/meetTextView"
@@ -127,7 +143,7 @@
         app:layout_constraintEnd_toStartOf="@id/meetToggleButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hobbySpinner" />
+        app:layout_constraintTop_toBottomOf="@id/TextInputLayout" />
 
     <com.github.angads25.toggle.widget.LabeledSwitch
         android:id="@+id/meetToggleButton"
@@ -151,9 +167,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/main_color"
-        android:layout_marginTop="25dp"
         android:text="등록하기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -39,14 +39,13 @@ import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.RIDE
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
+import okhttp3.internal.notify
 
 class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
     private lateinit var memberDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var memberAdapter: MembersAdapter
-
-
     private val memberList = mutableListOf<MembersModel>()
     private val listener = object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -56,14 +55,11 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
             memberList.add(membersModel)
             memberAdapter.submitList(memberList)
+            memberAdapter.notifyDataSetChanged()
         }
-
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-
         override fun onChildRemoved(snapshot: DataSnapshot) {}
-
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-
         override fun onCancelled(error: DatabaseError) {}
     }
 
@@ -286,8 +282,6 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
         super.onResume()
 
         memberAdapter.notifyDataSetChanged()
-
-
     }
 
     override fun onDestroyView() {
