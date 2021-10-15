@@ -20,6 +20,11 @@ class DBKey {
             const val DB_USER_ID = "user_id"
             const val DB_USER_NAME = "user_name"
             const val DB_USER_PROFILE_IMAGE = "profile_image"
+            const val DB_HOBBY1 = "hobby1"
+            const val DB_HOBBY2 = "hobby2"
+            const val DB_HOBBY3 = "hobby3"
+            const val DB_HOBBY4 = "hobby4"
+            const val DB_HOBBY5 = "hobby5"
 
     }
 }

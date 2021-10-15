@@ -1,0 +1,20 @@
+<resources>
+    <string-array name="hobby">
+        <item>운동/스포츠</item>
+        <item>패션</item>
+        <item>금융</item>
+        <item>IT</item>
+        <item>게임</item>
+        <item>공부</item>
+        <item>독서</item>
+        <item>여행</item>
+        <item>엔터테인먼트</item>
+        <item>애완</item>
+        <item>사교</item>
+        <item>미용</item>
+        <item>예술</item>
+        <item>DIY</item>
+        <item>고민상담</item>
+        <item>탈 것</item>
+    </string-array>
+</resources>

@@ -29,6 +29,11 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var userDB: DatabaseReference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var selectedUri: Uri? = null
+    private lateinit var hobby1: String
+    private lateinit var hobby2: String
+    private lateinit var hobby3: String
+    private lateinit var hobby4: String
+    private lateinit var hobby5: String
 
     private val storage: FirebaseStorage by lazy {
         Firebase.storage
@@ -40,6 +45,12 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         userDB = Firebase.database.reference.child("Users")
+        hobby1 = intent.getStringExtra("hobby1").toString()
+        hobby2 = intent.getStringExtra("hobby2").toString()
+        hobby3 = intent.getStringExtra("hobby3").toString()
+        hobby4 = intent.getStringExtra("hobby4").toString()
+        hobby5 = intent.getStringExtra("hobby5").toString()
+
 
         initUserProfileImageView()
         initSignUpButton()
@@ -81,6 +92,11 @@ class SignUpActivity : AppCompatActivity() {
                     successHandler = { uri ->     // 비동기
                         val model = UserModel(userNameEditText.text.toString(), userId, auth.currentUser!!.email.toString(),uri)
                         userDB.child(userId).setValue(model)
+                        userDB.child(auth.currentUser!!.uid).child("hobby1").setValue(hobby1)
+                        userDB.child(auth.currentUser!!.uid).child("hobby2").setValue(hobby2)
+                        userDB.child(auth.currentUser!!.uid).child("hobby3").setValue(hobby3)
+                        userDB.child(auth.currentUser!!.uid).child("hobby4").setValue(hobby4)
+                        userDB.child(auth.currentUser!!.uid).child("hobby5").setValue(hobby5)
 
                         hideProgress()
 

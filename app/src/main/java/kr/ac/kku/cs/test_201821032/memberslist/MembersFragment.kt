@@ -1,33 +1,51 @@
 package kr.ac.kku.cs.test_201821032.memberslist
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY3
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY4
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY5
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.R
-import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMemberslistBinding
 import kr.ac.kku.cs.test_201821032.memberslist.membersdetail.MembersDetailActivity
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.BEAUTY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.COUNSELING
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.DIY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ENTERTAINMENT
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FASHION
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FOOD
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.FUND
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.GAME
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.IT
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.PET
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.READING
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.RIDE
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
 
 class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
     private lateinit var memberDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var memberAdapter: MembersAdapter
+
 
     private val memberList = mutableListOf<MembersModel>()
     private val listener = object : ChildEventListener {
@@ -47,7 +65,6 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
         override fun onCancelled(error: DatabaseError) {}
-
     }
 
     private var binding: FragmentMemberslistBinding? = null
@@ -64,22 +81,33 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
         memberList.clear()
         userDB = Firebase.database.reference.child(DB_USERS)
         memberDB = Firebase.database.reference.child(DB_MEMBERS_LIST)
+
+        // todo 해당하는 취미 출력력
+
         memberAdapter = MembersAdapter(onItemClicked = { membersModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != membersModel.roomManager) {        // 다른사람이면 채팅방 열기
 
-                    Toast.makeText(context, membersModel.toString(), Toast.LENGTH_SHORT).show()
+                  //  Toast.makeText(context, membersModel.toString(), Toast.LENGTH_SHORT).show()
 
-                    // todo 데이터 넘겨주기 ***********************************
-
+                    val roomManager = membersModel.roomManager
+                    val title = membersModel.title
+                    val createAt = membersModel.createAt
+                    val description = membersModel.description
+                    val imageUri: Uri? = membersModel.imageUrl.toUri()
 
                     // todo 디테일 창 열기
-                  /*  startActivity(Intent(context, MembersDetailActivity::class.java).apply {
-
+                    startActivity(Intent(context, MembersDetailActivity::class.java).apply {
+                        putExtra("roomManager", roomManager)
+                        putExtra("title", title)
+                        putExtra("createAt", createAt)
+                        putExtra("description", description)
+                        data = imageUri
                     })
-*/
 
 
+
+/*
 
                     val chatRoom = ChatListItem(
                         entryId = auth.currentUser!!.uid,
@@ -96,8 +124,9 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
                            .child(CHILD_CHAT)
                            .push()
                            .setValue(chatRoom)
+*/
 
-                       Snackbar.make(view, "채팅방이 생성되었습니다. 채팅 탭에서 확인해주세요", Snackbar.LENGTH_LONG).show()
+                    //   Snackbar.make(view, "채팅방이 생성되었습니다. 채팅 탭에서 확인해주세요", Snackbar.LENGTH_LONG).show()
                 } else {     // 내가 올린 아이템
                     Snackbar.make(view, "내가 올린 게시글입니다.", Snackbar.LENGTH_LONG).show()
                 }
@@ -105,10 +134,7 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
                 Snackbar.make(view, "로그인 후 이용해주세요.", Snackbar.LENGTH_LONG).show()
             }
         })
-//        articleAdapter.submitList(mutableListOf<ArticleModel>().apply {
-//            add(ArticleModel("0", "aaa", 100000, "5000원", ""))
-//            add(ArticleModel("0", "bbb", 200000, "35000원", ""))
-//        })
+
 
         fragmentMembersBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentMembersBinding.articleRecyclerView.adapter = memberAdapter
@@ -124,7 +150,136 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
             }
         }
 
-        memberDB.addChildEventListener(listener)
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    SPORTS ->  memberDB.child(SPORTS).addChildEventListener(listener)
+                    FASHION->  memberDB.child(FASHION).addChildEventListener(listener)
+                    FUND-> memberDB.child(FUND).addChildEventListener(listener)
+                    IT-> memberDB.child(IT).addChildEventListener(listener)
+                    GAME-> memberDB.child(GAME).addChildEventListener(listener)
+                    STUDY-> memberDB.child(STUDY).addChildEventListener(listener)
+                    READING-> memberDB.child(READING).addChildEventListener(listener)
+                    TRAVEL-> memberDB.child(TRAVEL).addChildEventListener(listener)
+                    ENTERTAINMENT-> memberDB.child(ENTERTAINMENT).addChildEventListener(listener)
+                    PET-> memberDB.child(PET).addChildEventListener(listener)
+                    FOOD-> memberDB.child(FOOD).addChildEventListener(listener)
+                    BEAUTY-> memberDB.child(BEAUTY).addChildEventListener(listener)
+                    ART-> memberDB.child(ART).addChildEventListener(listener)
+                    DIY-> memberDB.child(DIY).addChildEventListener(listener)
+                    COUNSELING-> memberDB.child(COUNSELING).addChildEventListener(listener)
+                    RIDE-> memberDB.child(RIDE).addChildEventListener(listener)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY2).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    SPORTS ->  memberDB.child(SPORTS).addChildEventListener(listener)
+                    FASHION->  memberDB.child(FASHION).addChildEventListener(listener)
+                    FUND-> memberDB.child(FUND).addChildEventListener(listener)
+                    IT-> memberDB.child(IT).addChildEventListener(listener)
+                    GAME-> memberDB.child(GAME).addChildEventListener(listener)
+                    STUDY-> memberDB.child(STUDY).addChildEventListener(listener)
+                    READING-> memberDB.child(READING).addChildEventListener(listener)
+                    TRAVEL-> memberDB.child(TRAVEL).addChildEventListener(listener)
+                    ENTERTAINMENT-> memberDB.child(ENTERTAINMENT).addChildEventListener(listener)
+                    PET-> memberDB.child(PET).addChildEventListener(listener)
+                    FOOD-> memberDB.child(FOOD).addChildEventListener(listener)
+                    BEAUTY-> memberDB.child(BEAUTY).addChildEventListener(listener)
+                    ART-> memberDB.child(ART).addChildEventListener(listener)
+                    DIY-> memberDB.child(DIY).addChildEventListener(listener)
+                    COUNSELING-> memberDB.child(COUNSELING).addChildEventListener(listener)
+                    RIDE-> memberDB.child(RIDE).addChildEventListener(listener)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY3).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    SPORTS ->  memberDB.child(SPORTS).addChildEventListener(listener)
+                    FASHION->  memberDB.child(FASHION).addChildEventListener(listener)
+                    FUND-> memberDB.child(FUND).addChildEventListener(listener)
+                    IT-> memberDB.child(IT).addChildEventListener(listener)
+                    GAME-> memberDB.child(GAME).addChildEventListener(listener)
+                    STUDY-> memberDB.child(STUDY).addChildEventListener(listener)
+                    READING-> memberDB.child(READING).addChildEventListener(listener)
+                    TRAVEL-> memberDB.child(TRAVEL).addChildEventListener(listener)
+                    ENTERTAINMENT-> memberDB.child(ENTERTAINMENT).addChildEventListener(listener)
+                    PET-> memberDB.child(PET).addChildEventListener(listener)
+                    FOOD-> memberDB.child(FOOD).addChildEventListener(listener)
+                    BEAUTY-> memberDB.child(BEAUTY).addChildEventListener(listener)
+                    ART-> memberDB.child(ART).addChildEventListener(listener)
+                    DIY-> memberDB.child(DIY).addChildEventListener(listener)
+                    COUNSELING-> memberDB.child(COUNSELING).addChildEventListener(listener)
+                    RIDE-> memberDB.child(RIDE).addChildEventListener(listener)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY4).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    SPORTS ->  memberDB.child(SPORTS).addChildEventListener(listener)
+                    FASHION->  memberDB.child(FASHION).addChildEventListener(listener)
+                    FUND-> memberDB.child(FUND).addChildEventListener(listener)
+                    IT-> memberDB.child(IT).addChildEventListener(listener)
+                    GAME-> memberDB.child(GAME).addChildEventListener(listener)
+                    STUDY-> memberDB.child(STUDY).addChildEventListener(listener)
+                    READING-> memberDB.child(READING).addChildEventListener(listener)
+                    TRAVEL-> memberDB.child(TRAVEL).addChildEventListener(listener)
+                    ENTERTAINMENT-> memberDB.child(ENTERTAINMENT).addChildEventListener(listener)
+                    PET-> memberDB.child(PET).addChildEventListener(listener)
+                    FOOD-> memberDB.child(FOOD).addChildEventListener(listener)
+                    BEAUTY-> memberDB.child(BEAUTY).addChildEventListener(listener)
+                    ART-> memberDB.child(ART).addChildEventListener(listener)
+                    DIY-> memberDB.child(DIY).addChildEventListener(listener)
+                    COUNSELING-> memberDB.child(COUNSELING).addChildEventListener(listener)
+                    RIDE-> memberDB.child(RIDE).addChildEventListener(listener)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY5).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    SPORTS ->  memberDB.child(SPORTS).addChildEventListener(listener)
+                    FASHION->  memberDB.child(FASHION).addChildEventListener(listener)
+                    FUND-> memberDB.child(FUND).addChildEventListener(listener)
+                    IT-> memberDB.child(IT).addChildEventListener(listener)
+                    GAME-> memberDB.child(GAME).addChildEventListener(listener)
+                    STUDY-> memberDB.child(STUDY).addChildEventListener(listener)
+                    READING-> memberDB.child(READING).addChildEventListener(listener)
+                    TRAVEL-> memberDB.child(TRAVEL).addChildEventListener(listener)
+                    ENTERTAINMENT-> memberDB.child(ENTERTAINMENT).addChildEventListener(listener)
+                    PET-> memberDB.child(PET).addChildEventListener(listener)
+                    FOOD-> memberDB.child(FOOD).addChildEventListener(listener)
+                    BEAUTY-> memberDB.child(BEAUTY).addChildEventListener(listener)
+                    ART-> memberDB.child(ART).addChildEventListener(listener)
+                    DIY-> memberDB.child(DIY).addChildEventListener(listener)
+                    COUNSELING-> memberDB.child(COUNSELING).addChildEventListener(listener)
+                    RIDE-> memberDB.child(RIDE).addChildEventListener(listener)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+
+
+
+        //memberDB.addChildEventListener(listener)
     }
 
     override fun onResume() {

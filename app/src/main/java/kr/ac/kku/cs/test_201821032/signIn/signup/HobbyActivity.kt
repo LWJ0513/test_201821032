@@ -509,14 +509,13 @@ class HobbyActivity : AppCompatActivity() {
                 }
 
 
-
-                userDB.child(auth.currentUser!!.uid).child("hobby1").setValue(hobby1)
-                userDB.child(auth.currentUser!!.uid).child("hobby2").setValue(hobby2)
-                userDB.child(auth.currentUser!!.uid).child("hobby3").setValue(hobby3)
-                userDB.child(auth.currentUser!!.uid).child("hobby4").setValue(hobby4)
-                userDB.child(auth.currentUser!!.uid).child("hobby5").setValue(hobby5)
-
-                startActivity(Intent(this, SignUpActivity::class.java))
+                startActivity(Intent(this, SignUpActivity::class.java).apply {
+                    putExtra("hobby1", hobby1)
+                    putExtra("hobby2",  hobby2)
+                    putExtra("hobby3", hobby3)
+                    putExtra("hobby4", hobby4)
+                    putExtra("hobby5", hobby5)
+                })
                 finish()
             } else Toast.makeText(this, "취미를 한 개 이상 선택해주세요", Toast.LENGTH_SHORT).show()
 
