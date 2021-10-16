@@ -1,14 +1,12 @@
-package kr.ac.kku.cs.test_201821032.chatlist
+package kr.ac.kku.cs.test_201821032.chatlist.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -16,19 +14,18 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_chatlist.*
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
-import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
+import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
-import kr.ac.kku.cs.test_201821032.databinding.FragmentChatlistBinding
+import kr.ac.kku.cs.test_201821032.chatlist.ChatListAdapter
+import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
+import kr.ac.kku.cs.test_201821032.databinding.FragmentOneToOneBinding
+import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
-class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
+class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
 
-    private var binding: FragmentChatlistBinding? = null
+    private var binding: FragmentOneToOneBinding? = null
     private lateinit var chatListAdapter: ChatListAdapter
-
     private val chatRoomList = mutableListOf<ChatListItem>()
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -44,8 +41,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
             }
         }
 
-        val fragmentChatlistBinding = FragmentChatlistBinding.bind(view)
-        binding = fragmentChatlistBinding
+        val fragmentOneToOneBinding = FragmentOneToOneBinding.bind(view)
+        binding = fragmentOneToOneBinding
 
         chatListAdapter = ChatListAdapter(onItemClicked = { chatRoom ->
             // 채팅방으로 이동하는 코드
@@ -56,40 +53,18 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
             }
         })
 
+        fragmentOneToOneBinding.oneToOneChatListRecyclerView.adapter = chatListAdapter
+        fragmentOneToOneBinding.oneToOneChatListRecyclerView.layoutManager = LinearLayoutManager(context)
+
+
+
         chatRoomList.clear()
-
-//        fragmentChatlistBinding.chatListRecyclerView.adapter = chatListAdapter
-//        fragmentChatlistBinding.chatListRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        view_pager_2.isSaveEnabled=false
-
-        val adapter = ViewPagerAdapter(getChildFragmentManager(), lifecycle)
-
-        view_pager_2.adapter = adapter
-        TabLayoutMediator(tab_layout, view_pager_2) { tab, position ->
-            when (position) {
-                0->{
-                    tab.text="1:1"
-                }
-                1->{
-                    tab.text="모임"
-                }
-            }
-        }.attach()
-
-
-
-
-
-
-
-
         if (auth.currentUser == null) {
             return
         }
 
-        val chatDB = Firebase.database.reference.child(DB_USERS).child(auth.currentUser!!.uid)
-            .child(CHILD_CHAT)
+        val chatDB = Firebase.database.reference.child(DBKey.DB_USERS).child(auth.currentUser!!.uid)
+            .child(DBKey.CHILD_CHAT).child(DBKey.DB_ONE)
 
         chatDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -107,6 +82,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
             override fun onCancelled(error: DatabaseError) {
             }
         })
+
+
     }
 
     override fun onResume() {
@@ -114,4 +91,12 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
 
         chatListAdapter.notifyDataSetChanged()
     }
+    /*  override fun onCreateView(
+          inflater: LayoutInflater, container: ViewGroup?,
+          savedInstanceState: Bundle?
+      ): View? {
+          // Inflate the layout for this fragment
+          return inflater.inflate(R.layout.fragment_one_to_one, container, false)
+      }*/
+
 }
