@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -18,7 +19,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_grouplist.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
-import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.FragmentGrouplistBinding
 import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
@@ -93,6 +93,20 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != groupsModel.roomManager) {        // 다른사람이면 채팅방 열기
 
+                    // todo 디테일 창 열기
+                    startActivity(Intent(context, GroupsDetailActivity::class.java).apply {
+                        putExtra("roomManager", groupsModel.roomManager)
+                        putExtra("title", groupsModel.title)
+                        putExtra("createAt",  groupsModel.createAt)
+                        putExtra("description", groupsModel.description)
+                        putExtra("latitude", groupsModel.latitude)
+                        putExtra("longitude", groupsModel.longitude)
+                        putExtra("locationAddress", groupsModel.locationAddress)
+                        putExtra("locationName", groupsModel.locationName)
+                        data = groupsModel.imageUrl.toUri()
+                    })
+
+                    /*
                     val chatRoom = ChatListItem(
                         entryId = auth.currentUser!!.uid,
                         managerId = groupsModel.roomManager,
@@ -108,9 +122,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                     userDB.child(groupsModel.roomManager)
                         .child(DBKey.CHILD_CHAT)
                         .push()
-                        .setValue(chatRoom)
-
-                    Snackbar.make(view, "채팅방이 생성되었습니다. 채팅챕에서 확인해주세요", Snackbar.LENGTH_LONG).show()
+                        .setValue(chatRoom)*/
 
                 } else {     // 내가 올린 아이템
                     Snackbar.make(view, "내가 올린 게시글입니다.", Snackbar.LENGTH_LONG).show()

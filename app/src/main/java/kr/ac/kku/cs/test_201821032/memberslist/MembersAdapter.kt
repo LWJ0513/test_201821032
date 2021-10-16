@@ -31,6 +31,7 @@ class MembersAdapter(val onItemClicked: (MembersModel) -> Unit) :
                 Glide.with(binding.thumbnailImageView)
                     .load(membersModel.imageUrl)
                     .into(binding.thumbnailImageView)
+
             }
 
             binding.root.setOnClickListener {

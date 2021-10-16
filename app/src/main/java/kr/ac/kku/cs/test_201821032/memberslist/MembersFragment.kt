@@ -22,7 +22,6 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMemberslistBinding
-import kr.ac.kku.cs.test_201821032.memberslist.membersdetail.MembersDetailActivity
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.BEAUTY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.COUNSELING
@@ -39,7 +38,6 @@ import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.RIDE
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
-import okhttp3.internal.notify
 
 class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
@@ -85,20 +83,22 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
                 if (auth.currentUser!!.uid != membersModel.roomManager) {        // 다른사람이면 채팅방 열기
 
                   //  Toast.makeText(context, membersModel.toString(), Toast.LENGTH_SHORT).show()
+/*
 
                     val roomManager = membersModel.roomManager
                     val title = membersModel.title
                     val createAt = membersModel.createAt
                     val description = membersModel.description
                     val imageUri: Uri? = membersModel.imageUrl.toUri()
+*/
 
                     // todo 디테일 창 열기
                     startActivity(Intent(context, MembersDetailActivity::class.java).apply {
-                        putExtra("roomManager", roomManager)
-                        putExtra("title", title)
-                        putExtra("createAt", createAt)
-                        putExtra("description", description)
-                        data = imageUri
+                        putExtra("roomManager", membersModel.roomManager)
+                        putExtra("title", membersModel.title)
+                        putExtra("createAt", membersModel.createAt)
+                        putExtra("description", membersModel.description)
+                        data =  membersModel.imageUrl.toUri()
                     })
 
 

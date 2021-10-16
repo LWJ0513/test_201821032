@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -62,7 +63,6 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     private lateinit var address: String
     private var latitude: Float = 0F
     private var longitude: Float = 0F
-    private var hobbyDB: String = ""
     private var selectedHobby: String = ""
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -214,6 +214,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
             position(positionLatLng)
             title(searchResult.locationName)
             snippet(searchResult.fullAddress)
+            icon(BitmapDescriptorFactory.defaultMarker(220F))
         }
         map.moveCamera(
             CameraUpdateFactory.newLatLngZoom(

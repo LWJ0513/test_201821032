@@ -25,6 +25,7 @@ class DBKey {
             const val DB_HOBBY3 = "hobby3"
             const val DB_HOBBY4 = "hobby4"
             const val DB_HOBBY5 = "hobby5"
-
+            const val DB_GROUP = "group"
+            const val DB_ONE = "one_on_one"
     }
 }

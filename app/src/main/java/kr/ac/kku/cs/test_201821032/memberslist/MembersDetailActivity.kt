@@ -1,4 +1,4 @@
-package kr.ac.kku.cs.test_201821032.memberslist.membersdetail
+package kr.ac.kku.cs.test_201821032.memberslist
 
 import android.annotation.SuppressLint
 import android.content.Intent

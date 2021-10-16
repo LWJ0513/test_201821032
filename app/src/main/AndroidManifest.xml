@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_201821032">
         <activity
-            android:name=".memberslist.membersdetail.MembersDetailActivity"
+            android:name=".grouplist.GroupsDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".memberslist.MembersDetailActivity"
             android:exported="true" />
         <activity
             android:name=".grouplist.AddGroupsThirdActivity"

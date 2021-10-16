@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".grouplist.GroupsDetailActivity">
+
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_arrow_back_24" />
+
+    <ScrollView
+        android:id="@+id/hobbyScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/backButton"
+        android:layout_above="@id/participateButton"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/groupsRoomImageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
+            <TextView
+                android:id="@+id/groupsRoomTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsRoomImageView"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@id/groupsRoomDescriptionTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupsRoomImageView"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="영화 보실 분" />
+
+            <TextView
+                android:id="@+id/groupsRoomManagerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/groupsRoomTitleTextView"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/groupsRoomCreateAtTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/groupsRoomTitleTextView"
+                tools:text="임원정" />
+
+            <TextView
+                android:id="@+id/groupsRoomCreateAtTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsRoomManagerTextView"
+                android:layout_alignEnd="@id/groupsRoomManagerTextView"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupsRoomManagerTextView"
+                tools:text="2021.10.12" />
+
+
+            <TextView
+                android:id="@+id/groupsRoomDescriptionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsRoomTitleTextView"
+                android:layout_alignStart="@id/groupsRoomTitleTextView"
+                android:lines="4"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:text="같이 영화보고 쇼핑할 사람 구해요" />
+
+            <ImageView
+                android:id="@+id/locationImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsRoomDescriptionTextView"
+                android:layout_alignStart="@id/groupsRoomTitleTextView"
+                android:src="@drawable/ic_baseline_location_on_24" />
+
+            <TextView
+                android:id="@+id/locationNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsRoomDescriptionTextView"
+                android:layout_alignTop="@id/locationImageView"
+                android:layout_alignBottom="@id/locationImageView"
+                android:layout_marginLeft="4dp"
+                android:layout_toEndOf="@id/locationImageView"
+                android:text="장소명"
+                android:textSize="20sp" />
+
+            <fragment
+                android:id="@+id/mapFragment"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@id/locationNameTextView"
+                android:layout_marginTop="13dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/participateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="함께하기" />
+
+
+</RelativeLayout>
