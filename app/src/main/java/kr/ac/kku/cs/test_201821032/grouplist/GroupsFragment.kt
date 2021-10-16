@@ -44,7 +44,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
 
-        override fun onChildRemoved(snapshot: DataSnapshot) {}
+        override fun onChildRemoved(snapshot: DataSnapshot) {        }
 
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
@@ -65,20 +65,27 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
         groupList.clear()
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
+
+
         groupOnlineDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
         groupOfflineDB = Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
 
 
 
+        groupOnlineDB.addChildEventListener(listener)
         onOffToggleButton.setOnToggledListener { toggleButton, isOn ->
             when (isOn) {
                 true -> {
+                    groupList.clear()
                     groupOfflineDB.removeEventListener(listener)
+                    groupOnlineDB.removeEventListener(listener)
                     groupOnlineDB.addChildEventListener(listener)
                     Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
                     online = true
                 }
                 false ->{
+                    groupList.clear()
+                    groupOfflineDB.removeEventListener(listener)
                     groupOnlineDB.removeEventListener(listener)
                     groupOfflineDB.addChildEventListener(listener)
                     Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
