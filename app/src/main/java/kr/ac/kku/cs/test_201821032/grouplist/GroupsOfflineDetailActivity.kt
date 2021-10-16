@@ -1,8 +1,6 @@
 package kr.ac.kku.cs.test_201821032.grouplist
 
 import android.content.Intent
-import android.location.LocationManager
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,30 +18,22 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_groups_detail.*
-import kotlinx.coroutines.Job
+import kotlinx.android.synthetic.main.activity_groups_offline_detail.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
-import kr.ac.kku.cs.test_201821032.databinding.ActivityGroupsDetailBinding
-import kr.ac.kku.cs.test_201821032.location.model.SearchResultEntity
+import kr.ac.kku.cs.test_201821032.databinding.ActivityGroupsOfflineDetailBinding
 
-class GroupsDetailActivity : AppCompatActivity(), OnMapReadyCallback {
+class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var job: Job
     private lateinit var map: GoogleMap
-    private lateinit var searchResult: SearchResultEntity
-    private lateinit var locationManager: LocationManager
-    private lateinit var myLocationListener: AddGroupsThirdActivity.MyLocationListener
-    private lateinit var binding: ActivityGroupsDetailBinding
+    private lateinit var binding: ActivityGroupsOfflineDetailBinding
     private lateinit var userDB: DatabaseReference
     private lateinit var groupDB: DatabaseReference
     private lateinit var chatRoom: ChatListItem
     private lateinit var roomManager: String
     private lateinit var title: String
-    private var createAt: Long = 0
-    private var photoUri: Uri? = null
     private lateinit var description: String
     private lateinit var locationName: String
     private lateinit var address: String
@@ -52,15 +42,11 @@ class GroupsDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var selectedHobby: String
     private var currentSelectMarker: Marker? = null
 
-
     private val auth: FirebaseAuth by lazy { Firebase.auth }
-    private val groupsDB: DatabaseReference by lazy {
-        Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGroupsDetailBinding.inflate(layoutInflater)
+        binding = ActivityGroupsOfflineDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
@@ -76,19 +62,28 @@ class GroupsDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         longitude = intent.getFloatExtra("longitude", 0F)
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
 
-        groupsRoomTitleTextView.text = title
-        groupsRoomDescriptionTextView.text = description
-        locationNameTextView.text = locationName
+        groupsOfflineRoomTitleTextView.text = title
+        groupsOfflineRoomDescriptionTextView.text = description
+
         Glide.with(this)
             .load(intent.data)
             .centerCrop()
             .into(groupsRoomImageView)
+
+        locationNameTextView.text = locationName
         setupGoogleMap()
 
 
+
+        initBackButton()
         initSubmitOfflineGroupButton()
     }
 
+    private fun initBackButton() {
+        backButton.setOnClickListener {
+            finish()
+        }
+    }
 
     private fun initSubmitOfflineGroupButton() {
         groupDB = Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)

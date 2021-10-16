@@ -1,7 +1,6 @@
 package kr.ac.kku.cs.test_201821032.memberslist
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
@@ -76,23 +75,11 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
         userDB = Firebase.database.reference.child(DB_USERS)
         memberDB = Firebase.database.reference.child(DB_MEMBERS_LIST)
 
-        // todo 해당하는 취미 출력력
 
         memberAdapter = MembersAdapter(onItemClicked = { membersModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != membersModel.roomManager) {        // 다른사람이면 채팅방 열기
 
-                  //  Toast.makeText(context, membersModel.toString(), Toast.LENGTH_SHORT).show()
-/*
-
-                    val roomManager = membersModel.roomManager
-                    val title = membersModel.title
-                    val createAt = membersModel.createAt
-                    val description = membersModel.description
-                    val imageUri: Uri? = membersModel.imageUrl.toUri()
-*/
-
-                    // todo 디테일 창 열기
                     startActivity(Intent(context, MembersDetailActivity::class.java).apply {
                         putExtra("roomManager", membersModel.roomManager)
                         putExtra("title", membersModel.title)

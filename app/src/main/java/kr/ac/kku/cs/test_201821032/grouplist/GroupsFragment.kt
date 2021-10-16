@@ -10,16 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_grouplist.*
 import kr.ac.kku.cs.test_201821032.DBKey
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY3
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY4
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY5
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentGrouplistBinding
+import kr.ac.kku.cs.test_201821032.signIn.Hobbylist
 import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
 class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
@@ -28,7 +31,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
     private lateinit var groupOfflineDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var groupAdapter: GroupsAdapter
-    private var online:Boolean = true
+    private var online: Boolean = true
 
     private val groupList = mutableListOf<GroupsModel>()
     private val listener = object : ChildEventListener {
@@ -43,13 +46,9 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         }
 
         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-
-        override fun onChildRemoved(snapshot: DataSnapshot) {        }
-
+        override fun onChildRemoved(snapshot: DataSnapshot) {}
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-
         override fun onCancelled(error: DatabaseError) {}
-
     }
 
     private var binding: FragmentGrouplistBinding? = null
@@ -65,53 +64,76 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
         groupList.clear()
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
-
-
         groupOnlineDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
         groupOfflineDB = Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
 
+        // todo 해당하는 취미 출력력
 
-
-        groupOnlineDB.addChildEventListener(listener)
+//        groupOnlineDB.addChildEventListener(listener)
+        initOnlineGroupList()
         onOffToggleButton.setOnToggledListener { toggleButton, isOn ->
             when (isOn) {
                 true -> {
-                    groupList.clear()
-                    groupOfflineDB.removeEventListener(listener)
-                    groupOnlineDB.removeEventListener(listener)
-                    groupOnlineDB.addChildEventListener(listener)
-                    Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
                     online = true
-                }
-                false ->{
                     groupList.clear()
-                    groupOfflineDB.removeEventListener(listener)
-                    groupOnlineDB.removeEventListener(listener)
-                    groupOfflineDB.addChildEventListener(listener)
-                    Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
+//                    groupOfflineDB.removeEventListener(listener)
+//                    groupOnlineDB.removeEventListener(listener)
+//                    groupOnlineDB.addChildEventListener(listener)
+                    initOnlineGroupList()
+                    if (online) Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
+                }
+                false -> {
+                    online = false
+                    groupList.clear()
+//                    groupOfflineDB.removeEventListener(listener)
+//                    groupOnlineDB.removeEventListener(listener)
+//                    groupOfflineDB.addChildEventListener(listener)
+                    initOfflineGrouplist()
+                    if (!online) Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
 
-
-
         groupAdapter = GroupsAdapter(onItemClicked = { groupsModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
-                if (auth.currentUser!!.uid != groupsModel.roomManager) {        // 다른사람이면 채팅방 열기
+                if (auth.currentUser!!.uid != groupsModel.roomManager) {
 
-                    // todo 디테일 창 열기
-                    startActivity(Intent(context, GroupsDetailActivity::class.java).apply {
-                        putExtra("roomManager", groupsModel.roomManager)
-                        putExtra("title", groupsModel.title)
-                        putExtra("createAt",  groupsModel.createAt)
-                        putExtra("description", groupsModel.description)
-                        putExtra("latitude", groupsModel.latitude)
-                        putExtra("longitude", groupsModel.longitude)
-                        putExtra("locationAddress", groupsModel.locationAddress)
-                        putExtra("locationName", groupsModel.locationName)
-                        data = groupsModel.imageUrl.toUri()
-                    })
+                    when (online) {
+                        true -> {
+                            startActivity(
+                                Intent(
+                                    context,
+                                    GroupsOnlineDetailActivity::class.java
+                                ).apply {
+                                    putExtra("roomManager", groupsModel.roomManager)
+                                    putExtra("title", groupsModel.title)
+                                    putExtra("createAt", groupsModel.createAt)
+                                    putExtra("description", groupsModel.description)
+                                    putExtra("online", online)
+                                    data = groupsModel.imageUrl.toUri()
+                                })
+                        }
+                        false -> {
+                            startActivity(
+                                Intent(
+                                    context,
+                                    GroupsOfflineDetailActivity::class.java
+                                ).apply {
+                                    putExtra("roomManager", groupsModel.roomManager)
+                                    putExtra("title", groupsModel.title)
+                                    putExtra("createAt", groupsModel.createAt)
+                                    putExtra("description", groupsModel.description)
+                                    putExtra("latitude", groupsModel.latitude)
+                                    putExtra("longitude", groupsModel.longitude)
+                                    putExtra("locationAddress", groupsModel.locationAddress)
+                                    putExtra("locationName", groupsModel.locationName)
+                                    putExtra("online", online)
+                                    data = groupsModel.imageUrl.toUri()
+                                })
+                        }
+                    }
+
 
                     /*
                     val chatRoom = ChatListItem(
@@ -152,9 +174,435 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                 }
             }
         }
+    }
 
-//
-//        groupOfflineDB.addChildEventListener(listener)
+    // 화면 리스트 취미관련 출력
+//    groupOfflineDB.addChildEventListener(listener)
+    private fun initOnlineGroupList() {
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOnlineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOnlineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOnlineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOnlineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOnlineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOnlineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOnlineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOnlineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOnlineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOnlineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOnlineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOnlineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOnlineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOnlineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOnlineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY2).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOnlineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOnlineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOnlineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOnlineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOnlineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOnlineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOnlineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOnlineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOnlineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOnlineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOnlineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOnlineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOnlineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOnlineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOnlineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY3).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOnlineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOnlineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOnlineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOnlineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOnlineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOnlineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOnlineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOnlineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOnlineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOnlineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOnlineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOnlineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOnlineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOnlineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOnlineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY4).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOnlineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOnlineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOnlineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOnlineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOnlineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOnlineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOnlineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOnlineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOnlineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOnlineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOnlineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOnlineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOnlineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOnlineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOnlineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY5).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOnlineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOnlineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOnlineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOnlineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOnlineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOnlineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOnlineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOnlineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOnlineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOnlineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOnlineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOnlineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOnlineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOnlineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOnlineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+    }
+
+    private fun initOfflineGrouplist() {
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOfflineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOfflineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOfflineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOfflineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOfflineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOfflineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOfflineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOfflineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOfflineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOfflineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOfflineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOfflineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOfflineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOfflineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOfflineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY2).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOfflineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOfflineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOfflineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOfflineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOfflineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOfflineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOfflineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOfflineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOfflineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOfflineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOfflineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOfflineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOfflineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOfflineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOfflineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY3).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOfflineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOfflineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOfflineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOfflineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOfflineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOfflineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOfflineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOfflineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOfflineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOfflineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOfflineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOfflineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOfflineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOfflineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOfflineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY4).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOfflineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOfflineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOfflineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOfflineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOfflineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOfflineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOfflineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOfflineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOfflineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOfflineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOfflineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOfflineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOfflineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOfflineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOfflineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY5).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                when (dataSnapshot.getValue(String::class.java).toString()) {
+                    Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
+                        .addChildEventListener(listener)
+                    Hobbylist.FASHION -> groupOfflineDB.child(Hobbylist.FASHION)
+                        .addChildEventListener(listener)
+                    Hobbylist.FUND -> groupOfflineDB.child(Hobbylist.FUND)
+                        .addChildEventListener(listener)
+                    Hobbylist.IT -> groupOfflineDB.child(Hobbylist.IT)
+                        .addChildEventListener(listener)
+                    Hobbylist.GAME -> groupOfflineDB.child(Hobbylist.GAME)
+                        .addChildEventListener(listener)
+                    Hobbylist.STUDY -> groupOfflineDB.child(Hobbylist.STUDY)
+                        .addChildEventListener(listener)
+                    Hobbylist.READING -> groupOfflineDB.child(Hobbylist.READING)
+                        .addChildEventListener(listener)
+                    Hobbylist.TRAVEL -> groupOfflineDB.child(Hobbylist.TRAVEL)
+                        .addChildEventListener(listener)
+                    Hobbylist.ENTERTAINMENT -> groupOfflineDB.child(Hobbylist.ENTERTAINMENT)
+                        .addChildEventListener(listener)
+                    Hobbylist.PET -> groupOfflineDB.child(Hobbylist.PET)
+                        .addChildEventListener(listener)
+                    Hobbylist.FOOD -> groupOfflineDB.child(Hobbylist.FOOD)
+                        .addChildEventListener(listener)
+                    Hobbylist.BEAUTY -> groupOfflineDB.child(Hobbylist.BEAUTY)
+                        .addChildEventListener(listener)
+                    Hobbylist.ART -> groupOfflineDB.child(Hobbylist.ART)
+                        .addChildEventListener(listener)
+                    Hobbylist.DIY -> groupOfflineDB.child(Hobbylist.DIY)
+                        .addChildEventListener(listener)
+                    Hobbylist.COUNSELING -> groupOfflineDB.child(Hobbylist.COUNSELING)
+                        .addChildEventListener(listener)
+                    Hobbylist.RIDE -> groupOfflineDB.child(Hobbylist.RIDE)
+                        .addChildEventListener(listener)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     override fun onResume() {

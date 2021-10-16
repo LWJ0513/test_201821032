@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_201821032">
         <activity
-            android:name=".grouplist.GroupsDetailActivity"
+            android:name=".grouplist.GroupsOnlineDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".grouplist.GroupsOfflineDetailActivity"
             android:exported="true" />
         <activity
             android:name=".memberslist.MembersDetailActivity"

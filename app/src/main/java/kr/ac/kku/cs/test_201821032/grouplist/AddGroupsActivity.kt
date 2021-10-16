@@ -146,23 +146,27 @@ class AddGroupsActivity : AppCompatActivity() {
                     intent.putExtra("selectedHobby", hobbyDB)
                     intent.data = selectedUri
 
-                    startActivity(intent)
                     hideProgress()
+                    startActivity(intent)
                 }
 
             } else {            // 온라인 선택시
                 if (selectedUri != null) {            // 이미지가 있으면
-                    showProgress()
-                    val photoUri = selectedUri ?: return@setOnClickListener
-                    uploadPhoto(photoUri,
-                        successHandler = { uri ->     // 비동기
-                            uploadGroup(roomManager, title, description, uri)
-                        },
-                        errorHandler = {
-                            Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
-                            hideProgress()
-                        }
-                    )
+                    if (hobbyDB=="") {
+                        Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
+                    } else {
+                        showProgress()
+                        val photoUri = selectedUri ?: return@setOnClickListener
+                        uploadPhoto(photoUri,
+                            successHandler = { uri ->     // 비동기
+                                uploadGroup(roomManager, title, description, uri)
+                            },
+                            errorHandler = {
+                                hideProgress()
+                                Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }
                 } else {
                     Toast.makeText(this, "이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
                 }
@@ -195,10 +199,6 @@ class AddGroupsActivity : AppCompatActivity() {
         description: String,
         imageUrl: String
     ) {
-        if (hobbyDB=="") {
-           hideProgress()
-            Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
-        }
         val model =
             GroupsModel(roomManager, title, System.currentTimeMillis(), description, imageUrl,"","",0F,0F)
         groupsDB.child(hobbyDB).push().setValue(model)

@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".grouplist.GroupsDetailActivity">
+    tools:context=".grouplist.GroupsOfflineDetailActivity">
 
-
+<TextView
+    android:text="오프라인 모임"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -33,7 +36,7 @@
                 android:layout_height="300dp" />
 
             <TextView
-                android:id="@+id/groupsRoomTitleTextView"
+                android:id="@+id/groupsOfflineRoomTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/groupsRoomImageView"
@@ -42,44 +45,44 @@
                 android:layout_marginBottom="30dp"
                 android:textColor="@color/black"
                 android:textSize="25sp"
-                app:layout_constraintBottom_toTopOf="@id/groupsRoomDescriptionTextView"
+                app:layout_constraintBottom_toTopOf="@id/groupsOfflineRoomDescriptionTextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/groupsRoomImageView"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="영화 보실 분" />
 
             <TextView
-                android:id="@+id/groupsRoomManagerTextView"
+                android:id="@+id/groupsOfflineRoomManagerTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/groupsRoomTitleTextView"
+                android:layout_alignTop="@id/groupsOfflineRoomTitleTextView"
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/groupsRoomCreateAtTextView"
+                app:layout_constraintBottom_toTopOf="@id/groupsOfflineRoomCreateAtTextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/groupsRoomTitleTextView"
+                app:layout_constraintTop_toTopOf="@id/groupsOfflineRoomTitleTextView"
                 tools:text="임원정" />
 
             <TextView
-                android:id="@+id/groupsRoomCreateAtTextView"
+                android:id="@+id/groupsOfflineRoomCreateAtTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/groupsRoomManagerTextView"
-                android:layout_alignEnd="@id/groupsRoomManagerTextView"
+                android:layout_below="@id/groupsOfflineRoomManagerTextView"
+                android:layout_alignEnd="@id/groupsOfflineRoomManagerTextView"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupsRoomManagerTextView"
+                app:layout_constraintTop_toBottomOf="@id/groupsOfflineRoomManagerTextView"
                 tools:text="2021.10.12" />
 
 
             <TextView
-                android:id="@+id/groupsRoomDescriptionTextView"
+                android:id="@+id/groupsOfflineRoomDescriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/groupsRoomTitleTextView"
-                android:layout_alignStart="@id/groupsRoomTitleTextView"
+                android:layout_below="@id/groupsOfflineRoomTitleTextView"
+                android:layout_alignStart="@id/groupsOfflineRoomTitleTextView"
                 android:lines="4"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -89,15 +92,15 @@
                 android:id="@+id/locationImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/groupsRoomDescriptionTextView"
-                android:layout_alignStart="@id/groupsRoomTitleTextView"
+                android:layout_below="@id/groupsOfflineRoomDescriptionTextView"
+                android:layout_alignStart="@id/groupsOfflineRoomTitleTextView"
                 android:src="@drawable/ic_baseline_location_on_24" />
 
             <TextView
                 android:id="@+id/locationNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/groupsRoomDescriptionTextView"
+                android:layout_below="@id/groupsOfflineRoomDescriptionTextView"
                 android:layout_alignTop="@id/locationImageView"
                 android:layout_alignBottom="@id/locationImageView"
                 android:layout_marginLeft="4dp"
