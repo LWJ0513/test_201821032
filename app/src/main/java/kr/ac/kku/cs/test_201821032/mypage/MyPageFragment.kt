@@ -2,6 +2,7 @@ package kr.ac.kku.cs.test_201821032.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_PROFILE_IMAGE
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMypageBinding
+import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
 
 class MyPageFragment : Fragment(R.layout.fragment_mypage) {
@@ -31,6 +33,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         Firebase.auth
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentMyPageBinding = FragmentMypageBinding.bind(view)
@@ -39,6 +42,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         userDB = Firebase.database.reference.child(DB_USERS)
         val userId = auth.currentUser?.uid.orEmpty()
 
+        Toast.makeText(context, "$userId", Toast.LENGTH_SHORT).show()
 
         userDB.child(userId).child(DB_USER_PROFILE_IMAGE)
             .addValueEventListener(object : ValueEventListener {
@@ -63,10 +67,20 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
                 }
             })
 
-
+        initWithdrawalButton(userId)
         initLogoutButton()
     }
 
+    private fun initWithdrawalButton(uid: String) {
+        withdrawalButton.setOnClickListener {
+            userDB.child(uid).removeValue()
+            auth.currentUser!!.delete()
+
+            startActivity(Intent(context, LoginActivity::class.java))
+
+
+        }
+    }
 
     private fun initLogoutButton() {
         signOutButton.setOnClickListener {        // 로그아웃
@@ -79,6 +93,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             }
         }
     }
+
 
     override fun onStart() {
         super.onStart()

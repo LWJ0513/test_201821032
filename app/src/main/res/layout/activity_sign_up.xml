@@ -7,7 +7,7 @@
     android:padding="30dp"
     tools:context=".signIn.signup.SignUpActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfileImageView"
         android:layout_width="120dp"
         android:layout_height="120dp"

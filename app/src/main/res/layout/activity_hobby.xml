@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/sportsImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -54,7 +54,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fashionImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -63,7 +63,7 @@
                 app:layout_constraintStart_toEndOf="@id/sportsImageView"
                 app:layout_constraintTop_toTopOf="@id/sportsImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fundImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -72,7 +72,7 @@
                 app:layout_constraintStart_toEndOf="@id/fashionImageView"
                 app:layout_constraintTop_toTopOf="@id/sportsImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/itImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -83,7 +83,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sportsImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/gameImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -92,7 +92,7 @@
                 app:layout_constraintStart_toEndOf="@id/itImageView"
                 app:layout_constraintTop_toTopOf="@id/itImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/studyImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -101,7 +101,7 @@
                 app:layout_constraintStart_toEndOf="@id/gameImageView"
                 app:layout_constraintTop_toTopOf="@id/itImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/readImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -112,7 +112,7 @@
                 app:layout_constraintEnd_toStartOf="@id/travelImageView"
                 android:src="@drawable/read"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/travelImageView"
                 android:layout_width="100dp"
                 app:layout_constraintTop_toTopOf="@id/readImageView"
@@ -121,7 +121,7 @@
                 android:layout_height="100dp"
                 android:src="@drawable/travel" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/entertainmentImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -130,7 +130,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/enter" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/companionImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -141,7 +141,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/readImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/foodImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -150,7 +150,7 @@
                 app:layout_constraintStart_toEndOf="@id/companionImageView"
                 app:layout_constraintTop_toTopOf="@id/companionImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/beautyImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -159,7 +159,7 @@
                 app:layout_constraintStart_toEndOf="@id/foodImageView"
                 app:layout_constraintTop_toTopOf="@id/companionImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/artImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -169,7 +169,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/companionImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/diyImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -178,7 +178,7 @@
                 app:layout_constraintStart_toEndOf="@id/artImageView"
                 app:layout_constraintTop_toTopOf="@id/artImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/sangdamImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -187,7 +187,7 @@
                 app:layout_constraintStart_toEndOf="@id/diyImageView"
                 app:layout_constraintTop_toTopOf="@id/artImageView" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/rideImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"

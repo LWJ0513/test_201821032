@@ -5,12 +5,11 @@
     android:layout_height="match_parent"
     android:padding="24dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfileImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_baseline_person_24"
-        app:layout_constraintBottom_toTopOf="@id/signOutButton"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
         app:layout_constraintEnd_toStartOf="@id/emailEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,27 +18,45 @@
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
-        android:layout_marginTop="9dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
         app:layout_constraintBottom_toBottomOf="@id/userProfileImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/userProfileImageView"
         app:layout_constraintTop_toTopOf="@id/userProfileImageView"
         app:layout_constraintVertical_chainStyle="packed" />
 
-
-    <Button
-        android:id="@+id/signOutButton"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/main_color"
-        android:enabled="false"
-        android:layout_marginTop="15dp"
-        android:text="로그아웃"
-        android:textColor="@color/white"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/emailEditText"
-        app:layout_constraintTop_toBottomOf="@id/userProfileImageView" />
+        app:layout_constraintTop_toBottomOf="@id/userProfileImageView">
+
+        <Button
+            android:id="@+id/withdrawalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/main_color"
+            android:text="회원탈퇴"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/signOutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/main_color"
+            android:enabled="false"
+            android:text="로그아웃"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
