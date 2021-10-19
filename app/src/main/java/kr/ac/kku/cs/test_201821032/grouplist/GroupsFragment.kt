@@ -2,6 +2,7 @@ package kr.ac.kku.cs.test_201821032.grouplist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -13,13 +14,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_grouplist.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY3
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY4
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY5
+import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentGrouplistBinding
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist
@@ -31,7 +32,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
     private lateinit var groupOfflineDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var groupAdapter: GroupsAdapter
-    private var online: Boolean = true
+    private var online: Boolean = false
 
     private val groupList = mutableListOf<GroupsModel>()
     private val listener = object : ChildEventListener {
@@ -62,6 +63,15 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         val fragmentGroupsBinding = FragmentGrouplistBinding.bind(view)
         binding = fragmentGroupsBinding
 
+
+        setHasOptionsMenu(true)
+        val actionBar = (activity as HomeActivity?)!!.supportActionBar
+        actionBar!!.title = "모임 찾기"
+        actionBar!!.show()
+
+
+
+
         groupList.clear()
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
         groupOnlineDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
@@ -71,35 +81,29 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
 //        groupOnlineDB.addChildEventListener(listener)
         initOnlineGroupList()
-        onOffToggleButton.setOnToggledListener { toggleButton, isOn ->
+/*        onOffToggleButton.setOnToggledListener { toggleButton, isOn ->
             when (isOn) {
                 true -> {
                     online = true
                     groupList.clear()
-//                    groupOfflineDB.removeEventListener(listener)
-//                    groupOnlineDB.removeEventListener(listener)
-//                    groupOnlineDB.addChildEventListener(listener)
                     initOnlineGroupList()
                     if (online) Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
                 }
                 false -> {
                     online = false
                     groupList.clear()
-//                    groupOfflineDB.removeEventListener(listener)
-//                    groupOnlineDB.removeEventListener(listener)
-//                    groupOfflineDB.addChildEventListener(listener)
                     initOfflineGrouplist()
                     if (!online) Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
+        }*/
 
 
         groupAdapter = GroupsAdapter(onItemClicked = { groupsModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 if (auth.currentUser!!.uid != groupsModel.roomManager) {
 
-                    when (online) {
+                    when (!online) {
                         true -> {
                             startActivity(
                                 Intent(
@@ -392,7 +396,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
     }
 
-    private fun initOfflineGrouplist() {
+    private fun initOfflineGroupList() {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -629,5 +633,40 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
         groupOnlineDB.removeEventListener(listener)
         groupOfflineDB.removeEventListener(listener)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val actionBar = (activity as HomeActivity?)!!.supportActionBar
+        when (item.itemId) {
+            // R.id.action_settings -> Toast.makeText(this, "세팅 클릭쓰", Toast.LENGTH_SHORT).show()
+
+            R.id.action_toggle -> {
+                if (online) {
+                    item.setIcon(R.drawable.toggle_on)
+                    Toast.makeText(context, "토글 온", Toast.LENGTH_SHORT).show()
+                    actionBar!!.title = "모임 찾기 | 온라인"
+
+
+                    groupList.clear()
+                    initOnlineGroupList()
+                    if (online) Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
+
+
+                    online = false
+                } else {
+                    item.setIcon(R.drawable.toggle_off)
+                    actionBar!!.title = "모임 찾기 | 오프라인"
+                    Toast.makeText(context, "토글 오프", Toast.LENGTH_SHORT).show()
+
+
+                    groupList.clear()
+                    initOfflineGroupList()
+                    if (!online) Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
+
+                    online = true
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

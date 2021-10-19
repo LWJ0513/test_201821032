@@ -6,31 +6,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/toolbarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="채팅방 목록"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/gray_cc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
-
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -40,8 +15,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager_2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tab_layout" />
+        android:layout_height="match_parent"/>
 
     <!-- <androidx.recyclerview.widget.RecyclerView
          android:id="@+id/chatListRecyclerView"

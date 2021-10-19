@@ -2,7 +2,11 @@ package kr.ac.kku.cs.test_201821032.memberslist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_home.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY3
@@ -19,6 +24,7 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY4
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY5
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
+import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMemberslistBinding
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
@@ -70,6 +76,13 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
         val fragmentMembersBinding = FragmentMemberslistBinding.bind(view)
         binding = fragmentMembersBinding
+
+
+        setHasOptionsMenu(true)
+        val actionBar = (activity as HomeActivity?)!!.supportActionBar
+        actionBar!!.title = "친구 찾기"
+        actionBar!!.show()
+
 
         memberList.clear()
         userDB = Firebase.database.reference.child(DB_USERS)
@@ -276,4 +289,11 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
         memberDB.removeEventListener(listener)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // TODO Add your menu entries here
+        menu.findItem(R.id.action_toggle).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
 }

@@ -3,7 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_group_24.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_more_horiz_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.378125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/ic_launcher_background.xml" value="0.378125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/drawable/selector.xml" value="0.1" />
@@ -33,7 +41,7 @@
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_home.xml" value="0.33125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_member.xml" value="0.325" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_memberslist.xml" value="0.1700404858299595" />
-        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_mypage.xml" value="0.22" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_mypage.xml" value="0.25" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_one_to_one.xml" value="0.3" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/fragment_second.xml" value="0.284375" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/item_chat.xml" value="0.5" />
@@ -42,10 +50,18 @@
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/item_member.xml" value="0.33125" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/item_members.xml" value="0.18421052631578946" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/viewholder_search_result_item.xml" value="0.28703703703703703" />
-        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.18125" />
+        <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_add_group.xml" value="0.17407407407407408" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_groups_offline_detail.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_groups_online_detail.xml" value="0.1" />
-        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_chatlist.xml" value="0.3605128205128205" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_hobby.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_home.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_chatlist.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_grouplist.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_memberslist.xml" value="0.11803444782168186" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_groups.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/nav_header.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/menu/nav_menu.xml" value="0.2520833333333333" />
       </map>
     </option>
   </component>

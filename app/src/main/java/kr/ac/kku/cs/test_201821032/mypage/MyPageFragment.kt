@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_mypage.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_PROFILE_IMAGE
+import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMypageBinding
@@ -41,6 +42,11 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
 
         userDB = Firebase.database.reference.child(DB_USERS)
         val userId = auth.currentUser?.uid.orEmpty()
+
+
+        (activity as HomeActivity?)!!.supportActionBar!!.hide()
+
+
 
         Toast.makeText(context, "$userId", Toast.LENGTH_SHORT).show()
 

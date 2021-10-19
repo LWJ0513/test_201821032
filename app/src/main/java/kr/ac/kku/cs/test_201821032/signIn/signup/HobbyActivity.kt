@@ -95,6 +95,7 @@ class HobbyActivity : AppCompatActivity() {
                 selected--
             }
         }
+
         fashionImageView.setOnClickListener {
             if (!fashionClicked) {
                 if (selected < 5) {
@@ -519,8 +520,6 @@ class HobbyActivity : AppCompatActivity() {
                 finish()
             } else Toast.makeText(this, "취미를 한 개 이상 선택해주세요", Toast.LENGTH_SHORT).show()
 
-
-            // todo 취미 선택 안했을 경우 에러메세지
 
         }
 

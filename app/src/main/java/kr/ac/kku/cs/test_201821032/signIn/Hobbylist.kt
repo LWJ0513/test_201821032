@@ -7,7 +7,7 @@ class Hobbylist {
         const val FUND = "fund"
         const val IT = "IT"
         const val GAME = "game"
-        const val STUDY = "stduy"
+        const val STUDY = "study"
         const val READING = "reading"
         const val TRAVEL = "travel"
         const val ENTERTAINMENT = "entertainment"

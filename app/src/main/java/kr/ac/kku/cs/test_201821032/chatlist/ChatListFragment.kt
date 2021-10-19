@@ -2,12 +2,10 @@ package kr.ac.kku.cs.test_201821032.chatlist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -19,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_chatlist.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
+import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
@@ -43,6 +42,15 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
                 startActivity(intent)
             }
         }
+
+        setHasOptionsMenu(true)
+        //(activity as HomeActivity?)!!.supportActionBar!!.hide()
+        val actionBar = (activity as HomeActivity?)!!.supportActionBar
+        actionBar!!.title = "채팅방 목록"
+        actionBar!!.show()
+
+
+
 
         val fragmentChatlistBinding = FragmentChatlistBinding.bind(view)
         binding = fragmentChatlistBinding
@@ -113,5 +121,13 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
         super.onResume()
 
         chatListAdapter.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        menu.findItem(R.id.action_toggle).isVisible = false
+//        menu.findItem(R.id.nav_view).isVisible = false
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

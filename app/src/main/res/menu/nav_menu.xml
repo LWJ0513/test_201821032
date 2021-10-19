@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_toggle"
+        android:icon="@drawable/toggle_on"
+        android:title="온오프"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_edit_hobby"
+        android:title="취미 수정"
+        android:icon="@drawable/ic_baseline_edit_24"
+        app:showAsAction="ifRoom" />
+
+    
+
+    <!-- Settings, should always be in the overflow -->
+<!--    <item
+        android:id="@+id/action_settings"
+        android:title="setting"
+        app:showAsAction="never" />-->
+
+</menu>
