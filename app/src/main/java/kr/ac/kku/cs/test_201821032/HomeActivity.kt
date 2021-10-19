@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +18,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.android.synthetic.main.activity_hobby.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_mypage.*
 import kotlinx.android.synthetic.main.nav_header.*
-import kotlinx.android.synthetic.main.nav_header.sportsImageView
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListFragment
 import kr.ac.kku.cs.test_201821032.databinding.ActivityHomeBinding
 import kr.ac.kku.cs.test_201821032.grouplist.GroupsFragment
@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var userDB: DatabaseReference
     private lateinit var database: DatabaseReference
     private lateinit var binding: ActivityHomeBinding
-    lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var selected = 0
@@ -75,7 +75,7 @@ class HomeActivity : AppCompatActivity() {
     var beautyClicked: Boolean = false
     var artClicked: Boolean = false
     var diyClicked: Boolean = false
-    var sangdamClicked: Boolean = false
+    var sangDamClicked: Boolean = false
     var rideClicked: Boolean = false
 
 
@@ -92,9 +92,32 @@ class HomeActivity : AppCompatActivity() {
         val chatListFragment = ChatListFragment()
         val myPageFragment = MyPageFragment()
 
-
-
         replaceFragment(membersFragment)
+
+
+        drawerToggle =
+            object : ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close) {
+                override fun onDrawerClosed(drawerView: View) {     // Drawer closed
+                    super.onDrawerClosed(drawerView)
+                    finish()
+                    overridePendingTransition(0, 0)
+                    startActivity(Intent(this@HomeActivity, HomeActivity::class.java))
+                    overridePendingTransition(0, 0)
+                }
+                override fun onDrawerOpened(drawerView: View) {     //Drawer opened
+                    super.onDrawerOpened(drawerView)
+                }
+            }
+
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+        drawerLayout.setDrawerListener(drawerToggle)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -126,20 +149,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-        // drawerlayout
-        drawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(drawerToggle)
-        drawerToggle.syncState()
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-
 
 
         initUserInformation()
-
-        getHobbyList()
         initChangeHobby()
         initSaveButton()
     }
@@ -161,25 +173,24 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initChangeHobby() {
-
-        var headerview = nav_view.getHeaderView(0)
-        var sportsImageView: ImageView = headerview.findViewById(R.id.sportsImageView)!!
-        var fashionImageView: ImageView = headerview.findViewById(R.id.fashionImageView)!!
-        var fundImageView: ImageView = headerview.findViewById(R.id.fundImageView)!!
-        var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-        var gameImageView: ImageView = headerview.findViewById(R.id.gameImageView)!!
-        var studyImageView: ImageView = headerview.findViewById(R.id.studyImageView)!!
-        var readImageView: ImageView = headerview.findViewById(R.id.readImageView)!!
-        var travelImageView: ImageView = headerview.findViewById(R.id.travelImageView)!!
-        var entertainmentImageView: ImageView =
-            headerview.findViewById(R.id.entertainmentImageView)!!
-        var companionImageView: ImageView = headerview.findViewById(R.id.companionImageView)!!
-        var foodImageView: ImageView = headerview.findViewById(R.id.foodImageView)!!
-        var beautyImageView: ImageView = headerview.findViewById(R.id.beautyImageView)!!
-        var artImageView: ImageView = headerview.findViewById(R.id.artImageView)!!
-        var diyImageView: ImageView = headerview.findViewById(R.id.diyImageView)!!
-        var sangdamImageView: ImageView = headerview.findViewById(R.id.sangdamImageView)!!
-        var rideImageView: ImageView = headerview.findViewById(R.id.rideImageView)!!
+        val headerView = nav_view.getHeaderView(0)
+        val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+        val fashionImageView: ImageView = headerView.findViewById(R.id.fashionImageView)!!
+        val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+        val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+        val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+        val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+        val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+        val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+        val entertainmentImageView: ImageView =
+            headerView.findViewById(R.id.entertainmentImageView)!!
+        val companionImageView: ImageView = headerView.findViewById(R.id.companionImageView)!!
+        val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+        val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+        val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+        val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+        val sangDamImageView: ImageView = headerView.findViewById(R.id.sangdamImageView)!!
+        val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
         sportsImageView.setOnClickListener {
             if (!sportsClicked) {    // 선택된 상태면
@@ -347,7 +358,7 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         beautyImageView.setOnClickListener {
-            if (!beautyClicked) {    // 선택된 상태면
+            if (!beautyClicked) {    // 선택안된 상태면
                 if (selected < 5) {
                     beautyImageView.setImageResource(R.drawable.select)
                     selected++
@@ -391,19 +402,19 @@ class HomeActivity : AppCompatActivity() {
                 diyClicked = false
             }
         }
-        sangdamImageView.setOnClickListener {
-            if (!sangdamClicked) {    // 선택된 상태면
+        sangDamImageView.setOnClickListener {
+            if (!sangDamClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    sangdamImageView.setImageResource(R.drawable.select)
+                    sangDamImageView.setImageResource(R.drawable.select)
                     selected++
-                    sangdamClicked = true
+                    sangDamClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                sangdamImageView.setImageResource(R.drawable.sangdam)
+                sangDamImageView.setImageResource(R.drawable.sangdam)
                 selected--
-                sangdamClicked = false
+                sangDamClicked = false
             }
         }
         rideImageView.setOnClickListener {
@@ -421,15 +432,13 @@ class HomeActivity : AppCompatActivity() {
                 rideClicked = false
             }
         }
-
     }
 
     private fun initSaveButton() {
-        var headerview = nav_view.getHeaderView(0)
-        var saveButton = headerview.findViewById<Button>(R.id.saveButton)
+        val headerView = nav_view.getHeaderView(0)
+        val saveButton = headerView.findViewById<Button>(R.id.saveButton)
 
         saveButton.setOnClickListener {
-            Toast.makeText(this, "$selected", Toast.LENGTH_SHORT).show()
             hobby1 = ""
             hobby2 = ""
             hobby3 = ""
@@ -563,7 +572,7 @@ class HomeActivity : AppCompatActivity() {
                         hobby5 == "" -> hobby5 = DIY
                     }
                 }
-                if (sangdamClicked) {
+                if (sangDamClicked) {
                     when {
                         hobby1 == "" -> hobby1 = COUNSELING
                         hobby2 == "" -> hobby2 = COUNSELING
@@ -587,55 +596,39 @@ class HomeActivity : AppCompatActivity() {
                 userDB.child(auth.currentUser!!.uid).child("hobby3").setValue(hobby3)
                 userDB.child(auth.currentUser!!.uid).child("hobby4").setValue(hobby4)
                 userDB.child(auth.currentUser!!.uid).child("hobby5").setValue(hobby5)
-
-                // todo 리사이클러뷰 클리어
-                finish()
-                overridePendingTransition(0, 0)
-                startActivity(Intent(this, HomeActivity::class.java))
-                overridePendingTransition(0, 0)
-
-            } else Toast.makeText(this, "취미를 한 개 이상 선택해주세요", Toast.LENGTH_SHORT).show()
-
+            } else {
+                Toast.makeText(this, "취미를 한 개 이상 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
+            drawerLayout.closeDrawers()
         }
     }
 
     private fun getHobbyList() {
-
+        selected = 0
         userDB.child(auth.currentUser!!.uid).child(DBKey.DB_HOBBY1)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var headerview = nav_view.getHeaderView(0)
-                    var sportsImageView: ImageView =
-                        headerview.findViewById(R.id.sportsImageView)!!
-                    var fashionImageView: ImageView =
-                        headerview.findViewById(R.id.fashionImageView)!!
-                    var fundImageView: ImageView =
-                        headerview.findViewById(R.id.fundImageView)!!
-                    var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-                    var gameImageView: ImageView =
-                        headerview.findViewById(R.id.gameImageView)!!
-                    var studyImageView: ImageView =
-                        headerview.findViewById(R.id.studyImageView)!!
-                    var readImageView: ImageView =
-                        headerview.findViewById(R.id.readImageView)!!
-                    var travelImageView: ImageView =
-                        headerview.findViewById(R.id.travelImageView)!!
-                    var entertainmentImageView: ImageView =
-                        headerview.findViewById(R.id.entertainmentImageView)!!
-                    var companionImageView: ImageView =
-                        headerview.findViewById(R.id.companionImageView)!!
-                    var foodImageView: ImageView =
-                        headerview.findViewById(R.id.foodImageView)!!
-                    var beautyImageView: ImageView =
-                        headerview.findViewById(R.id.beautyImageView)!!
-                    var artImageView: ImageView =
-                        headerview.findViewById(R.id.artImageView)!!
-                    var diyImageView: ImageView =
-                        headerview.findViewById(R.id.diyImageView)!!
-                    var sangdamImageView: ImageView =
-                        headerview.findViewById(R.id.sangdamImageView)!!
-                    var rideImageView: ImageView =
-                        headerview.findViewById(R.id.rideImageView)!!
+                    val headerView = nav_view.getHeaderView(0)
+                    val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+                    val fashionImageView: ImageView =
+                        headerView.findViewById(R.id.fashionImageView)!!
+                    val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+                    val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+                    val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+                    val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+                    val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+                    val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+                    val entertainmentImageView: ImageView =
+                        headerView.findViewById(R.id.entertainmentImageView)!!
+                    val companionImageView: ImageView =
+                        headerView.findViewById(R.id.companionImageView)!!
+                    val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+                    val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+                    val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+                    val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+                    val sangDamImageView: ImageView =
+                        headerView.findViewById(R.id.sangdamImageView)!!
+                    val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
@@ -709,9 +702,9 @@ class HomeActivity : AppCompatActivity() {
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangdamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.select)
                             selected++
-                            sangdamClicked = true
+                            sangDamClicked = true
                         }
                         RIDE -> {
                             rideImageView.setImageResource(R.drawable.select)
@@ -727,38 +720,27 @@ class HomeActivity : AppCompatActivity() {
         userDB.child(auth.currentUser!!.uid).child(DBKey.DB_HOBBY2)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var headerview = nav_view.getHeaderView(0)
-                    var sportsImageView: ImageView =
-                        headerview.findViewById(R.id.sportsImageView)!!
-                    var fashionImageView: ImageView =
-                        headerview.findViewById(R.id.fashionImageView)!!
-                    var fundImageView: ImageView =
-                        headerview.findViewById(R.id.fundImageView)!!
-                    var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-                    var gameImageView: ImageView =
-                        headerview.findViewById(R.id.gameImageView)!!
-                    var studyImageView: ImageView =
-                        headerview.findViewById(R.id.studyImageView)!!
-                    var readImageView: ImageView =
-                        headerview.findViewById(R.id.readImageView)!!
-                    var travelImageView: ImageView =
-                        headerview.findViewById(R.id.travelImageView)!!
-                    var entertainmentImageView: ImageView =
-                        headerview.findViewById(R.id.entertainmentImageView)!!
-                    var companionImageView: ImageView =
-                        headerview.findViewById(R.id.companionImageView)!!
-                    var foodImageView: ImageView =
-                        headerview.findViewById(R.id.foodImageView)!!
-                    var beautyImageView: ImageView =
-                        headerview.findViewById(R.id.beautyImageView)!!
-                    var artImageView: ImageView =
-                        headerview.findViewById(R.id.artImageView)!!
-                    var diyImageView: ImageView =
-                        headerview.findViewById(R.id.diyImageView)!!
-                    var sangdamImageView: ImageView =
-                        headerview.findViewById(R.id.sangdamImageView)!!
-                    var rideImageView: ImageView =
-                        headerview.findViewById(R.id.rideImageView)!!
+                    val headerView = nav_view.getHeaderView(0)
+                    val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+                    val fashionImageView: ImageView =
+                        headerView.findViewById(R.id.fashionImageView)!!
+                    val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+                    val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+                    val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+                    val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+                    val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+                    val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+                    val entertainmentImageView: ImageView =
+                        headerView.findViewById(R.id.entertainmentImageView)!!
+                    val companionImageView: ImageView =
+                        headerView.findViewById(R.id.companionImageView)!!
+                    val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+                    val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+                    val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+                    val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+                    val sangDamImageView: ImageView =
+                        headerView.findViewById(R.id.sangdamImageView)!!
+                    val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
@@ -832,9 +814,9 @@ class HomeActivity : AppCompatActivity() {
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangdamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.select)
                             selected++
-                            sangdamClicked = true
+                            sangDamClicked = true
                         }
                         RIDE -> {
                             rideImageView.setImageResource(R.drawable.select)
@@ -850,38 +832,27 @@ class HomeActivity : AppCompatActivity() {
         userDB.child(auth.currentUser!!.uid).child(DBKey.DB_HOBBY3)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var headerview = nav_view.getHeaderView(0)
-                    var sportsImageView: ImageView =
-                        headerview.findViewById(R.id.sportsImageView)!!
-                    var fashionImageView: ImageView =
-                        headerview.findViewById(R.id.fashionImageView)!!
-                    var fundImageView: ImageView =
-                        headerview.findViewById(R.id.fundImageView)!!
-                    var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-                    var gameImageView: ImageView =
-                        headerview.findViewById(R.id.gameImageView)!!
-                    var studyImageView: ImageView =
-                        headerview.findViewById(R.id.studyImageView)!!
-                    var readImageView: ImageView =
-                        headerview.findViewById(R.id.readImageView)!!
-                    var travelImageView: ImageView =
-                        headerview.findViewById(R.id.travelImageView)!!
-                    var entertainmentImageView: ImageView =
-                        headerview.findViewById(R.id.entertainmentImageView)!!
-                    var companionImageView: ImageView =
-                        headerview.findViewById(R.id.companionImageView)!!
-                    var foodImageView: ImageView =
-                        headerview.findViewById(R.id.foodImageView)!!
-                    var beautyImageView: ImageView =
-                        headerview.findViewById(R.id.beautyImageView)!!
-                    var artImageView: ImageView =
-                        headerview.findViewById(R.id.artImageView)!!
-                    var diyImageView: ImageView =
-                        headerview.findViewById(R.id.diyImageView)!!
-                    var sangdamImageView: ImageView =
-                        headerview.findViewById(R.id.sangdamImageView)!!
-                    var rideImageView: ImageView =
-                        headerview.findViewById(R.id.rideImageView)!!
+                    val headerView = nav_view.getHeaderView(0)
+                    val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+                    val fashionImageView: ImageView =
+                        headerView.findViewById(R.id.fashionImageView)!!
+                    val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+                    val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+                    val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+                    val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+                    val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+                    val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+                    val entertainmentImageView: ImageView =
+                        headerView.findViewById(R.id.entertainmentImageView)!!
+                    val companionImageView: ImageView =
+                        headerView.findViewById(R.id.companionImageView)!!
+                    val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+                    val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+                    val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+                    val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+                    val sangDamImageView: ImageView =
+                        headerView.findViewById(R.id.sangdamImageView)!!
+                    val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
@@ -955,9 +926,9 @@ class HomeActivity : AppCompatActivity() {
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangdamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.select)
                             selected++
-                            sangdamClicked = true
+                            sangDamClicked = true
                         }
                         RIDE -> {
                             rideImageView.setImageResource(R.drawable.select)
@@ -973,38 +944,27 @@ class HomeActivity : AppCompatActivity() {
         userDB.child(auth.currentUser!!.uid).child(DBKey.DB_HOBBY4)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var headerview = nav_view.getHeaderView(0)
-                    var sportsImageView: ImageView =
-                        headerview.findViewById(R.id.sportsImageView)!!
-                    var fashionImageView: ImageView =
-                        headerview.findViewById(R.id.fashionImageView)!!
-                    var fundImageView: ImageView =
-                        headerview.findViewById(R.id.fundImageView)!!
-                    var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-                    var gameImageView: ImageView =
-                        headerview.findViewById(R.id.gameImageView)!!
-                    var studyImageView: ImageView =
-                        headerview.findViewById(R.id.studyImageView)!!
-                    var readImageView: ImageView =
-                        headerview.findViewById(R.id.readImageView)!!
-                    var travelImageView: ImageView =
-                        headerview.findViewById(R.id.travelImageView)!!
-                    var entertainmentImageView: ImageView =
-                        headerview.findViewById(R.id.entertainmentImageView)!!
-                    var companionImageView: ImageView =
-                        headerview.findViewById(R.id.companionImageView)!!
-                    var foodImageView: ImageView =
-                        headerview.findViewById(R.id.foodImageView)!!
-                    var beautyImageView: ImageView =
-                        headerview.findViewById(R.id.beautyImageView)!!
-                    var artImageView: ImageView =
-                        headerview.findViewById(R.id.artImageView)!!
-                    var diyImageView: ImageView =
-                        headerview.findViewById(R.id.diyImageView)!!
-                    var sangdamImageView: ImageView =
-                        headerview.findViewById(R.id.sangdamImageView)!!
-                    var rideImageView: ImageView =
-                        headerview.findViewById(R.id.rideImageView)!!
+                    val headerView = nav_view.getHeaderView(0)
+                    val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+                    val fashionImageView: ImageView =
+                        headerView.findViewById(R.id.fashionImageView)!!
+                    val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+                    val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+                    val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+                    val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+                    val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+                    val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+                    val entertainmentImageView: ImageView =
+                        headerView.findViewById(R.id.entertainmentImageView)!!
+                    val companionImageView: ImageView =
+                        headerView.findViewById(R.id.companionImageView)!!
+                    val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+                    val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+                    val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+                    val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+                    val sangDamImageView: ImageView =
+                        headerView.findViewById(R.id.sangdamImageView)!!
+                    val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
@@ -1078,9 +1038,9 @@ class HomeActivity : AppCompatActivity() {
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangdamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.select)
                             selected++
-                            sangdamClicked = true
+                            sangDamClicked = true
                         }
                         RIDE -> {
                             rideImageView.setImageResource(R.drawable.select)
@@ -1096,38 +1056,23 @@ class HomeActivity : AppCompatActivity() {
         userDB.child(auth.currentUser!!.uid).child(DBKey.DB_HOBBY5)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var headerview = nav_view.getHeaderView(0)
-                    var sportsImageView: ImageView =
-                        headerview.findViewById(R.id.sportsImageView)!!
-                    var fashionImageView: ImageView =
-                        headerview.findViewById(R.id.fashionImageView)!!
-                    var fundImageView: ImageView =
-                        headerview.findViewById(R.id.fundImageView)!!
-                    var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-                    var gameImageView: ImageView =
-                        headerview.findViewById(R.id.gameImageView)!!
-                    var studyImageView: ImageView =
-                        headerview.findViewById(R.id.studyImageView)!!
-                    var readImageView: ImageView =
-                        headerview.findViewById(R.id.readImageView)!!
-                    var travelImageView: ImageView =
-                        headerview.findViewById(R.id.travelImageView)!!
-                    var entertainmentImageView: ImageView =
-                        headerview.findViewById(R.id.entertainmentImageView)!!
-                    var companionImageView: ImageView =
-                        headerview.findViewById(R.id.companionImageView)!!
-                    var foodImageView: ImageView =
-                        headerview.findViewById(R.id.foodImageView)!!
-                    var beautyImageView: ImageView =
-                        headerview.findViewById(R.id.beautyImageView)!!
-                    var artImageView: ImageView =
-                        headerview.findViewById(R.id.artImageView)!!
-                    var diyImageView: ImageView =
-                        headerview.findViewById(R.id.diyImageView)!!
-                    var sangdamImageView: ImageView =
-                        headerview.findViewById(R.id.sangdamImageView)!!
-                    var rideImageView: ImageView =
-                        headerview.findViewById(R.id.rideImageView)!!
+                    val headerView = nav_view.getHeaderView(0)
+                    val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+                    val fashionImageView: ImageView = headerView.findViewById(R.id.fashionImageView)!!
+                    val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+                    val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+                    val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+                    val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+                    val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+                    val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+                    val entertainmentImageView: ImageView = headerView.findViewById(R.id.entertainmentImageView)!!
+                    val companionImageView: ImageView = headerView.findViewById(R.id.companionImageView)!!
+                    val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+                    val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+                    val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+                    val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+                    val sangDamImageView: ImageView = headerView.findViewById(R.id.sangdamImageView)!!
+                    val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
@@ -1201,9 +1146,9 @@ class HomeActivity : AppCompatActivity() {
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangdamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.select)
                             selected++
-                            sangdamClicked = true
+                            sangDamClicked = true
                         }
                         RIDE -> {
                             rideImageView.setImageResource(R.drawable.select)
@@ -1240,35 +1185,12 @@ class HomeActivity : AppCompatActivity() {
             getHobbyList()
             return true
         }
-        when (item.itemId) {
-            // R.id.action_settings -> Toast.makeText(this, "세팅 클릭쓰", Toast.LENGTH_SHORT).show()
-            /*R.id.action_favorite -> {
-                if (online) {
-                    item.setIcon(R.drawable.toggle_on)
-                    Toast.makeText(this, "토글 온", Toast.LENGTH_SHORT).show()
-                    supportActionBar!!.title = "모임 찾기 | 온라인"
-                    //    actionBar!!.title = "모임 찾기 | 온라인"
-                    online = false
-                } else {
-                    item.setIcon(R.drawable.toggle_off)
-                    supportActionBar!!.title = "모임 찾기 | 오프라인"
-                    //actionBar!!.title ="모임 찾기 | 오프라인"
-                    Toast.makeText(this, "토글 오프", Toast.LENGTH_SHORT).show()
-                    online = true
-                }
-
-            }*/
-        }
-
         return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu, menu)
-
-        //  menu!!.findItem(R.id.action_favorite).isVisible = false
         return super.onCreateOptionsMenu(menu)
-
     }
 
     private fun resetHobby() {
@@ -1288,30 +1210,26 @@ class HomeActivity : AppCompatActivity() {
         beautyClicked = false
         artClicked = false
         diyClicked = false
-        sangdamClicked = false
+        sangDamClicked = false
         rideClicked = false
 
-        var headerview = nav_view.getHeaderView(0)
-        var sportsImageView: ImageView = headerview.findViewById(R.id.sportsImageView)!!
-        var fashionImageView: ImageView =
-            headerview.findViewById(R.id.fashionImageView)!!
-        var fundImageView: ImageView = headerview.findViewById(R.id.fundImageView)!!
-        var itImageView: ImageView = headerview.findViewById(R.id.itImageView)!!
-        var gameImageView: ImageView = headerview.findViewById(R.id.gameImageView)!!
-        var studyImageView: ImageView = headerview.findViewById(R.id.studyImageView)!!
-        var readImageView: ImageView = headerview.findViewById(R.id.readImageView)!!
-        var travelImageView: ImageView = headerview.findViewById(R.id.travelImageView)!!
-        var entertainmentImageView: ImageView =
-            headerview.findViewById(R.id.entertainmentImageView)!!
-        var companionImageView: ImageView =
-            headerview.findViewById(R.id.companionImageView)!!
-        var foodImageView: ImageView = headerview.findViewById(R.id.foodImageView)!!
-        var beautyImageView: ImageView = headerview.findViewById(R.id.beautyImageView)!!
-        var artImageView: ImageView = headerview.findViewById(R.id.artImageView)!!
-        var diyImageView: ImageView = headerview.findViewById(R.id.diyImageView)!!
-        var sangdamImageView: ImageView =
-            headerview.findViewById(R.id.sangdamImageView)!!
-        var rideImageView: ImageView = headerview.findViewById(R.id.rideImageView)!!
+        val headerView = nav_view.getHeaderView(0)
+        val sportsImageView: ImageView = headerView.findViewById(R.id.sportsImageView)!!
+        val fashionImageView: ImageView = headerView.findViewById(R.id.fashionImageView)!!
+        val fundImageView: ImageView = headerView.findViewById(R.id.fundImageView)!!
+        val itImageView: ImageView = headerView.findViewById(R.id.itImageView)!!
+        val gameImageView: ImageView = headerView.findViewById(R.id.gameImageView)!!
+        val studyImageView: ImageView = headerView.findViewById(R.id.studyImageView)!!
+        val readImageView: ImageView = headerView.findViewById(R.id.readImageView)!!
+        val travelImageView: ImageView = headerView.findViewById(R.id.travelImageView)!!
+        val entertainmentImageView: ImageView = headerView.findViewById(R.id.entertainmentImageView)!!
+        val companionImageView: ImageView = headerView.findViewById(R.id.companionImageView)!!
+        val foodImageView: ImageView = headerView.findViewById(R.id.foodImageView)!!
+        val beautyImageView: ImageView = headerView.findViewById(R.id.beautyImageView)!!
+        val artImageView: ImageView = headerView.findViewById(R.id.artImageView)!!
+        val diyImageView: ImageView = headerView.findViewById(R.id.diyImageView)!!
+        val sangDamImageView: ImageView = headerView.findViewById(R.id.sangdamImageView)!!
+        val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
         sportsImageView.setImageResource(R.drawable.sports)
         fashionImageView.setImageResource(R.drawable.fashion)
@@ -1327,8 +1245,7 @@ class HomeActivity : AppCompatActivity() {
         beautyImageView.setImageResource(R.drawable.beauty)
         artImageView.setImageResource(R.drawable.art)
         diyImageView.setImageResource(R.drawable.diy)
-        sangdamImageView.setImageResource(R.drawable.sangdam)
+        sangDamImageView.setImageResource(R.drawable.sangdam)
         rideImageView.setImageResource(R.drawable.ride)
     }
-
 }
