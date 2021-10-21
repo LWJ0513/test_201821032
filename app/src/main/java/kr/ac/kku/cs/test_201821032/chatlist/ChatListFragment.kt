@@ -1,5 +1,6 @@
 package kr.ac.kku.cs.test_201821032.chatlist
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
@@ -34,6 +35,7 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
         Firebase.auth
     }
 
+    @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

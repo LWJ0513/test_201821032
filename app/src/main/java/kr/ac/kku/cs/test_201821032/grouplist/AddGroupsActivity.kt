@@ -62,7 +62,7 @@ class AddGroupsActivity : AppCompatActivity() {
                 "독서" -> hobbyDB = Hobbylist.READING
                 "여행" -> hobbyDB = Hobbylist.TRAVEL
                 "엔터테인먼트" -> hobbyDB = Hobbylist.ENTERTAINMENT
-                "애완" -> hobbyDB = Hobbylist.PET
+                "반려" -> hobbyDB = Hobbylist.PET
                 "사교" -> hobbyDB = Hobbylist.FOOD
                 "미용" -> hobbyDB = Hobbylist.BEAUTY
                 "예술" -> hobbyDB = Hobbylist.ART
