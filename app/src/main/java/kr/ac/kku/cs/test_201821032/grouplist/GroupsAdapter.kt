@@ -31,6 +31,8 @@ class GroupsAdapter (val onItemClicked: (GroupsModel) -> Unit) :
             binding.locationTextView.text = groupModel.locationName
             if (binding.locationTextView.text != "") {
                 binding.locationImageView.visibility = View.VISIBLE
+            } else {
+                binding.locationImageView.visibility = View.GONE
             }
 
             if (groupModel.imageUrl.isNotEmpty()) {

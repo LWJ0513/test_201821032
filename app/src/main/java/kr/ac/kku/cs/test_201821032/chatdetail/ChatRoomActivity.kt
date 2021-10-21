@@ -1,14 +1,19 @@
 package kr.ac.kku.cs.test_201821032.chatdetail
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.method.Touch.scrollTo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_add_group_second.*
 import kotlinx.android.synthetic.main.activity_chat_room.*
+import kotlinx.android.synthetic.main.activity_chat_room.view.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_CHATS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
@@ -21,7 +26,7 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     private val chatList = mutableListOf<ChatItem>()
-    private val adapter = ChatItemAdapter()
+    private val adapter = ChatItemAdapter(auth.currentUser!!.uid)
     private lateinit var chatDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var binding: ActivityChatRoomBinding
@@ -44,6 +49,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 chatList.add(chatItem)
                 adapter.submitList(chatList)
                 adapter.notifyDataSetChanged()
+                chatRecyclerView.scrollToPosition(chatList.size-1)
 
             }
 
@@ -59,6 +65,20 @@ class ChatRoomActivity : AppCompatActivity() {
         chatRecyclerView.adapter = adapter
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
 
+
+        initBackButton()
+        initSendButton()
+
+    }
+
+
+    private fun initBackButton() {
+        chatRoomBackButton.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun initSendButton() {
         sendButton.setOnClickListener {
             var userName: String
             var chatItem: ChatItem
@@ -68,10 +88,10 @@ class ChatRoomActivity : AppCompatActivity() {
 
                         userName = dataSnapshot.getValue(String::class.java)!!
 
-
                         chatItem = ChatItem(
                             senderName = userName,
-                            message = messageEditText.text.toString()
+                            message = messageEditText.text.toString(),
+                            senderUid = auth.currentUser!!.uid
                         )
                         chatDB.push().setValue(chatItem)
                         messageEditText.setText("")

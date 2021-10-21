@@ -11,6 +11,9 @@
 
     <color name="gray_cc">#cccccc</color>
     <color name="main_color">#0055FF</color>
+    <color name="chat_receive">#DFDFDF</color>
+    <color name="chat_send">#0D7AFF</color>
+    <color name="facebook">#1877F2</color>
 
     <color name="test_color1">#E795EA</color>
     <color name="test_color2">#FFF59C</color>
