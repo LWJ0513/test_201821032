@@ -3,21 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_toggle"
-        android:icon="@drawable/toggle_on"
+        android:icon="@drawable/ic_toggle_on"
         android:title="온오프"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="검색"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_edit_hobby"
-        android:title="취미 수정"
         android:icon="@drawable/ic_baseline_edit_24"
+        android:title="취미 수정"
         app:showAsAction="ifRoom" />
 
-    
 
     <!-- Settings, should always be in the overflow -->
-<!--    <item
-        android:id="@+id/action_settings"
-        android:title="setting"
-        app:showAsAction="never" />-->
+    <!--    <item
+            android:id="@+id/action_settings"
+            android:title="setting"
+            app:showAsAction="never" />-->
 
 </menu>

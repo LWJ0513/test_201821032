@@ -83,14 +83,14 @@ class HobbyActivity : AppCompatActivity() {
         sportsImageView.setOnClickListener {
             if (!sportsClicked) {
                 if (selected < 5) {
-                    sportsImageView.setImageResource(R.drawable.select)
+                    sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                     sportsClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                sportsImageView.setImageResource(R.drawable.sports)
+                sportsImageView.setImageResource(R.drawable.img_hobby_sports)
                 sportsClicked = false
                 selected--
             }
@@ -99,14 +99,14 @@ class HobbyActivity : AppCompatActivity() {
         fashionImageView.setOnClickListener {
             if (!fashionClicked) {
                 if (selected < 5) {
-                    fashionImageView.setImageResource(R.drawable.select)
+                    fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                     fashionClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                fashionImageView.setImageResource(R.drawable.fashion)
+                fashionImageView.setImageResource(R.drawable.img_hobby_fashion)
                 fashionClicked = false
                 selected--
             }
@@ -114,14 +114,14 @@ class HobbyActivity : AppCompatActivity() {
         fundImageView.setOnClickListener {
             if (!fundClicked) {
                 if (selected < 5) {
-                    fundImageView.setImageResource(R.drawable.select)
+                    fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                     fundClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                fundImageView.setImageResource(R.drawable.fund)
+                fundImageView.setImageResource(R.drawable.img_hobby_fund)
                 fundClicked = false
                 selected--
             }
@@ -130,14 +130,14 @@ class HobbyActivity : AppCompatActivity() {
         itImageView.setOnClickListener {
             if (!itClicked) {
                 if (selected < 5) {
-                    itImageView.setImageResource(R.drawable.select)
+                    itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                     itClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                itImageView.setImageResource(R.drawable.it)
+                itImageView.setImageResource(R.drawable.img_hobby_it)
                 itClicked = false
                 selected--
             }
@@ -145,14 +145,14 @@ class HobbyActivity : AppCompatActivity() {
         gameImageView.setOnClickListener {
             if (!gameClicked) {
                 if (selected < 5) {
-                    gameImageView.setImageResource(R.drawable.select)
+                    gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                     gameClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                gameImageView.setImageResource(R.drawable.game)
+                gameImageView.setImageResource(R.drawable.img_hobby_game)
                 gameClicked = false
                 selected--
             }
@@ -160,14 +160,14 @@ class HobbyActivity : AppCompatActivity() {
         studyImageView.setOnClickListener {
             if (!studyClicked) {
                 if (selected < 5) {
-                    studyImageView.setImageResource(R.drawable.select)
+                    studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                     studyClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                studyImageView.setImageResource(R.drawable.study)
+                studyImageView.setImageResource(R.drawable.img_hobby_study)
                 studyClicked = false
                 selected--
             }
@@ -176,14 +176,14 @@ class HobbyActivity : AppCompatActivity() {
         readImageView.setOnClickListener {
             if (!readClicked) {
                 if (selected < 5) {
-                    readImageView.setImageResource(R.drawable.select)
+                    readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                     readClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                readImageView.setImageResource(R.drawable.read)
+                readImageView.setImageResource(R.drawable.img_hobby_read)
                 readClicked = false
                 selected--
             }
@@ -191,14 +191,14 @@ class HobbyActivity : AppCompatActivity() {
         travelImageView.setOnClickListener {
             if (!travelClicked) {
                 if (selected < 5) {
-                    travelImageView.setImageResource(R.drawable.select)
+                    travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                     travelClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                travelImageView.setImageResource(R.drawable.travel)
+                travelImageView.setImageResource(R.drawable.img_hobby_travel)
                 travelClicked = false
                 selected--
             }
@@ -206,14 +206,14 @@ class HobbyActivity : AppCompatActivity() {
         entertainmentImageView.setOnClickListener {
             if (!entertainmentClicked) {
                 if (selected < 5) {
-                    entertainmentImageView.setImageResource(R.drawable.select)
+                    entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                     entertainmentClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                entertainmentImageView.setImageResource(R.drawable.enter)
+                entertainmentImageView.setImageResource(R.drawable.img_hobby_enter)
                 entertainmentClicked = false
                 selected--
             }
@@ -222,14 +222,14 @@ class HobbyActivity : AppCompatActivity() {
         companionImageView.setOnClickListener {
             if (!companionClicked) {
                 if (selected < 5) {
-                    companionImageView.setImageResource(R.drawable.select)
+                    companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                     companionClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                companionImageView.setImageResource(R.drawable.companion)
+                companionImageView.setImageResource(R.drawable.img_hobby_companion)
                 companionClicked = false
                 selected--
             }
@@ -237,14 +237,14 @@ class HobbyActivity : AppCompatActivity() {
         foodImageView.setOnClickListener {
             if (!foodClicked) {
                 if (selected < 5) {
-                    foodImageView.setImageResource(R.drawable.select)
+                    foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                     foodClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                foodImageView.setImageResource(R.drawable.food)
+                foodImageView.setImageResource(R.drawable.img_hobby_food)
                 foodClicked = false
                 selected--
             }
@@ -252,14 +252,14 @@ class HobbyActivity : AppCompatActivity() {
         beautyImageView.setOnClickListener {
             if (!beautyClicked) {
                 if (selected < 5) {
-                    beautyImageView.setImageResource(R.drawable.select)
+                    beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                     beautyClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                beautyImageView.setImageResource(R.drawable.beauty)
+                beautyImageView.setImageResource(R.drawable.img_hobby_beauty)
                 beautyClicked = false
                 selected--
             }
@@ -268,14 +268,14 @@ class HobbyActivity : AppCompatActivity() {
         artImageView.setOnClickListener {
             if (!artClicked) {
                 if (selected < 5) {
-                    artImageView.setImageResource(R.drawable.select)
+                    artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                     artClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                artImageView.setImageResource(R.drawable.art)
+                artImageView.setImageResource(R.drawable.img_hobby_art)
                 artClicked = false
                 selected--
             }
@@ -283,14 +283,14 @@ class HobbyActivity : AppCompatActivity() {
         diyImageView.setOnClickListener {
             if (!diyClicked) {
                 if (selected < 5) {
-                    diyImageView.setImageResource(R.drawable.select)
+                    diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                     diyClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                diyImageView.setImageResource(R.drawable.diy)
+                diyImageView.setImageResource(R.drawable.img_hobby_diy)
                 diyClicked = false
                 selected--
             }
@@ -298,14 +298,14 @@ class HobbyActivity : AppCompatActivity() {
         sangdamImageView.setOnClickListener {
             if (!sangdamClicked) {
                 if (selected < 5) {
-                    sangdamImageView.setImageResource(R.drawable.select)
+                    sangdamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                     sangdamClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                sangdamImageView.setImageResource(R.drawable.sangdam)
+                sangdamImageView.setImageResource(R.drawable.img_hobby_sangdam)
                 sangdamClicked = false
                 selected--
             }
@@ -314,14 +314,14 @@ class HobbyActivity : AppCompatActivity() {
         rideImageView.setOnClickListener {
             if (!rideClicked) {
                 if (selected < 5) {
-                    rideImageView.setImageResource(R.drawable.select)
+                    rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                     rideClicked = true
                     selected++
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                rideImageView.setImageResource(R.drawable.companion)
+                rideImageView.setImageResource(R.drawable.img_hobby_companion)
                 rideClicked = false
                 selected--
             }

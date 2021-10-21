@@ -1,5 +1,6 @@
 package kr.ac.kku.cs.test_201821032.chatlist
 
+import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -44,19 +45,17 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
         }
 
         setHasOptionsMenu(true)
-        //(activity as HomeActivity?)!!.supportActionBar!!.hide()
         val actionBar = (activity as HomeActivity?)!!.supportActionBar
-        actionBar!!.title = "채팅방 목록"
-        actionBar!!.show()
-
+        actionBar!!.setDisplayShowTitleEnabled(false)
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+        actionBar.setCustomView(R.layout.title_chatlist)
 
 
 
         val fragmentChatlistBinding = FragmentChatlistBinding.bind(view)
         binding = fragmentChatlistBinding
 
-        chatListAdapter = ChatListAdapter(onItemClicked = { chatRoom ->
-            // 채팅방으로 이동하는 코드
+        chatListAdapter = ChatListAdapter(onItemClicked = { chatRoom ->     // 채팅방으로 이동
             context?.let {
                 val intent = Intent(it, ChatRoomActivity::class.java)
                 intent.putExtra("chatKey", chatRoom.key)
@@ -66,13 +65,9 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
 
         chatRoomList.clear()
 
-//        fragmentChatlistBinding.chatListRecyclerView.adapter = chatListAdapter
-//        fragmentChatlistBinding.chatListRecyclerView.layoutManager = LinearLayoutManager(context)
-
-        view_pager_2.isSaveEnabled=false
 
         val adapter = ViewPagerAdapter(getChildFragmentManager(), lifecycle)
-
+        view_pager_2.isSaveEnabled=false
         view_pager_2.adapter = adapter
         TabLayoutMediator(tab_layout, view_pager_2) { tab, position ->
             when (position) {
@@ -86,15 +81,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
         }.attach()
 
 
-
-
-
-
-
-
-        if (auth.currentUser == null) {
-            return
-        }
 
         val chatDB = Firebase.database.reference.child(DB_USERS).child(auth.currentUser!!.uid)
             .child(CHILD_CHAT)
@@ -126,7 +112,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         menu.findItem(R.id.action_toggle).isVisible = false
-//        menu.findItem(R.id.nav_view).isVisible = false
+        menu.findItem(R.id.action_search).isVisible = false
+        menu.findItem(R.id.action_edit_hobby).isVisible = false
 
         super.onCreateOptionsMenu(menu, inflater)
     }

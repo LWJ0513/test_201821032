@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.UnderlineSpan
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,6 +21,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY3
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY4
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY5
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.UserModel
 import kr.ac.kku.cs.test_201821032.databinding.ActivitySignUpBinding
@@ -50,6 +57,7 @@ class SignUpActivity : AppCompatActivity() {
         hobby3 = intent.getStringExtra("hobby3").toString()
         hobby4 = intent.getStringExtra("hobby4").toString()
         hobby5 = intent.getStringExtra("hobby5").toString()
+
 
 
         initUserProfileImageView()
@@ -92,11 +100,11 @@ class SignUpActivity : AppCompatActivity() {
                     successHandler = { uri ->     // 비동기
                         val model = UserModel(userNameEditText.text.toString(), userId, auth.currentUser!!.email.toString(),uri)
                         userDB.child(userId).setValue(model)
-                        userDB.child(auth.currentUser!!.uid).child("hobby1").setValue(hobby1)
-                        userDB.child(auth.currentUser!!.uid).child("hobby2").setValue(hobby2)
-                        userDB.child(auth.currentUser!!.uid).child("hobby3").setValue(hobby3)
-                        userDB.child(auth.currentUser!!.uid).child("hobby4").setValue(hobby4)
-                        userDB.child(auth.currentUser!!.uid).child("hobby5").setValue(hobby5)
+                        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).setValue(hobby1)
+                        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY2).setValue(hobby2)
+                        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY3).setValue(hobby3)
+                        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY4).setValue(hobby4)
+                        userDB.child(auth.currentUser!!.uid).child(DB_HOBBY5).setValue(hobby5)
 
                         hideProgress()
 

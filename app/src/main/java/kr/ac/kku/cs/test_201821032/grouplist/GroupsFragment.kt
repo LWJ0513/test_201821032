@@ -14,6 +14,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_grouplist.*
+import kotlinx.android.synthetic.main.fragment_grouplist.swipeRefreshLayout
+import kotlinx.android.synthetic.main.fragment_memberslist.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
@@ -42,6 +45,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
             groupModel ?: return
 
             groupList.add(groupModel)
+            groupList.shuffle()
             groupAdapter.submitList(groupList)
             groupAdapter.notifyDataSetChanged()
         }
@@ -66,8 +70,10 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
         setHasOptionsMenu(true)
         val actionBar = (activity as HomeActivity?)!!.supportActionBar
-        actionBar!!.title = "모임 찾기"
-        actionBar!!.show()
+        actionBar!!.setDisplayShowTitleEnabled(true)
+        actionBar.setDisplayShowCustomEnabled(false)
+        actionBar.title = "모임"
+        actionBar.show()
 
 
 
@@ -77,88 +83,47 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         groupOnlineDB = Firebase.database.reference.child(DBKey.DB_ONLINE_GROUPS_LIST)
         groupOfflineDB = Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
 
-        // todo 해당하는 취미 출력력
 
-//        groupOnlineDB.addChildEventListener(listener)
         initOnlineGroupList()
-/*        onOffToggleButton.setOnToggledListener { toggleButton, isOn ->
-            when (isOn) {
-                true -> {
-                    online = true
-                    groupList.clear()
-                    initOnlineGroupList()
-                    if (online) Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
-                }
-                false -> {
-                    online = false
-                    groupList.clear()
-                    initOfflineGrouplist()
-                    if (!online) Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }*/
 
 
         groupAdapter = GroupsAdapter(onItemClicked = { groupsModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
-                if (auth.currentUser!!.uid != groupsModel.roomManager) {
-
-                    when (!online) {
-                        true -> {
-                            startActivity(
-                                Intent(
-                                    context,
-                                    GroupsOnlineDetailActivity::class.java
-                                ).apply {
-                                    putExtra("roomManager", groupsModel.roomManager)
-                                    putExtra("title", groupsModel.title)
-                                    putExtra("createAt", groupsModel.createAt)
-                                    putExtra("description", groupsModel.description)
-                                    putExtra("online", online)
-                                    data = groupsModel.imageUrl.toUri()
-                                })
-                        }
-                        false -> {
-                            startActivity(
-                                Intent(
-                                    context,
-                                    GroupsOfflineDetailActivity::class.java
-                                ).apply {
-                                    putExtra("roomManager", groupsModel.roomManager)
-                                    putExtra("title", groupsModel.title)
-                                    putExtra("createAt", groupsModel.createAt)
-                                    putExtra("description", groupsModel.description)
-                                    putExtra("latitude", groupsModel.latitude)
-                                    putExtra("longitude", groupsModel.longitude)
-                                    putExtra("locationAddress", groupsModel.locationAddress)
-                                    putExtra("locationName", groupsModel.locationName)
-                                    putExtra("online", online)
-                                    data = groupsModel.imageUrl.toUri()
-                                })
-                        }
+                when (!online) {
+                    true -> {
+                        startActivity(
+                            Intent(
+                                context,
+                                GroupsOnlineDetailActivity::class.java
+                            ).apply {
+                                putExtra("roomManager", groupsModel.roomManager)
+                                putExtra("title", groupsModel.title)
+                                putExtra("createAt", groupsModel.createAt)
+                                putExtra("description", groupsModel.description)
+                                putExtra("hashTag", groupsModel.hashTag)
+                                putExtra("online", online)
+                                data = groupsModel.imageUrl.toUri()
+                            })
                     }
-
-
-                    /*
-                    val chatRoom = ChatListItem(
-                        entryId = auth.currentUser!!.uid,
-                        managerId = groupsModel.roomManager,
-                        roomName = groupsModel.title,
-                        key = System.currentTimeMillis()
-                    )
-
-                    userDB.child(auth.currentUser!!.uid)
-                        .child(DBKey.CHILD_CHAT)
-                        .push()
-                        .setValue(chatRoom)
-
-                    userDB.child(groupsModel.roomManager)
-                        .child(DBKey.CHILD_CHAT)
-                        .push()
-                        .setValue(chatRoom)*/
-
-                } else {     // 내가 올린 아이템
-                    Snackbar.make(view, "내가 올린 게시글입니다.", Snackbar.LENGTH_LONG).show()
+                    false -> {
+                        startActivity(
+                            Intent(
+                                context,
+                                GroupsOfflineDetailActivity::class.java
+                            ).apply {
+                                putExtra("roomManager", groupsModel.roomManager)
+                                putExtra("title", groupsModel.title)
+                                putExtra("createAt", groupsModel.createAt)
+                                putExtra("description", groupsModel.description)
+                                putExtra("hashTag", groupsModel.hashTag)
+                                putExtra("latitude", groupsModel.latitude)
+                                putExtra("longitude", groupsModel.longitude)
+                                putExtra("locationAddress", groupsModel.locationAddress)
+                                putExtra("locationName", groupsModel.locationName)
+                                putExtra("online", online)
+                                data = groupsModel.imageUrl.toUri()
+                            })
+                    }
                 }
             } else {        //로그인 안한 상태
                 Snackbar.make(view, "로그인 후 이용해주세요.", Snackbar.LENGTH_LONG).show()
@@ -168,7 +133,16 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         fragmentGroupsBinding.articleRecyclerView.layoutManager = LinearLayoutManager(context)
         fragmentGroupsBinding.articleRecyclerView.adapter = groupAdapter
 
-        fragmentGroupsBinding.addFloatingButton.setOnClickListener {
+
+        swipeRefreshLayout.setOnRefreshListener {
+            groupList.shuffle()
+            groupAdapter.submitList(groupList)
+            groupAdapter.notifyDataSetChanged()
+            swipeRefreshLayout.setRefreshing(false)
+        }
+
+
+        fragmentGroupsBinding.addGroupsButton.setOnClickListener {
             context?.let {
                 if (auth.currentUser != null) {         // 회원가입 한 사람만 글을 추가할 수 있게
                     val intent = Intent(it, AddGroupsActivity::class.java)
@@ -186,6 +160,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -228,6 +203,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY2).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -270,6 +246,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY3).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -312,6 +289,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY4).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -354,6 +332,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY5).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOnlineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -400,6 +379,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -442,6 +422,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY2).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -484,6 +465,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY3).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -526,6 +508,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY4).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -568,6 +551,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY5).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                groupList.clear()
                 when (dataSnapshot.getValue(String::class.java).toString()) {
                     Hobbylist.SPORTS -> groupOfflineDB.child(Hobbylist.SPORTS)
                         .addChildEventListener(listener)
@@ -642,7 +626,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
             R.id.action_toggle -> {
                 if (online) {
-                    item.setIcon(R.drawable.toggle_on)
+                    item.setIcon(R.drawable.ic_toggle_on)
                     Toast.makeText(context, "토글 온", Toast.LENGTH_SHORT).show()
                     actionBar!!.title = "모임 찾기 | 온라인"
 
@@ -654,7 +638,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
                     online = false
                 } else {
-                    item.setIcon(R.drawable.toggle_off)
+                    item.setIcon(R.drawable.ic_toggle_off)
                     actionBar!!.title = "모임 찾기 | 오프라인"
                     Toast.makeText(context, "토글 오프", Toast.LENGTH_SHORT).show()
 

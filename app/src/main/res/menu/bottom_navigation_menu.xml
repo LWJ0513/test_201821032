@@ -3,11 +3,11 @@
 
     <item android:id="@+id/membersList"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="친구 찾기"/>
+        android:title="1:1"/>
 
     <item android:id="@+id/groupList"
         android:icon="@drawable/ic_baseline_group_24"
-        android:title="모임 찾기"/>
+        android:title="모임"/>
 
     <item android:id="@+id/chatList"
         android:icon="@drawable/ic_baseline_chat_24"

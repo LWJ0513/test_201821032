@@ -36,7 +36,7 @@ class ChatRoomActivity : AppCompatActivity() {
         val chatKey = intent.getLongExtra("chatKey", -1)
         chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
 
-        chatDB.addChildEventListener(object :ChildEventListener{
+        chatDB.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val chatItem = snapshot.getValue(ChatItem::class.java)
                 chatItem ?: return
@@ -47,11 +47,11 @@ class ChatRoomActivity : AppCompatActivity() {
 
             }
 
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {  }
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
 
-            override fun onChildRemoved(snapshot: DataSnapshot) { }
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
 
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) { }
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
 
             override fun onCancelled(error: DatabaseError) {}
         })
@@ -62,23 +62,24 @@ class ChatRoomActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
             var userName: String
             var chatItem: ChatItem
-            userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+            userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                    userName = dataSnapshot.getValue(String::class.java)!!
+                        userName = dataSnapshot.getValue(String::class.java)!!
 
 
-                    chatItem = ChatItem(
-                        senderName = userName,
-                        message = messageEditText.text.toString()
-                    )
-                    chatDB.push().setValue(chatItem)
-                    messageEditText.setText("")
-                }
+                        chatItem = ChatItem(
+                            senderName = userName,
+                            message = messageEditText.text.toString()
+                        )
+                        chatDB.push().setValue(chatItem)
+                        messageEditText.setText("")
+                    }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
         }
     }
 }

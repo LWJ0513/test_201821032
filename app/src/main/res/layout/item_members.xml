@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
@@ -22,22 +22,26 @@
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxLines="2"
         android:layout_marginStart="16dp"
+        android:maxLines="1"
+        android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/dateTextView"
         app:layout_constraintStart_toEndOf="@id/thumbnailImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="제목ㅇ니ㅓ니어ㅣㅓ니ㅏ어ㅣㄴ어ㅣㅇ러리너이러ㅓㄹㄴ" />
 
     <TextView
         android:id="@+id/dateTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginStart="10dp"
+        android:gravity="right"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/titleTextView"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+        app:layout_constraintStart_toEndOf="@id/titleTextView"
+        app:layout_constraintTop_toTopOf="@id/thumbnailImageView"
+        tools:text="10월 10일" />
 
     <TextView
         android:id="@+id/descriptionTextView"
@@ -45,11 +49,29 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:textColor="@color/black"
+        android:lines="2"
         android:textSize="15sp"
         android:textStyle="bold"
+        tools:text="ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/hashTagTextView"
         app:layout_constraintStart_toStartOf="@id/titleTextView"
         app:layout_constraintTop_toBottomOf="@id/dateTextView" />
+
+    <TextView
+        android:id="@+id/hashTagTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/com_facebook_blue"
+        android:lines="1"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="#해쉬태그 #이거맞냐"
+        app:layout_constraintStart_toStartOf="@id/descriptionTextView"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
+        app:layout_constraintBottom_toBottomOf="@id/thumbnailImageView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:layout_width="0dp"

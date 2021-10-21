@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.view.isVisible
+import kotlinx.android.synthetic.main.activity_add_group_second.*
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupSecondBinding
 import kr.ac.kku.cs.test_201821032.location.SearchRecyclerAdapter
 import kr.ac.kku.cs.test_201821032.location.model.LocationLatLngEntity
@@ -26,6 +27,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var title: String
     private lateinit var description: String
+    private lateinit var hashTag: String
     private lateinit var roomManager: String
     private lateinit var selectedHobby: String
     private var photoUri: Uri? = null
@@ -49,14 +51,21 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
 
         title = intent.getStringExtra("title").toString()
         description = intent.getStringExtra("description").toString()
+        hashTag = intent.getStringExtra("hashTag").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
         photoUri = intent.data
 
         Toast.makeText(this, "$photoUri", Toast.LENGTH_SHORT).show()
 
-    }
 
+        initBackButton()
+    }
+    private fun initBackButton() {
+        secondBackButton.setOnClickListener {
+            finish()
+        }
+    }
     private fun initAdapter() {
         adapter = SearchRecyclerAdapter()
     }
@@ -100,6 +109,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
                 putExtra("roomManager", roomManager)
                 putExtra("title", title)
                 putExtra("description", description)
+                putExtra("hashTag", hashTag)
                 data = photoUri
                 putExtra("locationName", it.locationName)
                 putExtra("address", it.fullAddress)

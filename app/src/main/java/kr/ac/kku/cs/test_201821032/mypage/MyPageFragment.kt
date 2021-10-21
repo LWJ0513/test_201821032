@@ -1,8 +1,11 @@
 package kr.ac.kku.cs.test_201821032.mypage
 
+import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_mypage.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_PROFILE_IMAGE
 import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.MainActivity
@@ -28,12 +32,12 @@ import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
 class MyPageFragment : Fragment(R.layout.fragment_mypage) {
 
-    private var binding: FragmentMypageBinding? = null
     private lateinit var userDB: DatabaseReference
+    private var binding: FragmentMypageBinding? = null
+    private var changeMode: Boolean = false
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,54 +47,41 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         userDB = Firebase.database.reference.child(DB_USERS)
         val userId = auth.currentUser?.uid.orEmpty()
 
+        // (activity as HomeActivity?)!!.supportActionBar!!.hide()
+        setHasOptionsMenu(true)
+        val actionBar = (activity as HomeActivity?)!!.supportActionBar
+        actionBar!!.setDisplayShowTitleEnabled(false)
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+        actionBar.setCustomView(R.layout.title_mypage)
 
-        (activity as HomeActivity?)!!.supportActionBar!!.hide()
 
-
-
-        Toast.makeText(context, "$userId", Toast.LENGTH_SHORT).show()
-
-        userDB.child(userId).child(DB_USER_PROFILE_IMAGE)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                    val photoImageUrl = dataSnapshot.getValue(String::class.java)
-
-                    Glide.with(this@MyPageFragment)
-                        .load(photoImageUrl)
-                        .centerCrop()
-                        .into(userProfileImageView)
-
-                    // Toast.makeText(context, photoImageUrl, Toast.LENGTH_LONG).show()
-                    /*Glide.with(this@MyPageFragment)
-                        .load("https://firebasestorage.googleapis.com/v0/b/kku-with-us.appspot.com/o/userProfile%2Fphoto%2F1633922878001.png?alt=media&token=d8180ec5-6e17-4aa1-bbb1-cd3490a6a53b")
-                        .centerCrop()
-                        .into(userProfileImageView)*/
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {        // 에러문 출력
-                    Toast.makeText(context, "사진을 불러오는 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
-                }
-            })
-
+        initChangeUserName()
         initWithdrawalButton(userId)
         initLogoutButton()
     }
 
+    private fun initChangeUserName(){
+        changeNameButton.setOnClickListener {
+            if (!changeMode) {
+                userNameEditText.isEnabled = true
+                changeMode = true
+            } else {
+                val userName = userNameEditText.text.toString()
+                userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME).setValue(userName)
+                userNameEditText.isEnabled = false
+                changeMode = false
+            }
+        }
+    }
+
     private fun initWithdrawalButton(uid: String) {
         withdrawalButton.setOnClickListener {
-            userDB.child(uid).removeValue()
-            auth.currentUser!!.delete()
-
-            startActivity(Intent(context, LoginActivity::class.java))
-
-
+           startActivity(Intent(context, WithdrawalActivity::class.java))
         }
     }
 
     private fun initLogoutButton() {
         signOutButton.setOnClickListener {        // 로그아웃
-
             auth.signOut()  // 이메일 계정 로그인일 경우
             LoginManager.getInstance().logOut()
             activity?.let {
@@ -112,12 +103,47 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         } else {
             binding?.let { binding ->
 
-                binding.emailEditText.setText(auth.currentUser!!.email)
-                binding.emailEditText.isEnabled = false
+                emailEditText.setText(auth.currentUser!!.email)
+                emailEditText.isEnabled = false
 
-                binding.signOutButton.text = "로그아웃"
-                binding.signOutButton.isEnabled = true
+                signOutButton.text = "로그아웃"
+                signOutButton.isEnabled = true
+
+                userNameEditText.isEnabled = false
+                userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            userNameEditText.setText(dataSnapshot.getValue(String::class.java))
+                        }
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+
+                userDB.child(auth.currentUser!!.uid).child(DB_USER_PROFILE_IMAGE)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            val photoImageUrl = dataSnapshot.getValue(String::class.java)
+
+                            Glide.with(this@MyPageFragment)
+                                .load(photoImageUrl)
+                                .centerCrop()
+                                .into(userProfileImageView)
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {        // 에러문 출력
+                            Toast.makeText(context, "사진을 불러오는 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    })
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        menu.findItem(R.id.action_toggle).isVisible = false
+        menu.findItem(R.id.action_search).isVisible = false
+        menu.findItem(R.id.action_edit_hobby).isVisible = false
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

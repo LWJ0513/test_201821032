@@ -5,7 +5,8 @@ data class MembersModel(
     val title: String,
     val createAt: Long,
     val description: String,
+    val hashTag: String,
     val imageUrl: String
 ) {
-    constructor(): this("", "", 0, "", "")
+    constructor(): this("", "", 0, "", "","")
 }

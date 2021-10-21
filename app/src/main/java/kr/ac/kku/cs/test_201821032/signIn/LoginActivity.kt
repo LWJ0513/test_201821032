@@ -3,10 +3,12 @@ package kr.ac.kku.cs.test_201821032.signIn
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,12 +28,14 @@ import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.databinding.ActivityLoginBinding
+import java.util.*
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var callbackManager: CallbackManager
+    private lateinit var loginManager: LoginManager
     private lateinit var userDB: DatabaseReference
 
 
@@ -61,7 +65,8 @@ class LoginActivity : AppCompatActivity() {
 
         initEmailLoginButton()
         initGoogleLoginButton()
-        initFacebookLoginButton()
+        //initFacebookLoginButton()
+        initFacebookCustomLoginButton()
     }
 
     private fun initEmailLoginButton() {
@@ -77,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun initFacebookLoginButton() {
+ /*   private fun initFacebookLoginButton() {
         facebookLoginButton.setPermissions("email", "public_profile")   //페북 계정에서 어떤 정보를 가져올건지
         facebookLoginButton.registerCallback(
             callbackManager,
@@ -106,6 +111,40 @@ class LoginActivity : AppCompatActivity() {
                         .show()
                 }
             })
+    }
+*/
+    private fun initFacebookCustomLoginButton() {
+        facebookLoginButton.setOnClickListener {
+            loginManager = LoginManager.getInstance()
+            loginManager.logInWithReadPermissions(this, listOf("public_profile", "email"))
+            loginManager.registerCallback(
+                callbackManager,
+                object : FacebookCallback<LoginResult> {
+
+                    override fun onSuccess(result: LoginResult) {  // 로그인 성공
+                        val credential = FacebookAuthProvider.getCredential(result.accessToken.token)
+                        auth.signInWithCredential(credential)
+                            .addOnCompleteListener(this@LoginActivity) { task ->
+                                if (task.isSuccessful) {
+                                    handleSuccessLogin()
+                                } else {
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "페이스북 로그인이 실패했습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    }
+
+                    override fun onCancel() {}      // 로그인 하다 취소
+
+                    override fun onError(error: FacebookException?) {       // 에러러
+                        Toast.makeText(this@LoginActivity, "페이스북 로그인이 실패했습니다.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                })
+        }
     }
 
     private fun handleSuccessLogin() {

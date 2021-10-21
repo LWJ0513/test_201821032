@@ -11,14 +11,21 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/membersBackButton"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="17dp"
             android:text="1:1 채팅방 개설"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -89,6 +96,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="해시태그 설정"
+        android:textColor="@color/com_facebook_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/descriptionMembersEditText" />
@@ -120,7 +128,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+  <!--  <TextView
         android:id="@+id/selectedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,7 +136,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/a1" />
+        app:layout_constraintTop_toBottomOf="@+id/a1" />-->
     <!--
 
         <Spinner

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_members_detail.*
+import kotlinx.android.synthetic.main.item_members.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_ONE
@@ -51,6 +53,7 @@ class MembersDetailActivity : AppCompatActivity() {
 
         membersRoomTitleTextView.text = title
         membersRoomDescriptionTextView.text = intent.getStringExtra("description").toString()
+        membersRoomHashTagTextView.text = intent.getStringExtra("hashTag").toString()
         createAt = intent.getLongExtra("createAt", 0)
         imgUri = intent.data
         userDB.child(roomManager).child(DB_USER_NAME)
@@ -87,32 +90,39 @@ class MembersDetailActivity : AppCompatActivity() {
     private fun initParticipateButton() {
         memberDB = Firebase.database.reference.child(DBKey.DB_MEMBERS_LIST)
 
+
         participateButton.setOnClickListener {
-            chatRoom = ChatListItem(
-                entryId = auth.currentUser!!.uid,
-                managerId = roomManager,
-                roomName = title,
-                key = System.currentTimeMillis()
-            )
-            Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
+            if (auth.currentUser!!.uid != roomManager) {
+                chatRoom = ChatListItem(
+                    entryId = auth.currentUser!!.uid,
+                    managerId = roomManager,
+                    roomName = title,
+                    key = System.currentTimeMillis()
+                )
+                Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 
-            userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
-                .child(CHILD_CHAT)
-                .child(DB_ONE)
-                .push()
-                .setValue(chatRoom)
+                userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
+                    .child(CHILD_CHAT)
+                    .child(DB_ONE)
+                    .push()
+                    .setValue(chatRoom)
 
-            userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
-                .child(CHILD_CHAT)
-                .child(DB_ONE)
-                .push()
-                .setValue(chatRoom)
+                userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
+                    .child(CHILD_CHAT)
+                    .child(DB_ONE)
+                    .push()
+                    .setValue(chatRoom)
 
-            // TODO 채팅화면으로 바로 이동
-            val intent = Intent(this@MembersDetailActivity, ChatRoomActivity::class.java)
-            intent.putExtra("chatKey", chatRoom.key)
-            startActivity(Intent(intent))
-            finish()
+                // TODO 채팅화면으로 바로 이동
+                val intent = Intent(this@MembersDetailActivity, ChatRoomActivity::class.java)
+                intent.putExtra("chatKey", chatRoom.key)
+                startActivity(Intent(intent))
+                finish()
+
+            } else {     // 내가 올린 아이템
+                Toast.makeText(this, "내가 올린 게시글입니다.", Toast.LENGTH_LONG).show()
+            }
+
 
 
 

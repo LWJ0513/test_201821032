@@ -9,9 +9,10 @@
 
 
     <TextView
-        android:text="온랑니 모임"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="온랑니 모임" />
+
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -23,8 +24,8 @@
         android:id="@+id/hobbyScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/backButton"
         android:layout_above="@id/participateButton"
+        android:layout_below="@id/backButton"
         android:fillViewport="true">
 
         <RelativeLayout
@@ -43,48 +44,51 @@
                 android:layout_below="@id/groupsRoomImageView"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
                 android:textColor="@color/black"
                 android:textSize="25sp"
-                app:layout_constraintBottom_toTopOf="@id/groupsOnlineRoomDescriptionTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupsRoomImageView"
-                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="영화 보실 분" />
+
+            <TextView
+                android:id="@+id/writerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsOnlineRoomTitleTextView"
+                android:layout_alignStart="@id/groupsOnlineRoomTitleTextView"
+                android:layout_marginTop="15dp"
+                android:text="방장 : "
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/groupsOnlineRoomManagerTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/groupsOnlineRoomTitleTextView"
-                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/writerTextView"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/writerTextView"
+                android:layout_marginEnd="20dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/groupsOnlineRoomCreateAtTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/groupsOnlineRoomTitleTextView"
                 tools:text="임원정" />
 
             <TextView
-                android:id="@+id/groupsOnlineRoomCreateAtTextView"
+                android:id="@+id/groupsOnlineRoomHashTagTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/groupsOnlineRoomManagerTextView"
-                android:layout_alignEnd="@id/groupsOnlineRoomManagerTextView"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupsOnlineRoomManagerTextView"
-                tools:text="2021.10.12" />
-
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/com_facebook_blue"
+                android:textSize="20sp"
+                tools:text="#바보" />
 
             <TextView
                 android:id="@+id/groupsOnlineRoomDescriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/groupsOnlineRoomTitleTextView"
-                android:layout_alignStart="@id/groupsOnlineRoomTitleTextView"
-                android:lines="4"
+                android:layout_below="@id/groupsOnlineRoomHashTagTextView"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 tools:text="같이 영화보고 쇼핑할 사람 구해요" />

@@ -35,6 +35,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var roomManager: String
     private lateinit var title: String
     private lateinit var description: String
+    private lateinit var hashTag: String
     private lateinit var locationName: String
     private lateinit var address: String
     private var latitude: Float = 0F
@@ -56,6 +57,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         title = intent.getStringExtra("title").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
         description = intent.getStringExtra("description").toString()
+        hashTag = intent.getStringExtra("hashTag").toString()
         locationName = intent.getStringExtra("locationName").toString()
         address = intent.getStringExtra("locationAddress").toString()
         latitude = intent.getFloatExtra("latitude", 0F)
@@ -64,6 +66,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         groupsOfflineRoomTitleTextView.text = title
         groupsOfflineRoomDescriptionTextView.text = description
+        groupsOfflineRoomHashTagTextView.text = hashTag
 
         Glide.with(this)
             .load(intent.data)
@@ -89,32 +92,35 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         groupDB = Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
 
         binding.participateButton.setOnClickListener {
-            chatRoom = ChatListItem(
-                entryId = auth.currentUser!!.uid,
-                managerId = roomManager,
-                roomName = title,
-                key = System.currentTimeMillis()
-            )
-            Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
+            if(auth.currentUser!!.uid != roomManager){
+                chatRoom = ChatListItem(
+                    entryId = auth.currentUser!!.uid,
+                    managerId = roomManager,
+                    roomName = title,
+                    key = System.currentTimeMillis()
+                )
+                Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 
-            userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
-                .child(DBKey.CHILD_CHAT)
-                .child(DBKey.DB_GROUP)
-                .push()
-                .setValue(chatRoom)
+                userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
+                    .child(DBKey.CHILD_CHAT)
+                    .child(DBKey.DB_GROUP)
+                    .push()
+                    .setValue(chatRoom)
 
-            userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
-                .child(DBKey.CHILD_CHAT)
-                .child(DBKey.DB_GROUP)
-                .push()
-                .setValue(chatRoom)
+                userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
+                    .child(DBKey.CHILD_CHAT)
+                    .child(DBKey.DB_GROUP)
+                    .push()
+                    .setValue(chatRoom)
 
-            // TODO 채팅화면으로 바로 이동
-            val intent = Intent(this, ChatRoomActivity::class.java)
-            intent.putExtra("chatKey", chatRoom.key)
-            startActivity(Intent(intent))
-            finish()
-
+                // TODO 채팅화면으로 바로 이동
+                val intent = Intent(this, ChatRoomActivity::class.java)
+                intent.putExtra("chatKey", chatRoom.key)
+                startActivity(Intent(intent))
+                finish()
+            } else {
+                Toast.makeText(this, "내가 개설한 모임입니다.", Toast.LENGTH_LONG).show()
+            }
         }
     }
 

@@ -58,6 +58,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     private lateinit var roomManager: String
     private lateinit var title: String
     private lateinit var description: String
+    private lateinit var hashTag: String
     private var photoUri: Uri? = null
     private lateinit var locationName: String
     private lateinit var address: String
@@ -101,11 +102,12 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
             }
         }
         bindViews()
-        initSubmitOfflineGroupButton()
+
 
         roomManager = intent.getStringExtra("roomManager").toString()
         title = intent.getStringExtra("title").toString()
         description = intent.getStringExtra("description").toString()
+        hashTag = intent.getStringExtra("hashTag").toString()
         photoUri = intent.data
         locationName = intent.getStringExtra("locationName").toString()
         address = intent.getStringExtra("address").toString()
@@ -118,8 +120,15 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
         //todo
 
+        initBackButton()
+        initSubmitOfflineGroupButton()
     }
 
+    private fun initBackButton() {
+        thirdBackButton.setOnClickListener {
+            finish()
+        }
+    }
     private fun bindViews() = with(binding) {
         currentLocationButton.setOnClickListener {
             getMyLocation()
@@ -140,6 +149,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                             roomManager,
                             title,
                             description,
+                            hashTag,
                             uri,
                             locationName,
                             address,
@@ -363,6 +373,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         roomManager: String,
         title: String,
         description: String,
+        hashTag: String,
         imageUrl: String,
         locationName: String,    //빌딩이름
         locationAddress: String,
@@ -376,6 +387,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 title,
                 System.currentTimeMillis(),
                 description,
+                hashTag,
                 imageUrl,
                 locationName,
                 locationAddress,

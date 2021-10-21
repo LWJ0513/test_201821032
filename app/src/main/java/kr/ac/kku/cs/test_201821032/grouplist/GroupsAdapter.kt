@@ -27,6 +27,7 @@ class GroupsAdapter (val onItemClicked: (GroupsModel) -> Unit) :
             binding.titleTextView.text = groupModel.title
             binding.dateTextView.text = format.format(date).toString()
             binding.descriptionTextView.text = groupModel.description
+            binding.hashTagTextView.text = groupModel.hashTag
             binding.locationTextView.text = groupModel.locationName
             if (binding.locationTextView.text != "") {
                 binding.locationImageView.visibility = View.VISIBLE

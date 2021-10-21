@@ -7,12 +7,24 @@
     android:padding="30dp"
     tools:context=".signIn.signup.SignUpActivity">
 
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/userProfileImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로필 설정"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfileImageView"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_person_24"
+        android:src="@drawable/ic_basic_user"
         app:layout_constraintBottom_toTopOf="@id/nameTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +54,51 @@
         app:layout_constraintStart_toEndOf="@id/nameTextView"
         app:layout_constraintTop_toTopOf="@id/nameTextView" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입 시 "
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이용약관, 개인정보처리방침, 위치기반서비스"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이용약관에 동의합니다."
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+    <!--
+        <TextView
+            android:id="@+id/usingappTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:bufferType="spannable"
+            android:text="회원가입 시 이용약관, 개인정보처리방침, 위치기반서비스 이용약관에 동의합니다."
+            android:textStyle=""
+            app:layout_constraintBottom_toTopOf="@id/backButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+    -->
 
     <Button
         android:id="@+id/backButton"

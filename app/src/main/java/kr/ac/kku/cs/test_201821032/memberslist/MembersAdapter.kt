@@ -26,6 +26,7 @@ class MembersAdapter(val onItemClicked: (MembersModel) -> Unit) :
             binding.titleTextView.text = membersModel.title
             binding.dateTextView.text = format.format(date).toString()
             binding.descriptionTextView.text = membersModel.description
+            binding.hashTagTextView.text = membersModel.hashTag
 
             if (membersModel.imageUrl.isNotEmpty()) {
                 Glide.with(binding.thumbnailImageView)

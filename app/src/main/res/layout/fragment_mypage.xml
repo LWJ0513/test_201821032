@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:paddingHorizontal="24dp">
+
+<!--    <ImageView
+        android:id="@+id/character"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:src="@drawable/img_gide"
+        app:layout_constraintBottom_toTopOf="@id/userProfileImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userProfileImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@id/changeNameButton"
         app:layout_constraintEnd_toStartOf="@id/emailEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
+
+    <EditText
+        android:id="@+id/userNameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/emailEditText"
+        app:layout_constraintEnd_toEndOf="@id/emailEditText"
+        app:layout_constraintStart_toStartOf="@id/emailEditText"
+        app:layout_constraintTop_toTopOf="@id/userProfileImageView"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="임원정" />
 
     <EditText
         android:id="@+id/emailEditText"
@@ -23,8 +46,19 @@
         app:layout_constraintBottom_toBottomOf="@id/userProfileImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/userProfileImageView"
-        app:layout_constraintTop_toTopOf="@id/userProfileImageView"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/userNameEditText"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="abc@naver.com" />
+
+
+    <Button
+        android:id="@+id/changeNameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="닉네임 변경"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@id/emailEditText"
+        app:layout_constraintTop_toBottomOf="@id/userProfileImageView" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -33,13 +67,12 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/emailEditText"
-        app:layout_constraintTop_toBottomOf="@id/userProfileImageView">
+        app:layout_constraintTop_toBottomOf="@id/changeNameButton">
 
         <Button
             android:id="@+id/withdrawalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:backgroundTint="@color/main_color"
             android:text="회원탈퇴"
             android:textColor="@color/white" />
@@ -49,7 +82,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
             android:backgroundTint="@color/main_color"
             android:enabled="false"
             android:text="로그아웃"
@@ -57,6 +89,14 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="ver.2.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

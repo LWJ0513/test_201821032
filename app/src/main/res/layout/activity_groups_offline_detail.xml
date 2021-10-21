@@ -42,48 +42,51 @@
                 android:layout_below="@id/groupsRoomImageView"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
                 android:textColor="@color/black"
                 android:textSize="25sp"
-                app:layout_constraintBottom_toTopOf="@id/groupsOfflineRoomDescriptionTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupsRoomImageView"
-                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="영화 보실 분" />
+
+            <TextView
+                android:id="@+id/writerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsOfflineRoomTitleTextView"
+                android:layout_alignStart="@id/groupsOfflineRoomTitleTextView"
+                android:layout_marginTop="15dp"
+                android:text="방장 : "
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/groupsOfflineRoomManagerTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/groupsOfflineRoomTitleTextView"
-                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/writerTextView"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/writerTextView"
+                android:layout_marginEnd="20dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/groupsOfflineRoomCreateAtTextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/groupsOfflineRoomTitleTextView"
                 tools:text="임원정" />
 
             <TextView
-                android:id="@+id/groupsOfflineRoomCreateAtTextView"
+                android:id="@+id/groupsOfflineRoomHashTagTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/groupsOfflineRoomManagerTextView"
-                android:layout_alignEnd="@id/groupsOfflineRoomManagerTextView"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/groupsOfflineRoomManagerTextView"
-                tools:text="2021.10.12" />
-
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/com_facebook_blue"
+                android:textSize="20sp"
+                tools:text="#바보" />
 
             <TextView
                 android:id="@+id/groupsOfflineRoomDescriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/groupsOfflineRoomTitleTextView"
-                android:layout_alignStart="@id/groupsOfflineRoomTitleTextView"
-                android:lines="4"
+                android:layout_below="@id/groupsOfflineRoomHashTagTextView"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 tools:text="같이 영화보고 쇼핑할 사람 구해요" />
@@ -92,6 +95,7 @@
                 android:id="@+id/locationImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:layout_below="@id/groupsOfflineRoomDescriptionTextView"
                 android:layout_alignStart="@id/groupsOfflineRoomTitleTextView"
                 android:src="@drawable/ic_baseline_location_on_24" />

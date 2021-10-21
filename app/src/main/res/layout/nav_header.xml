@@ -7,29 +7,39 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/hobbyTextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="30dp"
-        android:text="취미 선택 창"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toStartOf="@id/nextButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="저장"
-        app:layout_constraintBottom_toBottomOf="@id/hobbyTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/hobbyTextView"
-        app:layout_constraintTop_toTopOf="@id/hobbyTextView" />
+        <TextView
+            android:id="@+id/hobbyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginBottom="30dp"
+            android:text="관심사 수정"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ff0000"
+            android:text="저장"
+            android:textColor="@color/com_facebook_blue"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/hobbyTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/hobbyTextView"
+            app:layout_constraintTop_toTopOf="@id/hobbyTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ScrollView
         android:id="@+id/hobbyScrollView"
@@ -45,159 +55,374 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/sportsImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+            <LinearLayout
+                android:id="@+id/sportsLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/sports"
-                app:layout_constraintBottom_toTopOf="@id/itImageView"
-                app:layout_constraintEnd_toStartOf="@id/fashionImageView"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/itLinearLayout"
+                app:layout_constraintEnd_toStartOf="@id/fashionLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/fashionImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/fashion"
-                app:layout_constraintEnd_toStartOf="@id/fundImageView"
-                app:layout_constraintStart_toEndOf="@id/sportsImageView"
-                app:layout_constraintTop_toTopOf="@id/sportsImageView" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/sportsImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_sports" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/fundImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/fund"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="운동/스포츠" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fashionLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/fundLinearLayout"
+                app:layout_constraintStart_toEndOf="@id/sportsLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/sportsLinearLayout">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fashionImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_fashion" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="패션" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fundLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fashionImageView"
-                app:layout_constraintTop_toTopOf="@id/sportsImageView" />
+                app:layout_constraintStart_toEndOf="@id/fashionLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/sportsLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/itImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fundImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_fund" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="금융" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/itLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/it"
-                app:layout_constraintBottom_toTopOf="@id/readImageView"
-                app:layout_constraintEnd_toStartOf="@id/gameImageView"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/readLinearLayout"
+                app:layout_constraintEnd_toStartOf="@id/gameLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sportsImageView" />
+                app:layout_constraintTop_toBottomOf="@id/sportsLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/gameImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/game"
-                app:layout_constraintEnd_toStartOf="@id/studyImageView"
-                app:layout_constraintStart_toEndOf="@id/itImageView"
-                app:layout_constraintTop_toTopOf="@id/itImageView" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/itImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_it" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/studyImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/study"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IT" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gameLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/studyLinearLayout"
+                app:layout_constraintStart_toEndOf="@id/itLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/itLinearLayout">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/gameImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_game" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="게임" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/studyLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/gameImageView"
-                app:layout_constraintTop_toTopOf="@id/itImageView" />
+                app:layout_constraintStart_toEndOf="@id/gameLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/itLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/readImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/studyImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_study" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="공부" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/readLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/read"
-                app:layout_constraintBottom_toTopOf="@id/companionImageView"
-                app:layout_constraintEnd_toStartOf="@id/travelImageView"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/companionLinearLayout"
+                app:layout_constraintEnd_toStartOf="@id/travelLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/itImageView" />
+                app:layout_constraintTop_toBottomOf="@id/itLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/travelImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/travel"
-                app:layout_constraintEnd_toStartOf="@id/entertainmentImageView"
-                app:layout_constraintStart_toEndOf="@id/readImageView"
-                app:layout_constraintTop_toTopOf="@id/readImageView" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/readImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_read" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/entertainmentImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/enter"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="독서" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/travelLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/entertainmentLinearLayout"
+                app:layout_constraintStart_toEndOf="@id/readLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/readLinearLayout">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/travelImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_travel" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="여행" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/entertainmentLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/travelImageView"
-                app:layout_constraintTop_toTopOf="@id/readImageView" />
+                app:layout_constraintStart_toEndOf="@id/travelLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/readLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/companionImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/entertainmentImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_enter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="엔터테인먼트" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/companionLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/companion"
-                app:layout_constraintBottom_toTopOf="@id/artImageView"
-                app:layout_constraintEnd_toStartOf="@id/foodImageView"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/artLinearLayout"
+                app:layout_constraintEnd_toStartOf="@id/foodLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/readImageView" />
+                app:layout_constraintTop_toBottomOf="@id/readLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/foodImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/food"
-                app:layout_constraintEnd_toStartOf="@id/beautyImageView"
-                app:layout_constraintStart_toEndOf="@id/companionImageView"
-                app:layout_constraintTop_toTopOf="@id/companionImageView" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/companionImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_companion" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/beautyImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/beauty"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="반려" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/foodLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/beautyLinearLayout"
+                app:layout_constraintStart_toEndOf="@id/companionLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/companionLinearLayout">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/foodImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_food" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사교" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/beautyLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/foodImageView"
-                app:layout_constraintTop_toTopOf="@id/companionImageView" />
+                app:layout_constraintStart_toEndOf="@id/foodLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/companionLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/artImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/art"
-                app:layout_constraintBottom_toTopOf="@id/rideImageView"
-                app:layout_constraintEnd_toStartOf="@id/diyImageView"
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/beautyImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_beauty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="미용" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/artLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/rideLinearLayout"
+                app:layout_constraintEnd_toStartOf="@id/diyLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/companionImageView" />
+                app:layout_constraintTop_toBottomOf="@id/companionLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/diyImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/diy"
-                app:layout_constraintEnd_toStartOf="@id/sangdamImageView"
-                app:layout_constraintStart_toEndOf="@id/artImageView"
-                app:layout_constraintTop_toTopOf="@id/artImageView" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/artImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_art" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/sangdamImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/sangdam"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="예술" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/diyLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@id/sangdamLinearLayout"
+                app:layout_constraintStart_toEndOf="@id/artLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/artLinearLayout">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/diyImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_diy" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DIY" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sangdamLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/diyImageView"
-                app:layout_constraintTop_toTopOf="@id/artImageView" />
+                app:layout_constraintStart_toEndOf="@id/diyLinearLayout"
+                app:layout_constraintTop_toTopOf="@id/artLinearLayout">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/rideImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/sangdamImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_sangdam" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상담" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rideLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/ride"
-                app:layout_constraintStart_toStartOf="@id/artImageView"
-                app:layout_constraintTop_toBottomOf="@id/artImageView" />
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="@id/artLinearLayout"
+                app:layout_constraintTop_toBottomOf="@id/artLinearLayout">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/rideImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/img_hobby_ride" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="탈 것" />
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

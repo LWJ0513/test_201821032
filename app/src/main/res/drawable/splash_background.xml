@@ -13,9 +13,9 @@
 
 
         <bitmap
-            android:mipMap="true"
             android:gravity="fill"
-            android:src="@drawable/img_start_logo" />
+            android:mipMap="true"
+            android:src="@drawable/img_character_start" />
 
     </item>
 

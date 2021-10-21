@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.android.synthetic.main.activity_add_members.view.*
+import kotlinx.android.synthetic.main.activity_members_detail.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddMembersBinding
@@ -84,14 +85,18 @@ class AddMembersActivity : AppCompatActivity() {
                 "고민상담" -> hobbyDB = COUNSELING
                 "탈 것" -> hobbyDB = RIDE
             }
-
-            selectedTextView.text = hobby[i] + "," + hobbyDB
         }
 
 
+        initBackButton()
         initImageAddMembersButton()
         initSubmitMembersButton()
+    }
 
+    private fun initBackButton() {
+        membersBackButton.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initImageAddMembersButton() {
@@ -121,6 +126,7 @@ class AddMembersActivity : AppCompatActivity() {
             val title = titleMembersEditText.text.toString().orEmpty()
             val description = descriptionMembersEditText.text.toString().orEmpty()
             val roomManager = auth.currentUser?.uid.orEmpty()
+            val hashTag = hashtagMembersEditText.text.toString().orEmpty()
 
 
             if (selectedUri != null) {            // 이미지가 있으면 업로드
@@ -128,7 +134,7 @@ class AddMembersActivity : AppCompatActivity() {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
-                        uploadMember(roomManager, title, description, uri)
+                        uploadMember(roomManager, title, description, hashTag,uri)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
@@ -165,6 +171,7 @@ class AddMembersActivity : AppCompatActivity() {
         roomManager: String,
         title: String,
         description: String,
+        hashTag: String,
         imageUrl: String
     ) {
         if (hobbyDB=="") {
@@ -172,7 +179,7 @@ class AddMembersActivity : AppCompatActivity() {
             Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
         } else {
             val model =
-                MembersModel(roomManager, title, System.currentTimeMillis(), description, imageUrl)
+                MembersModel(roomManager, title, System.currentTimeMillis(), description, hashTag, imageUrl)
             membersDB.child(hobbyDB).push().setValue(model)
             hideProgress()
             finish()

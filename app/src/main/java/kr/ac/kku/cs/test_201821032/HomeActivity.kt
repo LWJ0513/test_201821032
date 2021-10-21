@@ -44,6 +44,7 @@ import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.RIDE
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
+import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 import kr.ac.kku.cs.test_201821032.signIn.signup.HobbyActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -83,6 +84,12 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (auth.currentUser == null) { // 로그인이 안되어 있으면
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
 
         database = Firebase.database.reference
         userDB = Firebase.database.reference.child("Users")
@@ -195,14 +202,14 @@ class HomeActivity : AppCompatActivity() {
         sportsImageView.setOnClickListener {
             if (!sportsClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    sportsImageView.setImageResource(R.drawable.select)
+                    sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                     selected++
                     sportsClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                sportsImageView.setImageResource(R.drawable.sports)
+                sportsImageView.setImageResource(R.drawable.img_hobby_sports)
                 selected--
                 sportsClicked = false
             }
@@ -210,14 +217,14 @@ class HomeActivity : AppCompatActivity() {
         fashionImageView.setOnClickListener {
             if (!fashionClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    fashionImageView.setImageResource(R.drawable.select)
+                    fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                     selected++
                     fashionClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                fashionImageView.setImageResource(R.drawable.fashion)
+                fashionImageView.setImageResource(R.drawable.img_hobby_fashion)
                 selected--
                 fashionClicked = false
             }
@@ -225,14 +232,14 @@ class HomeActivity : AppCompatActivity() {
         fundImageView.setOnClickListener {
             if (!fundClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    fundImageView.setImageResource(R.drawable.select)
+                    fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                     selected++
                     fundClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                fundImageView.setImageResource(R.drawable.fund)
+                fundImageView.setImageResource(R.drawable.img_hobby_fund)
                 selected--
                 fundClicked = false
             }
@@ -240,14 +247,14 @@ class HomeActivity : AppCompatActivity() {
         itImageView.setOnClickListener {
             if (!itClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    itImageView.setImageResource(R.drawable.select)
+                    itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                     selected++
                     itClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                itImageView.setImageResource(R.drawable.it)
+                itImageView.setImageResource(R.drawable.img_hobby_it)
                 selected--
                 itClicked = false
             }
@@ -255,14 +262,14 @@ class HomeActivity : AppCompatActivity() {
         gameImageView.setOnClickListener {
             if (!gameClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    gameImageView.setImageResource(R.drawable.select)
+                    gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                     selected++
                     gameClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                gameImageView.setImageResource(R.drawable.game)
+                gameImageView.setImageResource(R.drawable.img_hobby_game)
                 selected--
                 gameClicked = false
             }
@@ -270,14 +277,14 @@ class HomeActivity : AppCompatActivity() {
         studyImageView.setOnClickListener {
             if (!studyClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    studyImageView.setImageResource(R.drawable.select)
+                    studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                     selected++
                     studyClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                studyImageView.setImageResource(R.drawable.study)
+                studyImageView.setImageResource(R.drawable.img_hobby_study)
                 selected--
                 studyClicked = false
             }
@@ -285,14 +292,14 @@ class HomeActivity : AppCompatActivity() {
         readImageView.setOnClickListener {
             if (!readClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    readImageView.setImageResource(R.drawable.select)
+                    readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                     selected++
                     readClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                readImageView.setImageResource(R.drawable.read)
+                readImageView.setImageResource(R.drawable.img_hobby_read)
                 selected--
                 readClicked = false
             }
@@ -300,14 +307,14 @@ class HomeActivity : AppCompatActivity() {
         travelImageView.setOnClickListener {
             if (!travelClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    travelImageView.setImageResource(R.drawable.select)
+                    travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                     selected++
                     travelClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                travelImageView.setImageResource(R.drawable.travel)
+                travelImageView.setImageResource(R.drawable.img_hobby_travel)
                 selected--
                 travelClicked = false
             }
@@ -315,14 +322,14 @@ class HomeActivity : AppCompatActivity() {
         entertainmentImageView.setOnClickListener {
             if (!entertainmentClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    entertainmentImageView.setImageResource(R.drawable.select)
+                    entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                     selected++
                     entertainmentClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                entertainmentImageView.setImageResource(R.drawable.enter)
+                entertainmentImageView.setImageResource(R.drawable.img_hobby_enter)
                 selected--
                 entertainmentClicked = false
             }
@@ -330,14 +337,14 @@ class HomeActivity : AppCompatActivity() {
         companionImageView.setOnClickListener {
             if (!companionClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    companionImageView.setImageResource(R.drawable.select)
+                    companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                     selected++
                     companionClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                companionImageView.setImageResource(R.drawable.companion)
+                companionImageView.setImageResource(R.drawable.img_hobby_companion)
                 selected--
                 companionClicked = false
             }
@@ -345,14 +352,14 @@ class HomeActivity : AppCompatActivity() {
         foodImageView.setOnClickListener {
             if (!foodClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    foodImageView.setImageResource(R.drawable.select)
+                    foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                     selected++
                     foodClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                foodImageView.setImageResource(R.drawable.food)
+                foodImageView.setImageResource(R.drawable.img_hobby_food)
                 selected--
                 foodClicked = false
             }
@@ -360,14 +367,14 @@ class HomeActivity : AppCompatActivity() {
         beautyImageView.setOnClickListener {
             if (!beautyClicked) {    // 선택안된 상태면
                 if (selected < 5) {
-                    beautyImageView.setImageResource(R.drawable.select)
+                    beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                     selected++
                     beautyClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                beautyImageView.setImageResource(R.drawable.beauty)
+                beautyImageView.setImageResource(R.drawable.img_hobby_beauty)
                 selected--
                 beautyClicked = false
             }
@@ -375,14 +382,14 @@ class HomeActivity : AppCompatActivity() {
         artImageView.setOnClickListener {
             if (!artClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    artImageView.setImageResource(R.drawable.select)
+                    artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                     selected++
                     artClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                artImageView.setImageResource(R.drawable.art)
+                artImageView.setImageResource(R.drawable.img_hobby_art)
                 selected--
                 artClicked = false
             }
@@ -390,14 +397,14 @@ class HomeActivity : AppCompatActivity() {
         diyImageView.setOnClickListener {
             if (!diyClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    diyImageView.setImageResource(R.drawable.select)
+                    diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                     selected++
                     diyClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                diyImageView.setImageResource(R.drawable.diy)
+                diyImageView.setImageResource(R.drawable.img_hobby_diy)
                 selected--
                 diyClicked = false
             }
@@ -405,14 +412,14 @@ class HomeActivity : AppCompatActivity() {
         sangDamImageView.setOnClickListener {
             if (!sangDamClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    sangDamImageView.setImageResource(R.drawable.select)
+                    sangDamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                     selected++
                     sangDamClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                sangDamImageView.setImageResource(R.drawable.sangdam)
+                sangDamImageView.setImageResource(R.drawable.img_hobby_sangdam)
                 selected--
                 sangDamClicked = false
             }
@@ -420,14 +427,14 @@ class HomeActivity : AppCompatActivity() {
         rideImageView.setOnClickListener {
             if (!rideClicked) {    // 선택된 상태면
                 if (selected < 5) {
-                    rideImageView.setImageResource(R.drawable.select)
+                    rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                     selected++
                     rideClicked = true
                 } else {
                     Toast.makeText(this, "더 이상 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                rideImageView.setImageResource(R.drawable.ride)
+                rideImageView.setImageResource(R.drawable.img_hobby_ride)
                 selected--
                 rideClicked = false
             }
@@ -632,82 +639,82 @@ class HomeActivity : AppCompatActivity() {
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
-                            sportsImageView.setImageResource(R.drawable.select)
+                            sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                             selected++
                             sportsClicked = true
                         }
                         FASHION -> {
-                            fashionImageView.setImageResource(R.drawable.select)
+                            fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                             selected++
                             fashionClicked = true
                         }
                         FUND -> {
-                            fundImageView.setImageResource(R.drawable.select)
+                            fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                             selected++
                             fundClicked = true
                         }
                         IT -> {
-                            itImageView.setImageResource(R.drawable.select)
+                            itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                             selected++
                             itClicked = true
                         }
                         GAME -> {
-                            gameImageView.setImageResource(R.drawable.select)
+                            gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                             selected++
                             gameClicked = true
                         }
                         STUDY -> {
-                            studyImageView.setImageResource(R.drawable.select)
+                            studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                             selected++
                             studyClicked = true
                         }
                         READING -> {
-                            readImageView.setImageResource(R.drawable.select)
+                            readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                             selected++
                             readClicked = true
                         }
                         TRAVEL -> {
-                            travelImageView.setImageResource(R.drawable.select)
+                            travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                             selected++
                             travelClicked = true
                         }
                         ENTERTAINMENT -> {
-                            entertainmentImageView.setImageResource(R.drawable.select)
+                            entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                             selected++
                             entertainmentClicked = true
                         }
                         PET -> {
-                            companionImageView.setImageResource(R.drawable.select)
+                            companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                             selected++
                             companionClicked = true
                         }
                         FOOD -> {
-                            foodImageView.setImageResource(R.drawable.select)
+                            foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                             selected++
                             foodClicked = true
                         }
                         BEAUTY -> {
-                            beautyImageView.setImageResource(R.drawable.select)
+                            beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                             selected++
                             beautyClicked = true
                         }
                         ART -> {
-                            artImageView.setImageResource(R.drawable.select)
+                            artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                             selected++
                             artClicked = true
                         }
                         DIY -> {
-                            diyImageView.setImageResource(R.drawable.select)
+                            diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                             selected++
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangDamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                             selected++
                             sangDamClicked = true
                         }
                         RIDE -> {
-                            rideImageView.setImageResource(R.drawable.select)
+                            rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                             selected++
                             rideClicked = true
                         }
@@ -744,82 +751,82 @@ class HomeActivity : AppCompatActivity() {
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
-                            sportsImageView.setImageResource(R.drawable.select)
+                            sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                             selected++
                             sportsClicked = true
                         }
                         FASHION -> {
-                            fashionImageView.setImageResource(R.drawable.select)
+                            fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                             selected++
                             fashionClicked = true
                         }
                         FUND -> {
-                            fundImageView.setImageResource(R.drawable.select)
+                            fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                             selected++
                             fundClicked = true
                         }
                         IT -> {
-                            itImageView.setImageResource(R.drawable.select)
+                            itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                             selected++
                             itClicked = true
                         }
                         GAME -> {
-                            gameImageView.setImageResource(R.drawable.select)
+                            gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                             selected++
                             gameClicked = true
                         }
                         STUDY -> {
-                            studyImageView.setImageResource(R.drawable.select)
+                            studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                             selected++
                             studyClicked = true
                         }
                         READING -> {
-                            readImageView.setImageResource(R.drawable.select)
+                            readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                             selected++
                             readClicked = true
                         }
                         TRAVEL -> {
-                            travelImageView.setImageResource(R.drawable.select)
+                            travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                             selected++
                             travelClicked = true
                         }
                         ENTERTAINMENT -> {
-                            entertainmentImageView.setImageResource(R.drawable.select)
+                            entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                             selected++
                             entertainmentClicked = true
                         }
                         PET -> {
-                            companionImageView.setImageResource(R.drawable.select)
+                            companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                             selected++
                             companionClicked = true
                         }
                         FOOD -> {
-                            foodImageView.setImageResource(R.drawable.select)
+                            foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                             selected++
                             foodClicked = true
                         }
                         BEAUTY -> {
-                            beautyImageView.setImageResource(R.drawable.select)
+                            beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                             selected++
                             beautyClicked = true
                         }
                         ART -> {
-                            artImageView.setImageResource(R.drawable.select)
+                            artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                             selected++
                             artClicked = true
                         }
                         DIY -> {
-                            diyImageView.setImageResource(R.drawable.select)
+                            diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                             selected++
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangDamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                             selected++
                             sangDamClicked = true
                         }
                         RIDE -> {
-                            rideImageView.setImageResource(R.drawable.select)
+                            rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                             selected++
                             rideClicked = true
                         }
@@ -856,82 +863,82 @@ class HomeActivity : AppCompatActivity() {
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
-                            sportsImageView.setImageResource(R.drawable.select)
+                            sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                             selected++
                             sportsClicked = true
                         }
                         FASHION -> {
-                            fashionImageView.setImageResource(R.drawable.select)
+                            fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                             selected++
                             fashionClicked = true
                         }
                         FUND -> {
-                            fundImageView.setImageResource(R.drawable.select)
+                            fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                             selected++
                             fundClicked = true
                         }
                         IT -> {
-                            itImageView.setImageResource(R.drawable.select)
+                            itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                             selected++
                             itClicked = true
                         }
                         GAME -> {
-                            gameImageView.setImageResource(R.drawable.select)
+                            gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                             selected++
                             gameClicked = true
                         }
                         STUDY -> {
-                            studyImageView.setImageResource(R.drawable.select)
+                            studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                             selected++
                             studyClicked = true
                         }
                         READING -> {
-                            readImageView.setImageResource(R.drawable.select)
+                            readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                             selected++
                             readClicked = true
                         }
                         TRAVEL -> {
-                            travelImageView.setImageResource(R.drawable.select)
+                            travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                             selected++
                             travelClicked = true
                         }
                         ENTERTAINMENT -> {
-                            entertainmentImageView.setImageResource(R.drawable.select)
+                            entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                             selected++
                             entertainmentClicked = true
                         }
                         PET -> {
-                            companionImageView.setImageResource(R.drawable.select)
+                            companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                             selected++
                             companionClicked = true
                         }
                         FOOD -> {
-                            foodImageView.setImageResource(R.drawable.select)
+                            foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                             selected++
                             foodClicked = true
                         }
                         BEAUTY -> {
-                            beautyImageView.setImageResource(R.drawable.select)
+                            beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                             selected++
                             beautyClicked = true
                         }
                         ART -> {
-                            artImageView.setImageResource(R.drawable.select)
+                            artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                             selected++
                             artClicked = true
                         }
                         DIY -> {
-                            diyImageView.setImageResource(R.drawable.select)
+                            diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                             selected++
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangDamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                             selected++
                             sangDamClicked = true
                         }
                         RIDE -> {
-                            rideImageView.setImageResource(R.drawable.select)
+                            rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                             selected++
                             rideClicked = true
                         }
@@ -968,82 +975,82 @@ class HomeActivity : AppCompatActivity() {
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
-                            sportsImageView.setImageResource(R.drawable.select)
+                            sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                             selected++
                             sportsClicked = true
                         }
                         FASHION -> {
-                            fashionImageView.setImageResource(R.drawable.select)
+                            fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                             selected++
                             fashionClicked = true
                         }
                         FUND -> {
-                            fundImageView.setImageResource(R.drawable.select)
+                            fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                             selected++
                             fundClicked = true
                         }
                         IT -> {
-                            itImageView.setImageResource(R.drawable.select)
+                            itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                             selected++
                             itClicked = true
                         }
                         GAME -> {
-                            gameImageView.setImageResource(R.drawable.select)
+                            gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                             selected++
                             gameClicked = true
                         }
                         STUDY -> {
-                            studyImageView.setImageResource(R.drawable.select)
+                            studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                             selected++
                             studyClicked = true
                         }
                         READING -> {
-                            readImageView.setImageResource(R.drawable.select)
+                            readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                             selected++
                             readClicked = true
                         }
                         TRAVEL -> {
-                            travelImageView.setImageResource(R.drawable.select)
+                            travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                             selected++
                             travelClicked = true
                         }
                         ENTERTAINMENT -> {
-                            entertainmentImageView.setImageResource(R.drawable.select)
+                            entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                             selected++
                             entertainmentClicked = true
                         }
                         PET -> {
-                            companionImageView.setImageResource(R.drawable.select)
+                            companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                             selected++
                             companionClicked = true
                         }
                         FOOD -> {
-                            foodImageView.setImageResource(R.drawable.select)
+                            foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                             selected++
                             foodClicked = true
                         }
                         BEAUTY -> {
-                            beautyImageView.setImageResource(R.drawable.select)
+                            beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                             selected++
                             beautyClicked = true
                         }
                         ART -> {
-                            artImageView.setImageResource(R.drawable.select)
+                            artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                             selected++
                             artClicked = true
                         }
                         DIY -> {
-                            diyImageView.setImageResource(R.drawable.select)
+                            diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                             selected++
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangDamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                             selected++
                             sangDamClicked = true
                         }
                         RIDE -> {
-                            rideImageView.setImageResource(R.drawable.select)
+                            rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                             selected++
                             rideClicked = true
                         }
@@ -1076,82 +1083,82 @@ class HomeActivity : AppCompatActivity() {
 
                     when (dataSnapshot.getValue(String::class.java)) {
                         SPORTS -> {
-                            sportsImageView.setImageResource(R.drawable.select)
+                            sportsImageView.setImageResource(R.drawable.img_selected_hobby_sports)
                             selected++
                             sportsClicked = true
                         }
                         FASHION -> {
-                            fashionImageView.setImageResource(R.drawable.select)
+                            fashionImageView.setImageResource(R.drawable.img_selected_hobby_fashion)
                             selected++
                             fashionClicked = true
                         }
                         FUND -> {
-                            fundImageView.setImageResource(R.drawable.select)
+                            fundImageView.setImageResource(R.drawable.img_selected_hobby_food)
                             selected++
                             fundClicked = true
                         }
                         IT -> {
-                            itImageView.setImageResource(R.drawable.select)
+                            itImageView.setImageResource(R.drawable.img_selected_hobby_it)
                             selected++
                             itClicked = true
                         }
                         GAME -> {
-                            gameImageView.setImageResource(R.drawable.select)
+                            gameImageView.setImageResource(R.drawable.img_selected_hobby_game)
                             selected++
                             gameClicked = true
                         }
                         STUDY -> {
-                            studyImageView.setImageResource(R.drawable.select)
+                            studyImageView.setImageResource(R.drawable.img_selected_hobby_study)
                             selected++
                             studyClicked = true
                         }
                         READING -> {
-                            readImageView.setImageResource(R.drawable.select)
+                            readImageView.setImageResource(R.drawable.img_selected_hobby_read)
                             selected++
                             readClicked = true
                         }
                         TRAVEL -> {
-                            travelImageView.setImageResource(R.drawable.select)
+                            travelImageView.setImageResource(R.drawable.img_selected_hobby_travel)
                             selected++
                             travelClicked = true
                         }
                         ENTERTAINMENT -> {
-                            entertainmentImageView.setImageResource(R.drawable.select)
+                            entertainmentImageView.setImageResource(R.drawable.img_selected_hobby_enter)
                             selected++
                             entertainmentClicked = true
                         }
                         PET -> {
-                            companionImageView.setImageResource(R.drawable.select)
+                            companionImageView.setImageResource(R.drawable.img_selected_hobby_companion)
                             selected++
                             companionClicked = true
                         }
                         FOOD -> {
-                            foodImageView.setImageResource(R.drawable.select)
+                            foodImageView.setImageResource(R.drawable.img_selected_hobby_food)
                             selected++
                             foodClicked = true
                         }
                         BEAUTY -> {
-                            beautyImageView.setImageResource(R.drawable.select)
+                            beautyImageView.setImageResource(R.drawable.img_selected_hobby_beauty)
                             selected++
                             beautyClicked = true
                         }
                         ART -> {
-                            artImageView.setImageResource(R.drawable.select)
+                            artImageView.setImageResource(R.drawable.img_selected_hobby_art)
                             selected++
                             artClicked = true
                         }
                         DIY -> {
-                            diyImageView.setImageResource(R.drawable.select)
+                            diyImageView.setImageResource(R.drawable.img_selected_hobby_diy)
                             selected++
                             diyClicked = true
                         }
                         COUNSELING -> {
-                            sangDamImageView.setImageResource(R.drawable.select)
+                            sangDamImageView.setImageResource(R.drawable.img_selected_hobby_sangdam)
                             selected++
                             sangDamClicked = true
                         }
                         RIDE -> {
-                            rideImageView.setImageResource(R.drawable.select)
+                            rideImageView.setImageResource(R.drawable.img_selected_hobby_ride)
                             selected++
                             rideClicked = true
                         }
@@ -1231,21 +1238,21 @@ class HomeActivity : AppCompatActivity() {
         val sangDamImageView: ImageView = headerView.findViewById(R.id.sangdamImageView)!!
         val rideImageView: ImageView = headerView.findViewById(R.id.rideImageView)!!
 
-        sportsImageView.setImageResource(R.drawable.sports)
-        fashionImageView.setImageResource(R.drawable.fashion)
-        fundImageView.setImageResource(R.drawable.fund)
-        itImageView.setImageResource(R.drawable.it)
-        gameImageView.setImageResource(R.drawable.game)
-        studyImageView.setImageResource(R.drawable.study)
-        readImageView.setImageResource(R.drawable.read)
-        travelImageView.setImageResource(R.drawable.travel)
-        entertainmentImageView.setImageResource(R.drawable.enter)
-        companionImageView.setImageResource(R.drawable.companion)
-        foodImageView.setImageResource(R.drawable.food)
-        beautyImageView.setImageResource(R.drawable.beauty)
-        artImageView.setImageResource(R.drawable.art)
-        diyImageView.setImageResource(R.drawable.diy)
-        sangDamImageView.setImageResource(R.drawable.sangdam)
-        rideImageView.setImageResource(R.drawable.ride)
+        sportsImageView.setImageResource(R.drawable.img_hobby_sports)
+        fashionImageView.setImageResource(R.drawable.img_hobby_fashion)
+        fundImageView.setImageResource(R.drawable.img_hobby_fund)
+        itImageView.setImageResource(R.drawable.img_hobby_it)
+        gameImageView.setImageResource(R.drawable.img_hobby_game)
+        studyImageView.setImageResource(R.drawable.img_hobby_study)
+        readImageView.setImageResource(R.drawable.img_hobby_read)
+        travelImageView.setImageResource(R.drawable.img_hobby_travel)
+        entertainmentImageView.setImageResource(R.drawable.img_hobby_enter)
+        companionImageView.setImageResource(R.drawable.img_hobby_companion)
+        foodImageView.setImageResource(R.drawable.img_hobby_food)
+        beautyImageView.setImageResource(R.drawable.img_hobby_beauty)
+        artImageView.setImageResource(R.drawable.img_hobby_art)
+        diyImageView.setImageResource(R.drawable.img_hobby_diy)
+        sangDamImageView.setImageResource(R.drawable.img_hobby_sangdam)
+        rideImageView.setImageResource(R.drawable.img_hobby_ride)
     }
 }
