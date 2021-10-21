@@ -12,7 +12,7 @@ class Hobbylist {
         const val TRAVEL = "travel"
         const val ENTERTAINMENT = "entertainment"
         const val PET = "pet"
-        const val FOOD = "beauty"
+        const val FOOD = "food"
         const val BEAUTY = "beauty"
         const val ART = "art"
         const val DIY = "diy"

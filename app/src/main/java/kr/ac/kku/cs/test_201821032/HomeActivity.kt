@@ -1093,7 +1093,7 @@ class HomeActivity : AppCompatActivity() {
                             fashionClicked = true
                         }
                         FUND -> {
-                            fundImageView.setImageResource(R.drawable.img_selected_hobby_food)
+                            fundImageView.setImageResource(R.drawable.img_selected_hobby_fund)
                             selected++
                             fundClicked = true
                         }

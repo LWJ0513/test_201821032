@@ -7,12 +7,6 @@
     android:orientation="vertical"
     tools:context=".grouplist.GroupsOnlineDetailActivity">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="온랑니 모임" />
-
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -65,8 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/writerTextView"
                 android:layout_marginLeft="3dp"
-                android:layout_toRightOf="@id/writerTextView"
                 android:layout_marginEnd="20dp"
+                android:layout_toRightOf="@id/writerTextView"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 tools:text="임원정" />
