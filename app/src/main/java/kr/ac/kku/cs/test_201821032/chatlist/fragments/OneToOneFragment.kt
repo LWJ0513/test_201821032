@@ -2,9 +2,7 @@ package kr.ac.kku.cs.test_201821032.chatlist.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +18,6 @@ import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListAdapter
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.FragmentOneToOneBinding
-import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
 class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
 
@@ -33,7 +30,6 @@ class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val fragmentOneToOneBinding = FragmentOneToOneBinding.bind(view)
         binding = fragmentOneToOneBinding
 

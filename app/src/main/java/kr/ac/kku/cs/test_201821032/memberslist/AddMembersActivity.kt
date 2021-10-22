@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.android.synthetic.main.activity_add_members.view.*
 import kotlinx.android.synthetic.main.activity_members_detail.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
+import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddMembersBinding
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
@@ -184,6 +185,9 @@ class AddMembersActivity : AppCompatActivity() {
             membersDB.child(hobbyDB).child(roomNumber).setValue(model)
             hideProgress()
             finish()
+            overridePendingTransition(0, 0)
+            startActivity(Intent(this, HomeActivity::class.java))
+            overridePendingTransition(0, 0)
         }
     }
 

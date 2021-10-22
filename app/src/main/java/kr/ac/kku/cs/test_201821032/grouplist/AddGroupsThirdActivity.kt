@@ -394,7 +394,8 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 latitude,
                 longitude,
                 roomNumber,
-                selectedHobby
+                selectedHobby,
+                roomManager+System.currentTimeMillis()
             )
         groupsDB.child(selectedHobby).child(roomNumber).setValue(model)
         hideProgress()

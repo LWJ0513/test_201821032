@@ -197,7 +197,7 @@ class AddGroupsActivity : AppCompatActivity() {
         hashTag: String,
         imageUrl: String
     ) {
-        val key = groupsDB.child(hobbyDB).push().key!!
+        val roomNumber = groupsDB.child(hobbyDB).push().key!!
         val model =
             GroupsModel(
                 roomManager,
@@ -210,10 +210,11 @@ class AddGroupsActivity : AppCompatActivity() {
                 "",
                 0F,
                 0F,
-                key,
-                hobbyDB
+                roomNumber,
+                hobbyDB,
+                roomManager+System.currentTimeMillis()
             )
-        groupsDB.child(hobbyDB).child(key).setValue(model)
+        groupsDB.child(hobbyDB).child(roomNumber).setValue(model)
         hideProgress()
         finish()
     }

@@ -12,7 +12,8 @@ data class GroupsModel(
     val latitude: Float,    //위도
     val longitude: Float ,  //경도
     val roomNumber: String,
-    val hobby: String
+    val hobby: String,
+    val key: String
 ) {
-    constructor() : this("", "", 0, "", "", "", "", "", 0F, 0F,"","")
+    constructor() : this("", "", 0, "", "", "", "", "", 0F, 0F,"","", "")
 }

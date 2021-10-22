@@ -44,6 +44,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private var longitude: Float = 0F
     private lateinit var roomNumber: String
     private lateinit var selectedHobby: String
+    private lateinit var key: String
     private var currentSelectMarker: Marker? = null
 
     private val auth: FirebaseAuth by lazy { Firebase.auth }
@@ -67,6 +68,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         latitude = intent.getFloatExtra("latitude", 0F)
         longitude = intent.getFloatExtra("longitude", 0F)
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
+        key = intent.getStringExtra("key").toString()
 
         groupsOfflineRoomTitleTextView.text = title
         groupsOfflineRoomDescriptionTextView.text = description
@@ -109,7 +111,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     entryId = auth.currentUser!!.uid,
                     managerId = roomManager,
                     roomName = title,
-                    key = System.currentTimeMillis(),
+                    key = key,
                     roomNumber = roomNumber,
                     onOff = "Offline",
                     hobby = selectedHobby,
@@ -120,16 +122,16 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
                     .child(DBKey.CHILD_CHAT)
                     .child(DBKey.DB_GROUP)
-                    .push()
+                    .child(key)
                     .setValue(chatRoom)
 
                 userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
                     .child(DBKey.CHILD_CHAT)
                     .child(DBKey.DB_GROUP)
-                    .push()
+                    .child(key)
                     .setValue(chatRoom)
 
-                // TODO 채팅화면으로 바로 이동
+
                 val intent = Intent(this, ChatRoomActivity::class.java)
                 intent.putExtra("chatKey", chatRoom.key)
                 startActivity(Intent(intent))

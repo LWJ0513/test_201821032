@@ -26,7 +26,7 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     private val chatList = mutableListOf<ChatItem>()
-    private val adapter = ChatItemAdapter(auth.currentUser!!.uid)
+    private val adapter = ChatItemAdapter()
     private lateinit var chatDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var binding: ActivityChatRoomBinding
@@ -38,7 +38,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         userDB = Firebase.database.reference.child(DB_USERS)
 
-        val chatKey = intent.getLongExtra("chatKey", -1)
+        val chatKey = intent.getStringExtra("chatKey")
         chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
 
         chatDB.addChildEventListener(object : ChildEventListener {

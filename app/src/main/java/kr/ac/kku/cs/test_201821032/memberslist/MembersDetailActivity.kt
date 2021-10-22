@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -99,15 +98,14 @@ class MembersDetailActivity : AppCompatActivity() {
                 userDB.child(auth.currentUser!!.uid).child(DBKey.DB_USER_PROFILE_IMAGE).addValueEventListener(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val profileImageUrl = snapshot.getValue(String::class.java)!!
-
                         chatRoom = ChatListItem(
                             entryId = auth.currentUser!!.uid,
                             managerId = roomManager,
                             roomName = title,
-                            key = System.currentTimeMillis(),
+                            key = System.currentTimeMillis().toString(),
                             roomNumber = roomNumber,
-                            onOff = "members",
                             hobby = "",
+                            onOff = "members",
                             roomImage = profileImageUrl
                         )
 

@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ItemChatRowBinding
 
-class ChatItemAdapter(val myUid: String) : ListAdapter<ChatItem, ChatItemAdapter.ViewHolder>(diffUtil) {
+class ChatItemAdapter() : ListAdapter<ChatItem, ChatItemAdapter.ViewHolder>(diffUtil) {
+
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
 
     inner class ViewHolder(private val binding: ItemChatRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(chatItem: ChatItem) {
-            if (chatItem.senderUid == myUid) {      // 오른쪽
+            if (chatItem.senderUid == auth.currentUser!!.uid) {      // 오른쪽
                 binding.chatLayout.gravity = Gravity.END
                 binding.senderTextView.visibility = View.GONE
                 binding.senderTextView.text = chatItem.senderName
@@ -26,7 +30,8 @@ class ChatItemAdapter(val myUid: String) : ListAdapter<ChatItem, ChatItemAdapter
                 binding.messageTextView.setBackgroundResource(R.drawable.shape_chat_send_bubble)
                 binding.messageTextView.setPadding(30, 30, 60, 30)
             } else {        // 왼쪽
-                binding.chatLayout.foregroundGravity = Gravity.LEFT
+                binding.chatLayout.gravity = Gravity.START
+                binding.senderTextView.visibility = View.VISIBLE
                 binding.senderTextView.text = chatItem.senderName
                 binding.messageTextView.text = chatItem.message
                 binding.messageTextView.setTextColor(Color.BLACK)

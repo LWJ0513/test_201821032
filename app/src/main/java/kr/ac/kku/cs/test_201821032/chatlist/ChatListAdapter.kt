@@ -38,27 +38,34 @@ class ChatListAdapter(val onItemClicked: (ChatListItem) -> Unit) :
 
             binding.chatRoomTitleTextView.text = chatListItem.roomName
             if(chatListItem.managerId == auth.currentUser!!.uid) {      // 내가 개설자면 입장자 이름
-                userDB.child(chatListItem.entryId).child(DBKey.DB_USER_NAME).addValueEventListener(object :ValueEventListener{
+
+                userDB.child(chatListItem.entryId).addValueEventListener(object :ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        binding.lastChatTextView.text =snapshot.getValue(String::class.java)
+                        val photo = snapshot.child(DBKey.DB_USER_PROFILE_IMAGE).getValue(String::class.java)!!.toUri()
+
+                        binding.lastChatTextView.text =snapshot.child(DBKey.DB_USER_NAME).getValue(String::class.java)
+                        Glide.with(binding.membersRoomImageView)
+                            .load(photo)
+                            .centerCrop()
+                            .into(binding.membersRoomImageView)
                     }
                     override fun onCancelled(error: DatabaseError) { }
                 })
             } else {        //  내가 참여자면
-                userDB.child(chatListItem.managerId).child(DBKey.DB_USER_NAME).addValueEventListener(object :ValueEventListener{
+
+                userDB.child(chatListItem.managerId).addValueEventListener(object :ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        binding.lastChatTextView.text =snapshot.getValue(String::class.java)
+                        val photo = snapshot.child(DBKey.DB_USER_PROFILE_IMAGE).getValue(String::class.java)!!.toUri()
+
+                        binding.lastChatTextView.text =snapshot.child(DBKey.DB_USER_NAME).getValue(String::class.java)
+                        Glide.with(binding.membersRoomImageView)
+                            .load(photo)
+                            .centerCrop()
+                            .into(binding.membersRoomImageView)
                     }
                     override fun onCancelled(error: DatabaseError) { }
                 })
             }
-            Glide.with(binding.membersRoomImageView)
-                .load(chatListItem.roomImage.toUri())
-                .centerCrop()
-                .into(binding.membersRoomImageView)
-
-
-
         }
     }
 
@@ -79,7 +86,7 @@ class ChatListAdapter(val onItemClicked: (ChatListItem) -> Unit) :
                 return oldItem.key == newItem.key
             }
 
-            override fun areContentsTheSame(oldItem: ChatListItem, newItem: ChatListItem): Boolean {
+            override fun areContentsTheSame(oldItem:ChatListItem, newItem:ChatListItem): Boolean {
                 return oldItem == newItem
             }
         }
