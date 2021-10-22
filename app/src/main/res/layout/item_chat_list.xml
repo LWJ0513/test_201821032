@@ -9,11 +9,11 @@
         android:id="@+id/chatRoomTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:textColor="@color/black"
-        android:layout_marginLeft="10dp"
         android:textSize="20sp"
-        tools:text="User name" />
+        tools:text="채팅방 이름" />
 
     <View
         android:id="@+id/underLineView"

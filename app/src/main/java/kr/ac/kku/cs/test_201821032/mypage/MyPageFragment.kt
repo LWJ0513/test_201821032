@@ -1,5 +1,6 @@
 package kr.ac.kku.cs.test_201821032.mypage
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
@@ -39,6 +40,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         Firebase.auth
     }
 
+    @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentMyPageBinding = FragmentMypageBinding.bind(view)
@@ -76,7 +78,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
 
     private fun initWithdrawalButton(uid: String) {
         withdrawalButton.setOnClickListener {
-           startActivity(Intent(context, WithdrawalActivity::class.java))
+            startActivity(Intent(context, WithdrawalActivity::class.java))
         }
     }
 

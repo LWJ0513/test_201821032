@@ -56,7 +56,6 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
         photoUri = intent.data
 
-        Toast.makeText(this, "$photoUri", Toast.LENGTH_SHORT).show()
 
 
         initBackButton()
@@ -99,11 +98,7 @@ class AddGroupSecondActivity : AppCompatActivity(), CoroutineScope {
         }
 
         adapter.setSearchResultList(dataList) {
-            Toast.makeText(
-                this,
-                "빌딩 이름: ${it.locationName} , 주소 : ${it.fullAddress} , 위도 : ${it.locationLatLng.latitude} , 경도 : ${it.locationLatLng.longitude}",
-                Toast.LENGTH_SHORT
-            ).show()
+
             startActivity(Intent(this, AddGroupsThirdActivity::class.java).apply {
                 putExtra(SEARCH_RESULT_EXTRA_KEY, it)
                 putExtra("roomManager", roomManager)

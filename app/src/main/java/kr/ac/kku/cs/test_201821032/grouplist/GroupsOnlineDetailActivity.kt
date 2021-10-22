@@ -7,7 +7,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_groups_online_detail.*
@@ -27,9 +30,9 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
     private lateinit var description: String
     private lateinit var hashTag: String
     private lateinit var selectedHobby: String
+    private lateinit var roomNumber: String
 
     private val auth: FirebaseAuth by lazy { Firebase.auth }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,8 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
 
 
+        roomNumber = intent.getStringExtra("roomNumber").toString()
+        Toast.makeText(this,"$roomNumber", Toast.LENGTH_SHORT).show()
         title = intent.getStringExtra("title").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
         description = intent.getStringExtra("description").toString()
@@ -48,12 +53,17 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
         groupsOnlineRoomTitleTextView.text = title
         groupsOnlineRoomDescriptionTextView.text = description
         groupsOnlineRoomHashTagTextView.text = hashTag
-
+        userDB.child(roomManager).child(DBKey.DB_USER_NAME).addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userName =snapshot.getValue(String::class.java)
+                groupsOnlineRoomManagerTextView.text = userName
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
         Glide.with(this)
             .load(intent.data)
             .centerCrop()
             .into(groupsRoomImageView)
-
 
         initBackButton()
         initSubmitOnlineGroupButton()
@@ -74,9 +84,12 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
                     entryId = auth.currentUser!!.uid,
                     managerId = roomManager,
                     roomName = title,
-                    key = System.currentTimeMillis()
+                    key = System.currentTimeMillis(),
+                    roomNumber = roomNumber,
+                    onOff = "Online",
+                    hobby = selectedHobby,
+                    roomImage = intent.data.toString()
                 )
-                Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 
                 userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
                     .child(DBKey.CHILD_CHAT)

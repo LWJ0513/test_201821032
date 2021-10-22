@@ -15,7 +15,10 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_groups_offline_detail.*
@@ -26,7 +29,6 @@ import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.ActivityGroupsOfflineDetailBinding
 
 class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
-
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityGroupsOfflineDetailBinding
     private lateinit var userDB: DatabaseReference
@@ -40,6 +42,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var address: String
     private var latitude: Float = 0F
     private var longitude: Float = 0F
+    private lateinit var roomNumber: String
     private lateinit var selectedHobby: String
     private var currentSelectMarker: Marker? = null
 
@@ -53,7 +56,8 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
 
 
-
+        roomNumber = intent.getStringExtra("roomNumber").toString()
+        Toast.makeText(this,"$roomNumber", Toast.LENGTH_SHORT).show()
         title = intent.getStringExtra("title").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
         description = intent.getStringExtra("description").toString()
@@ -67,7 +71,15 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         groupsOfflineRoomTitleTextView.text = title
         groupsOfflineRoomDescriptionTextView.text = description
         groupsOfflineRoomHashTagTextView.text = hashTag
+        userDB.child(roomManager).child(DBKey.DB_USER_NAME).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userName = snapshot.getValue(String::class.java)
+                groupsOfflineRoomManagerTextView.text = userName
+            }
 
+            override fun onCancelled(error: DatabaseError) {}
+        })
         Glide.with(this)
             .load(intent.data)
             .centerCrop()
@@ -92,12 +104,16 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         groupDB = Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
 
         binding.participateButton.setOnClickListener {
-            if(auth.currentUser!!.uid != roomManager){
+            if (auth.currentUser!!.uid != roomManager) {
                 chatRoom = ChatListItem(
                     entryId = auth.currentUser!!.uid,
                     managerId = roomManager,
                     roomName = title,
-                    key = System.currentTimeMillis()
+                    key = System.currentTimeMillis(),
+                    roomNumber = roomNumber,
+                    onOff = "Offline",
+                    hobby = selectedHobby,
+                    roomImage = intent.data.toString()
                 )
                 Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 

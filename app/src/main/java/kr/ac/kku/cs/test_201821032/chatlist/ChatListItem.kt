@@ -4,7 +4,11 @@ data class ChatListItem(
     val entryId: String,
     val managerId: String,
     val roomName: String,
-    val key: Long
+    val key: Long,
+    val roomNumber: String,
+    val onOff: String,
+    val hobby: String,
+    val roomImage: String
 ) {
-    constructor() : this("", "", "", 0)
+    constructor() : this("", "", "", 0, "", "", "", "")
 }

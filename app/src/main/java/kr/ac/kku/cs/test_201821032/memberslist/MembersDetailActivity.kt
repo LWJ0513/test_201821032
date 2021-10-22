@@ -35,6 +35,7 @@ class MembersDetailActivity : AppCompatActivity() {
     private lateinit var chatRoom: ChatListItem
     private lateinit var roomManager: String
     private lateinit var title: String
+    private lateinit var roomNumber: String
     private var createAt: Long = 0
     private var imgUri: Uri? = null
 
@@ -48,6 +49,7 @@ class MembersDetailActivity : AppCompatActivity() {
 
         userDB = Firebase.database.reference.child(DB_USERS)
 
+        roomNumber = intent.getStringExtra("key").toString()
         title =  intent.getStringExtra("title").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
 
@@ -97,7 +99,11 @@ class MembersDetailActivity : AppCompatActivity() {
                     entryId = auth.currentUser!!.uid,
                     managerId = roomManager,
                     roomName = title,
-                    key = System.currentTimeMillis()
+                    key = System.currentTimeMillis(),
+                    roomNumber = roomNumber,
+                    onOff = "members",
+                    hobby = "",
+                    roomImage = ""
                 )
                 Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 

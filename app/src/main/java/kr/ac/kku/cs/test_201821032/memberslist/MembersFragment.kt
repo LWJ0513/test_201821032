@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +14,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_memberslist.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
@@ -96,6 +93,7 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
         memberAdapter = MembersAdapter(onItemClicked = { membersModel ->
             if (auth.currentUser != null) {         // 로그인을 한 상태
                 startActivity(Intent(context, MembersDetailActivity::class.java).apply {
+                    putExtra("key", membersModel.roomNumber)
                     putExtra("roomManager", membersModel.roomManager)
                     putExtra("title", membersModel.title)
                     putExtra("createAt", membersModel.createAt)

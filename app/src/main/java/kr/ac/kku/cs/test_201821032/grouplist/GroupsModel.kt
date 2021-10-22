@@ -10,7 +10,9 @@ data class GroupsModel(
     val locationName: String,    //빌딩이름
     val locationAddress: String,
     val latitude: Float,    //위도
-    val longitude: Float   //경도
+    val longitude: Float ,  //경도
+    val roomNumber: String,
+    val hobby: String
 ) {
-    constructor() : this("", "", 0, "", "", "", "", "", 0F, 0F)
+    constructor() : this("", "", 0, "", "", "", "", "", 0F, 0F,"","")
 }

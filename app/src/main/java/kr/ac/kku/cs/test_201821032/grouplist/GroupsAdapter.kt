@@ -16,6 +16,7 @@ import java.util.*
 class GroupsAdapter (val onItemClicked: (GroupsModel) -> Unit) :
     ListAdapter<GroupsModel, GroupsAdapter.ViewHolder>(diffUtil) {
 
+
     inner class ViewHolder(private val binding: ItemGroupsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

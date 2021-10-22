@@ -178,9 +178,10 @@ class AddMembersActivity : AppCompatActivity() {
             hideProgress()
             Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
         } else {
+            val roomNumber = membersDB.child(hobbyDB).push().key!!
             val model =
-                MembersModel(roomManager, title, System.currentTimeMillis(), description, hashTag, imageUrl)
-            membersDB.child(hobbyDB).push().setValue(model)
+                MembersModel(roomManager, title, System.currentTimeMillis(), description, hashTag, imageUrl, roomNumber)
+            membersDB.child(hobbyDB).child(roomNumber).setValue(model)
             hideProgress()
             finish()
         }

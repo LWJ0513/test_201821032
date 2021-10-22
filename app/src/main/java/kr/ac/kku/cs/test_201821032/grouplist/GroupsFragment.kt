@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +14,6 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_grouplist.*
-import kotlinx.android.synthetic.main.fragment_grouplist.swipeRefreshLayout
-import kotlinx.android.synthetic.main.fragment_memberslist.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY1
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY2
@@ -72,7 +69,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
         val actionBar = (activity as HomeActivity?)!!.supportActionBar
         actionBar!!.setDisplayShowTitleEnabled(true)
         actionBar.setDisplayShowCustomEnabled(false)
-        actionBar.title = "모임"
+        actionBar.title = "모임 | ON"
         actionBar.show()
 
 
@@ -96,12 +93,14 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                                 context,
                                 GroupsOnlineDetailActivity::class.java
                             ).apply {
+                                putExtra("roomNumber", groupsModel.roomNumber)
                                 putExtra("roomManager", groupsModel.roomManager)
                                 putExtra("title", groupsModel.title)
                                 putExtra("createAt", groupsModel.createAt)
                                 putExtra("description", groupsModel.description)
                                 putExtra("hashTag", groupsModel.hashTag)
                                 putExtra("online", online)
+                                putExtra("selectedHobby", groupsModel.hobby)
                                 data = groupsModel.imageUrl.toUri()
                             })
                     }
@@ -111,6 +110,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                                 context,
                                 GroupsOfflineDetailActivity::class.java
                             ).apply {
+                                putExtra("roomNumber", groupsModel.roomNumber)
                                 putExtra("roomManager", groupsModel.roomManager)
                                 putExtra("title", groupsModel.title)
                                 putExtra("createAt", groupsModel.createAt)
@@ -121,6 +121,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                                 putExtra("locationAddress", groupsModel.locationAddress)
                                 putExtra("locationName", groupsModel.locationName)
                                 putExtra("online", online)
+                                putExtra("selectedHobby", groupsModel.hobby)
                                 data = groupsModel.imageUrl.toUri()
                             })
                     }
@@ -627,25 +628,19 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
             R.id.action_toggle -> {
                 if (online) {
                     item.setIcon(R.drawable.ic_toggle_on)
-                    Toast.makeText(context, "토글 온", Toast.LENGTH_SHORT).show()
-                    actionBar!!.title = "모임 찾기 | 온라인"
-
+                    actionBar!!.title = "모임 | ON"
 
                     groupList.clear()
                     initOnlineGroupList()
-                    if (online) Toast.makeText(context, "online", Toast.LENGTH_SHORT).show()
 
 
                     online = false
                 } else {
                     item.setIcon(R.drawable.ic_toggle_off)
-                    actionBar!!.title = "모임 찾기 | 오프라인"
-                    Toast.makeText(context, "토글 오프", Toast.LENGTH_SHORT).show()
-
+                    actionBar!!.title = "모임 | OFF"
 
                     groupList.clear()
                     initOfflineGroupList()
-                    if (!online) Toast.makeText(context, "offline", Toast.LENGTH_SHORT).show()
 
                     online = true
                 }

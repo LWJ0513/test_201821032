@@ -380,7 +380,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         latitude: Float,
         longitude: Float
     ) {
-
+        val roomNumber = groupsDB.child(selectedHobby).push().key!!
         val model =
             GroupsModel(
                 roomManager,
@@ -392,12 +392,13 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 locationName,
                 locationAddress,
                 latitude,
-                longitude
+                longitude,
+                roomNumber,
+                selectedHobby
             )
-        groupsDB.child(selectedHobby).push().setValue(model)
+        groupsDB.child(selectedHobby).child(roomNumber).setValue(model)
         hideProgress()
         finish()
-
     }
 
     private fun startContentProvider() {
