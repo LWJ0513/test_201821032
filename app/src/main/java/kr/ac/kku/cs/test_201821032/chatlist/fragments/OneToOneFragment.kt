@@ -34,15 +34,9 @@ class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (auth.currentUser == null) { // 로그인이 안되어 있으면
-            activity?.let {
-                val intent = Intent(context, LoginActivity::class.java)// LoginActivity로 이동
-                startActivity(intent)
-            }
-        }
-
         val fragmentOneToOneBinding = FragmentOneToOneBinding.bind(view)
         binding = fragmentOneToOneBinding
+
 
         chatListAdapter = ChatListAdapter(onItemClicked = { chatRoom ->
             // 채팅방으로 이동하는 코드
@@ -55,7 +49,6 @@ class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
 
         fragmentOneToOneBinding.oneToOneChatListRecyclerView.adapter = chatListAdapter
         fragmentOneToOneBinding.oneToOneChatListRecyclerView.layoutManager = LinearLayoutManager(context)
-
 
 
         chatRoomList.clear()
@@ -74,16 +67,11 @@ class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
 
                     chatRoomList.add(model)
                 }
-
                 chatListAdapter.submitList(chatRoomList)
                 chatListAdapter.notifyDataSetChanged()
             }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
+            override fun onCancelled(error: DatabaseError) { }
         })
-
-
     }
 
     override fun onResume() {
@@ -91,12 +79,4 @@ class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
 
         chatListAdapter.notifyDataSetChanged()
     }
-    /*  override fun onCreateView(
-          inflater: LayoutInflater, container: ViewGroup?,
-          savedInstanceState: Bundle?
-      ): View? {
-          // Inflate the layout for this fragment
-          return inflater.inflate(R.layout.fragment_one_to_one, container, false)
-      }*/
-
 }

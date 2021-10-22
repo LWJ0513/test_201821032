@@ -4,15 +4,28 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kr.ac.kku.cs.test_201821032.databinding.ItemChatListBinding
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import kr.ac.kku.cs.test_201821032.DBKey
+import kr.ac.kku.cs.test_201821032.databinding.ItemChatListMembersBinding
 
 class ChatListAdapter(val onItemClicked: (ChatListItem) -> Unit) :
     ListAdapter<ChatListItem, ChatListAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val binding: ItemChatListBinding) :
+    private lateinit var userDB: DatabaseReference
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
+    inner class ViewHolder(private val binding: ItemChatListMembersBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @RequiresApi(Build.VERSION_CODES.N)
@@ -21,13 +34,37 @@ class ChatListAdapter(val onItemClicked: (ChatListItem) -> Unit) :
                 onItemClicked(chatListItem)
             }
 
+            userDB = Firebase.database.reference.child("Users")
+
             binding.chatRoomTitleTextView.text = chatListItem.roomName
+            if(chatListItem.managerId == auth.currentUser!!.uid) {      // 내가 개설자면 입장자 이름
+                userDB.child(chatListItem.entryId).child(DBKey.DB_USER_NAME).addValueEventListener(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        binding.lastChatTextView.text =snapshot.getValue(String::class.java)
+                    }
+                    override fun onCancelled(error: DatabaseError) { }
+                })
+            } else {        //  내가 참여자면
+                userDB.child(chatListItem.managerId).child(DBKey.DB_USER_NAME).addValueEventListener(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        binding.lastChatTextView.text =snapshot.getValue(String::class.java)
+                    }
+                    override fun onCancelled(error: DatabaseError) { }
+                })
+            }
+            Glide.with(binding.membersRoomImageView)
+                .load(chatListItem.roomImage.toUri())
+                .centerCrop()
+                .into(binding.membersRoomImageView)
+
+
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemChatListMembersBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

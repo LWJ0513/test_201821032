@@ -95,58 +95,46 @@ class MembersDetailActivity : AppCompatActivity() {
 
         participateButton.setOnClickListener {
             if (auth.currentUser!!.uid != roomManager) {
-                chatRoom = ChatListItem(
-                    entryId = auth.currentUser!!.uid,
-                    managerId = roomManager,
-                    roomName = title,
-                    key = System.currentTimeMillis(),
-                    roomNumber = roomNumber,
-                    onOff = "members",
-                    hobby = "",
-                    roomImage = ""
-                )
-                Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 
-                userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
-                    .child(CHILD_CHAT)
-                    .child(DB_ONE)
-                    .push()
-                    .setValue(chatRoom)
+                userDB.child(auth.currentUser!!.uid).child(DBKey.DB_USER_PROFILE_IMAGE).addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val profileImageUrl = snapshot.getValue(String::class.java)!!
 
-                userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
-                    .child(CHILD_CHAT)
-                    .child(DB_ONE)
-                    .push()
-                    .setValue(chatRoom)
+                        chatRoom = ChatListItem(
+                            entryId = auth.currentUser!!.uid,
+                            managerId = roomManager,
+                            roomName = title,
+                            key = System.currentTimeMillis(),
+                            roomNumber = roomNumber,
+                            onOff = "members",
+                            hobby = "",
+                            roomImage = profileImageUrl
+                        )
 
-                // TODO 채팅화면으로 바로 이동
-                val intent = Intent(this@MembersDetailActivity, ChatRoomActivity::class.java)
-                intent.putExtra("chatKey", chatRoom.key)
-                startActivity(Intent(intent))
-                finish()
+                        userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
+                            .child(CHILD_CHAT)
+                            .child(DB_ONE)
+                            .push()
+                            .setValue(chatRoom)
 
+                        userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
+                            .child(CHILD_CHAT)
+                            .child(DB_ONE)
+                            .push()
+                            .setValue(chatRoom)
+
+
+                        val intent = Intent(this@MembersDetailActivity, ChatRoomActivity::class.java)
+                        intent.putExtra("chatKey", chatRoom.key)
+                        startActivity(Intent(intent))
+                        finish()
+
+                    }
+                    override fun onCancelled(error: DatabaseError) { }
+                })
             } else {     // 내가 올린 아이템
                 Toast.makeText(this, "내가 올린 게시글입니다.", Toast.LENGTH_LONG).show()
             }
-
-
-
-
         }
-
-
-
-
-
-
-        /*
-          memberDB.addValueEventListener(object : ValueEventListener {
-              override fun onDataChange(dataSnapshot: DataSnapshot) {
-              }
-              override fun onCancelled(error: DatabaseError) {
-              }
-          })*/
-
-
     }
 }

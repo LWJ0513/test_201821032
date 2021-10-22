@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_groups_offline_detail.*
-import kr.ac.kku.cs.test_201821032.databinding.ItemGroupChatListBinding
+import kr.ac.kku.cs.test_201821032.databinding.ItemChatListGroupBinding
 
 class GroupChatListAdapter(val onChatRoomClicked: (ChatListItem) -> Unit, val onCommunityClicked: (ChatListItem) -> Unit) :
     ListAdapter<ChatListItem, GroupChatListAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val binding: ItemGroupChatListBinding) :
+    inner class ViewHolder(private val binding: ItemChatListGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @RequiresApi(Build.VERSION_CODES.N)
         fun bind(chatListItem: ChatListItem) {
             binding.communityButton.setOnClickListener {
-               onCommunityClicked(chatListItem)
+                onCommunityClicked(chatListItem)
             }
             binding.chatRoomButton.setOnClickListener {
                 onChatRoomClicked(chatListItem)
@@ -38,7 +38,7 @@ class GroupChatListAdapter(val onChatRoomClicked: (ChatListItem) -> Unit, val on
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ItemGroupChatListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemChatListGroupBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
