@@ -625,8 +625,6 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val actionBar = (activity as HomeActivity?)!!.supportActionBar
         when (item.itemId) {
-            // R.id.action_settings -> Toast.makeText(this, "세팅 클릭쓰", Toast.LENGTH_SHORT).show()
-
             R.id.action_toggle -> {
                 if (online) {
                     item.setIcon(R.drawable.ic_toggle_on)

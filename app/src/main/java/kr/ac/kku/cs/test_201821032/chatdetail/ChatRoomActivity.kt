@@ -38,6 +38,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         userDB = Firebase.database.reference.child(DB_USERS)
 
+        roomTitleTextView.text = intent.getStringExtra("title")
         val chatKey = intent.getStringExtra("chatKey")
         chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
 

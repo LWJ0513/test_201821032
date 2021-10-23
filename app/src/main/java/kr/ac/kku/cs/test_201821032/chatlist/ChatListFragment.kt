@@ -28,8 +28,6 @@ import kr.ac.kku.cs.test_201821032.databinding.FragmentChatlistBinding
 class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
 
     private var binding: FragmentChatlistBinding? = null
-    private lateinit var chatListAdapter: ChatListAdapter
-
     private val chatRoomList = mutableListOf<ChatListItem>()
     private val auth: FirebaseAuth by lazy {
         Firebase.auth
@@ -53,17 +51,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
         actionBar.setCustomView(R.layout.title_chatlist)
 
 
-
         val fragmentChatlistBinding = FragmentChatlistBinding.bind(view)
         binding = fragmentChatlistBinding
-
-        chatListAdapter = ChatListAdapter(onItemClicked = { chatRoom ->     // 채팅방으로 이동
-            context?.let {
-                val intent = Intent(it, ChatRoomActivity::class.java)
-                intent.putExtra("chatKey", chatRoom.key)
-                startActivity(intent)
-            }
-        })
 
         chatRoomList.clear()
 
@@ -81,34 +70,6 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
                 }
             }
         }.attach()
-
-
-
-        val chatDB = Firebase.database.reference.child(DB_USERS).child(auth.currentUser!!.uid)
-            .child(CHILD_CHAT)
-
-        chatDB.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach {
-                    val model = it.getValue(ChatListItem::class.java)
-                    model ?: return
-
-                    chatRoomList.add(model)
-                }
-
-                chatListAdapter.submitList(chatRoomList)
-                chatListAdapter.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        chatListAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

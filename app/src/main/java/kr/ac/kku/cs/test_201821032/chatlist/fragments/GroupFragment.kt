@@ -43,18 +43,39 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val fragmentGroupBinding = FragmentGroupBinding.bind(view)
         binding = fragmentGroupBinding
-
 
 
         groupChatListAdapter = GroupChatListAdapter(onChatRoomClicked = { chatRoom ->
             // 채팅방으로 이동하는 코드
             context?.let {
-                val intent = Intent(it, ChatRoomActivity::class.java)
-                intent.putExtra("chatKey", chatRoom.key)
-                startActivity(intent)
+
+                if (chatRoom.onOff == "Online") {
+                    groupsOnlineDB.child(chatRoom.hobby).child(chatRoom.roomNumber).child("title").addValueEventListener(object :ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val title = snapshot.getValue(String::class.java).toString()
+
+                            val intent = Intent(it, ChatRoomActivity::class.java)
+                            intent.putExtra("chatKey", chatRoom.key)
+                            intent.putExtra("title", title)
+                            startActivity(intent)
+                        }
+                        override fun onCancelled(error: DatabaseError) { }
+                    })
+                } else{
+                    groupsOfflineDB.child(chatRoom.hobby).child(chatRoom.roomNumber).child("title").addValueEventListener(object :ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val title = snapshot.getValue(String::class.java).toString()
+
+                            val intent = Intent(it, ChatRoomActivity::class.java)
+                            intent.putExtra("chatKey", chatRoom.key)
+                            intent.putExtra("title", title)
+                            startActivity(intent)
+                        }
+                        override fun onCancelled(error: DatabaseError) { }
+                    })
+                }
             }
         }, onCommunityClicked = { chatRoom ->
             context?.let {
@@ -142,8 +163,6 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
             override fun onCancelled(error: DatabaseError) {
             }
         })
-
-
     }
 
     override fun onResume() {
