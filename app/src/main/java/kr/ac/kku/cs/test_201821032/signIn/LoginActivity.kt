@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -200,5 +201,11 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    override fun onBackPressed() {
+
+        ActivityCompat.finishAffinity(this)
+
     }
 }

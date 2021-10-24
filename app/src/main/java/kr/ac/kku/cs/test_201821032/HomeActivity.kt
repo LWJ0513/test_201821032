@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -1254,5 +1255,11 @@ class HomeActivity : AppCompatActivity() {
         diyImageView.setImageResource(R.drawable.img_hobby_diy)
         sangDamImageView.setImageResource(R.drawable.img_hobby_sangdam)
         rideImageView.setImageResource(R.drawable.img_hobby_ride)
+    }
+
+    override fun onBackPressed() {
+
+        ActivityCompat.finishAffinity(this)
+
     }
 }

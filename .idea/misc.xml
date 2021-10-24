@@ -81,15 +81,21 @@
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_groups_online_detail.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_hobby.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_home.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_members_detail.xml" value="0.240625" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_test.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_chatlist.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_first_screen.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_grouplist.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_memberslist.xml" value="0.11803444782168186" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_mypage.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_one_to_one.xml" value="0.240625" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_second_screen.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_third_screen.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_view_pager.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_chat_list_members.xml" value="0.31068840579710144" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_chat_row.xml" value="0.31068840579710144" />
-        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_edit_members.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_edit_members.xml" value="0.33" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_groups.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_members.xml" value="0.17314814814814813" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/nav_header.xml" value="0.1" />

@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoActionBar">
         <activity
+            android:name=".TestActivity"
+            android:exported="true"/>
+        <activity
             android:name=".editRooms.EditGroupsDetailOfflineActivity"
             android:exported="true" />
         <activity
