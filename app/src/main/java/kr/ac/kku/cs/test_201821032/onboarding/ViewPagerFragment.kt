@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_view_pager.view.*
 import kr.ac.kku.cs.test_201821032.*
 import kr.ac.kku.cs.test_201821032.onboarding.screens.FirstScreen
+import kr.ac.kku.cs.test_201821032.onboarding.screens.FourthScreen
 import kr.ac.kku.cs.test_201821032.onboarding.screens.SecondScreen
 import kr.ac.kku.cs.test_201821032.onboarding.screens.ThirdScreen
 
@@ -23,7 +24,8 @@ class ViewPagerFragment : Fragment() {
         val fragmentList = arrayListOf<Fragment>(
             FirstScreen(),
             SecondScreen(),
-            ThirdScreen()
+            ThirdScreen(),
+            FourthScreen()
         )
 
         val adapter = ViewPagerAdapter(

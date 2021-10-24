@@ -1,15 +1,12 @@
 package kr.ac.kku.cs.test_201821032.onboarding.screens
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_third_screen.*
-import kotlinx.android.synthetic.main.fragment_third_screen.view.*
-import kr.ac.kku.cs.test_201821032.MainActivity
+import androidx.viewpager2.widget.ViewPager2
+import kotlinx.android.synthetic.main.fragment_tutorial_third_screen.view.*
 import kr.ac.kku.cs.test_201821032.R
 
 
@@ -19,28 +16,16 @@ class ThirdScreen : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_third_screen, container, false)
-
-        view.finish.setOnClickListener {
-
-            onBoardingFinished()
-            startActivity(Intent(context, MainActivity::class.java))
-            finish
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.remove(this)
-                ?.commit()
+        val view =  inflater.inflate(R.layout.fragment_tutorial_third_screen, container, false)
+        val viewPager = activity?.findViewById<ViewPager2>(R.id.viewPager)
+        view.previous.setOnClickListener {
+            viewPager?.currentItem = 1
         }
 
+        view.next.setOnClickListener {
+            viewPager?.currentItem = 4
+        }
 
         return view
-    }
-
-    private fun onBoardingFinished(){
-        val sharedPref = requireActivity().getSharedPreferences("onBoarding", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putBoolean("Finished", true)
-        editor.apply()
     }
 }
