@@ -103,6 +103,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                                 putExtra("online", online)
                                 putExtra("selectedHobby", groupsModel.hobby)
                                 putExtra("key", groupsModel.key)
+                                putExtra("chatKey", groupsModel.qnA)
                                 data = groupsModel.imageUrl.toUri()
                             })
                     }
@@ -125,6 +126,7 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
                                 putExtra("online", online)
                                 putExtra("selectedHobby", groupsModel.hobby)
                                 putExtra("key", groupsModel.key)
+                                putExtra("chatKey", groupsModel.qnA)
                                 data = groupsModel.imageUrl.toUri()
                             })
                     }

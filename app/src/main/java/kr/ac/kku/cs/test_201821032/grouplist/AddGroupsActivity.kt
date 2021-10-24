@@ -5,9 +5,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
@@ -18,7 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_group.*
-import kotlinx.android.synthetic.main.activity_add_group.hobbyDropDownMenu
+import kotlinx.android.synthetic.main.activity_groups_online_detail.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupBinding
@@ -201,6 +201,7 @@ class AddGroupsActivity : AppCompatActivity() {
         imageUrl: String
     ) {
         val roomNumber = groupsDB.child(hobbyDB).push().key!!
+        val qnAKey = "${System.currentTimeMillis()}" + roomManager
         val model =
             GroupsModel(
                 roomManager,
@@ -215,13 +216,22 @@ class AddGroupsActivity : AppCompatActivity() {
                 0F,
                 roomNumber,
                 hobbyDB,
-                roomManager+System.currentTimeMillis()
+                roomManager + System.currentTimeMillis(),
+                qnAKey
             )
         groupsDB.child(hobbyDB).child(roomNumber).setValue(model)
 
         val madeRoom = EditModel(roomNumber, hobbyDB, DBKey.DB_ONLINE)
-        userDB.child(auth.currentUser!!.uid).child(DBKey.DB_MADE).child(DBKey.DB_GROUP).child(roomNumber)
+        userDB.child(auth.currentUser!!.uid).child(DBKey.DB_MADE).child(DBKey.DB_GROUP)
+            .child(roomNumber)
             .setValue(madeRoom)
+        val chatItem = QnAChatItem(
+            message = "$title 의 QnA 채팅방입니다. 편하게 질문해주세요",
+            senderUid = roomManager,
+            roomManager = roomManager
+        )
+        Firebase.database.reference.child(DBKey.DB_CHATS).child(qnAKey).push().setValue(chatItem)
+
         hideProgress()
         finish()
     }
@@ -269,6 +279,7 @@ class AddGroupsActivity : AppCompatActivity() {
                 val uri = data?.data
                 if (uri != null) {
                     photoGroupsImageView.setImageURI(uri)
+
                     selectedUri = uri
                 } else {
                     Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()

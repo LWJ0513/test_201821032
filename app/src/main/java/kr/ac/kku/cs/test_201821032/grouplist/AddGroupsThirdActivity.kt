@@ -375,6 +375,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         longitude: Float
     ) {
         val roomNumber = groupsDB.child(selectedHobby).push().key!!
+        val qnAKey = "${System.currentTimeMillis()}"+roomManager
         val model =
             GroupsModel(
                 roomManager,
@@ -389,13 +390,21 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 longitude,
                 roomNumber,
                 selectedHobby,
-                roomManager+System.currentTimeMillis()
+                roomManager+System.currentTimeMillis(),
+                qnAKey
             )
         groupsDB.child(selectedHobby).child(roomNumber).setValue(model)
 
         val madeRoom = EditModel(roomNumber, selectedHobby, DBKey.DB_OFFLINE)
         userDB.child(auth.currentUser!!.uid).child(DBKey.DB_MADE).child(DBKey.DB_GROUP).child(roomNumber)
             .setValue(madeRoom)
+        val chatItem = QnAChatItem(
+            message = "$title 의 QnA 채팅방입니다. 편하게 질문해주세요",
+            senderUid = roomManager,
+            roomManager = roomManager
+        )
+        Firebase.database.reference.child(DBKey.DB_CHATS).child(qnAKey).push().setValue(chatItem)
+
         hideProgress()
         finish()
     }

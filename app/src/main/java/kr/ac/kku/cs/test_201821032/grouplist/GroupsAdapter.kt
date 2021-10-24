@@ -35,7 +35,6 @@ class GroupsAdapter (val onItemClicked: (GroupsModel) -> Unit) :
             } else {
                 binding.locationImageView.visibility = View.GONE
             }
-
             if (groupModel.imageUrl.isNotEmpty()) {
                 Glide.with(binding.thumbnailImageView)
                     .load(groupModel.imageUrl)

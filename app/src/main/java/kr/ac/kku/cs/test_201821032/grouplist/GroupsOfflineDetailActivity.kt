@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,10 +16,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_groups_offline_detail.*
@@ -46,8 +44,12 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var selectedHobby: String
     private lateinit var key: String
     private var currentSelectMarker: Marker? = null
-
     private val auth: FirebaseAuth by lazy { Firebase.auth }
+
+    private lateinit var chatDB: DatabaseReference
+    private val chatList = mutableListOf<QnAChatItem>()
+    private val adapter = ChatItemOfflineAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,6 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         roomNumber = intent.getStringExtra("roomNumber").toString()
-        Toast.makeText(this,"$roomNumber", Toast.LENGTH_SHORT).show()
         title = intent.getStringExtra("title").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
         description = intent.getStringExtra("description").toString()
@@ -70,6 +71,44 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
         key = intent.getStringExtra("key").toString()
 
+
+        val chatKey = intent.getStringExtra("chatKey")
+        chatDB = Firebase.database.reference.child(DBKey.DB_CHATS).child("$chatKey")
+        Toast.makeText(this@GroupsOfflineDetailActivity, "$chatKey", Toast.LENGTH_SHORT).show()
+        chatDB.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val chatItem = snapshot.getValue(QnAChatItem::class.java)
+                chatItem ?: return
+
+                if (chatItem.message != "") {
+                    chatList.add(chatItem)
+                    adapter.submitList(chatList)
+                    adapter.notifyDataSetChanged()
+
+                    infoChatOfflineRecyclerView.scrollToPosition(chatList.size - 1)
+
+
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        infoChatOfflineRecyclerView.adapter = adapter
+        infoChatOfflineRecyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        initViews()
+        initBackButton()
+        initSendButton()
+        initSubmitOfflineGroupButton()
+    }
+
+
+    private fun initViews() {
         groupsOfflineRoomTitleTextView.text = title
         groupsOfflineRoomDescriptionTextView.text = description
         groupsOfflineRoomHashTagTextView.text = hashTag
@@ -89,11 +128,6 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         locationNameTextView.text = locationName
         setupGoogleMap()
-
-
-
-        initBackButton()
-        initSubmitOfflineGroupButton()
     }
 
     private fun initBackButton() {
@@ -101,6 +135,23 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             finish()
         }
     }
+
+    private fun initSendButton() {
+        sendOfflineButton.setOnClickListener {
+            if (messageOfflineEditText.text.toString() == "") {
+                Toast.makeText(this, "문자를 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                var chatItem = QnAChatItem(
+                    message = messageOfflineEditText.text.toString(),
+                    senderUid = auth.currentUser!!.uid,
+                    roomManager = roomManager
+                )
+                chatDB.push().setValue(chatItem)
+                messageOfflineEditText.setText("")
+            }
+        }
+    }
+
 
     private fun initSubmitOfflineGroupButton() {
         groupDB = Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)

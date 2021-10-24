@@ -1,21 +1,20 @@
 package kr.ac.kku.cs.test_201821032.grouplist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_chat_room.*
 import kotlinx.android.synthetic.main.activity_groups_online_detail.*
-import kotlinx.android.synthetic.main.activity_groups_online_detail.groupsRoomImageView
 import kr.ac.kku.cs.test_201821032.DBKey
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_CHATS
 import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
 import kr.ac.kku.cs.test_201821032.chatlist.ChatListItem
 import kr.ac.kku.cs.test_201821032.databinding.ActivityGroupsOnlineDetailBinding
@@ -32,8 +31,12 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
     private lateinit var selectedHobby: String
     private lateinit var roomNumber: String
     private lateinit var key: String
-
     private val auth: FirebaseAuth by lazy { Firebase.auth }
+
+    private lateinit var chatDB: DatabaseReference
+    private val chatList = mutableListOf<QnAChatItem>()
+    private val adapter = ChatItemOnlineAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +45,7 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
 
         userDB = Firebase.database.reference.child(DBKey.DB_USERS)
 
-
         roomNumber = intent.getStringExtra("roomNumber").toString()
-        Toast.makeText(this,"$roomNumber", Toast.LENGTH_SHORT).show()
         title = intent.getStringExtra("title").toString()
         roomManager = intent.getStringExtra("roomManager").toString()
         description = intent.getStringExtra("description").toString()
@@ -52,28 +53,80 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
         key = intent.getStringExtra("key").toString()
 
+
+        val chatKey = intent.getStringExtra("chatKey")
+        chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
+        Toast.makeText(this@GroupsOnlineDetailActivity, "$chatKey", Toast.LENGTH_SHORT).show()
+        chatDB.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val chatItem = snapshot.getValue(QnAChatItem::class.java)
+                chatItem ?: return
+
+                if (chatItem.message != "") {
+                    chatList.add(chatItem)
+                    adapter.submitList(chatList)
+                    adapter.notifyDataSetChanged()
+
+                    infoChatOnlineRecyclerView.scrollToPosition(chatList.size - 1)
+
+
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        infoChatOnlineRecyclerView.adapter = adapter
+        infoChatOnlineRecyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        initViews()
+        initBackButton()
+        initSendButton()
+        initSubmitOnlineGroupButton()
+    }
+
+    private fun initViews() {
         groupsOnlineRoomTitleTextView.text = title
         groupsOnlineRoomDescriptionTextView.text = description
         groupsOnlineRoomHashTagTextView.text = hashTag
-        userDB.child(roomManager).child(DBKey.DB_USER_NAME).addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val userName =snapshot.getValue(String::class.java)
-                groupsOnlineRoomManagerTextView.text = userName
-            }
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        userDB.child(roomManager).child(DBKey.DB_USER_NAME)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val userName = snapshot.getValue(String::class.java)
+                    groupsOnlineRoomManagerTextView.text = userName
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
         Glide.with(this)
             .load(intent.data)
             .centerCrop()
             .into(groupsRoomImageView)
-
-        initBackButton()
-        initSubmitOnlineGroupButton()
     }
 
     private fun initBackButton() {
         binding.backButton.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun initSendButton() {
+        sendOnlineButton.setOnClickListener {
+            if (messageOnlineEditText.text.toString() == "") {
+                Toast.makeText(this, "문자를 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                var chatItem = QnAChatItem(
+                    message = messageOnlineEditText.text.toString(),
+                    senderUid = auth.currentUser!!.uid,
+                    roomManager = roomManager
+                )
+                chatDB.push().setValue(chatItem)
+                messageOnlineEditText.setText("")
+            }
         }
     }
 

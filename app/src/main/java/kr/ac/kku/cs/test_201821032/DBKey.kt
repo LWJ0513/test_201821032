@@ -20,6 +20,7 @@ class DBKey {
             const val DB_ROOM_MANAGER = "roomManager"
             const val DB_ROOM_NUMBER = "roomNumber"
             const val DB_TITLE = "title"
+            const val DB_QNA = "qnA"
 
         const val DB_USERS = "Users"
             const val CHILD_CHAT = "chat"

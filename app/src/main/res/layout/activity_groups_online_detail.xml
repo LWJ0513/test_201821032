@@ -87,6 +87,55 @@
                 android:textSize="20sp"
                 tools:text="같이 영화보고 쇼핑할 사람 구해요" />
 
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsOnlineRoomDescriptionTextView"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp"
+                android:text="문의 채팅방"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/infoChatOnlineRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/question"
+                android:layout_marginTop="10dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/infoChatOnlineRecyclerView"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/messageOnlineEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/sendOnlineButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/sendOnlineButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ff0000"
+                    android:text="질문하기"
+                    android:textColor="@color/com_facebook_blue"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/messageOnlineEditText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </RelativeLayout>
     </ScrollView>
@@ -96,6 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="13dp"
         android:text="함께하기" />
 
 
