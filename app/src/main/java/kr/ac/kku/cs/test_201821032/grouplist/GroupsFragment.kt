@@ -23,6 +23,7 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HOBBY5
 import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentGrouplistBinding
+import kr.ac.kku.cs.test_201821032.editRooms.EditGroupsActivity
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist
 import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
@@ -644,6 +645,9 @@ class GroupsFragment : Fragment(R.layout.fragment_grouplist) {
 
                     online = true
                 }
+            }
+            R.id.action_edit_hobby -> {
+                startActivity(Intent(context, EditGroupsActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

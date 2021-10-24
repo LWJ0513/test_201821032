@@ -7,8 +7,7 @@ data class ChatListItem(
     val key: String,
     val roomNumber: String,
     val onOff: String,
-    val hobby: String,
-    val roomImage: String
+    val hobby: String
 ) {
-    constructor() : this("", "", "", "", "", "", "", "")
+    constructor() : this("", "", "", "","", "", "")
 }

@@ -22,11 +22,13 @@ import kotlinx.android.synthetic.main.activity_add_group.hobbyDropDownMenu
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupBinding
+import kr.ac.kku.cs.test_201821032.editRooms.EditModel
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist
 
 class AddGroupsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddGroupBinding
+    private lateinit var userDB: DatabaseReference
     private var selectedUri: Uri? = null
     private var selectedHobby: String = ""
     private var hobbyDB: String = ""
@@ -46,6 +48,8 @@ class AddGroupsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userDB = Firebase.database.reference.child(DBKey.DB_USERS)
 
         val hobby = resources.getStringArray(R.array.hobby)
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
@@ -146,7 +150,6 @@ class AddGroupsActivity : AppCompatActivity() {
                     hideProgress()
                     startActivity(intent)
                 }
-
             } else {            // 온라인 선택시
                 if (selectedUri != null) {            // 이미지가 있으면
                     if (hobbyDB == "") {
@@ -215,6 +218,10 @@ class AddGroupsActivity : AppCompatActivity() {
                 roomManager+System.currentTimeMillis()
             )
         groupsDB.child(hobbyDB).child(roomNumber).setValue(model)
+
+        val madeRoom = EditModel(roomNumber, hobbyDB, DBKey.DB_ONLINE)
+        userDB.child(auth.currentUser!!.uid).child(DBKey.DB_MADE).child(DBKey.DB_GROUP).child(roomNumber)
+            .setValue(madeRoom)
         hideProgress()
         finish()
     }

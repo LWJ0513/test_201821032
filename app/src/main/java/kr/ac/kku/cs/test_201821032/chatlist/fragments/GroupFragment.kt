@@ -26,7 +26,6 @@ import kr.ac.kku.cs.test_201821032.grouplist.GroupsOnlineDetailActivity
 
 class GroupFragment : Fragment(R.layout.fragment_group) {
 
-
     private var binding: FragmentGroupBinding? = null
     private lateinit var groupChatListAdapter: GroupChatListAdapter
     private val chatRoomList = mutableListOf<ChatListItem>()
@@ -40,17 +39,14 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
         Firebase.database.reference.child(DBKey.DB_OFFLINE_GROUPS_LIST)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val fragmentGroupBinding = FragmentGroupBinding.bind(view)
         binding = fragmentGroupBinding
 
-
         groupChatListAdapter = GroupChatListAdapter(onChatRoomClicked = { chatRoom ->
             // 채팅방으로 이동하는 코드
             context?.let {
-
                 if (chatRoom.onOff == "Online") {
                     groupsOnlineDB.child(chatRoom.hobby).child(chatRoom.roomNumber).child("title").addValueEventListener(object :ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -80,10 +76,9 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
         }, onCommunityClicked = { chatRoom ->
             context?.let {
                 if (chatRoom.onOff == "Online") {    // 온라인 모임일 때
-
                     groupsOnlineDB.child(chatRoom.hobby).child(chatRoom.roomNumber)
                         .addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {     // #############################
                                 startActivity(
                                     Intent(
                                         context,
@@ -100,9 +95,7 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
                             }
                             override fun onCancelled(error: DatabaseError) { }
                         })
-
                 } else {    // 오프라인 모임일 때
-
                     groupsOfflineDB.child(chatRoom.hobby).child(chatRoom.roomNumber)
                         .addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -114,14 +107,12 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
                                         putExtra("roomNumber", dataSnapshot.child("roomNumber").getValue(String::class.java))
                                         putExtra("roomManager", dataSnapshot.child("roomManager").getValue(String::class.java))
                                         putExtra("title", dataSnapshot.child("title").getValue(String::class.java))
-                                        //       putExtra("createAt", dataSnapshot.child("createAt").getValue(String::class.java))
                                         putExtra("description", dataSnapshot.child("description").getValue(String::class.java))
                                         putExtra("hashTag", dataSnapshot.child("hashTag").getValue(String::class.java))
                                         putExtra("latitude", dataSnapshot.child("latitude").getValue(Float::class.java))
                                         putExtra("longitude", dataSnapshot.child("longitude").getValue(Float::class.java))
                                         putExtra("locationAddress", dataSnapshot.child("locationAddress").getValue(String::class.java))
                                         putExtra("locationName", dataSnapshot.child("locationName").getValue(String::class.java))
-                                        //   putExtra("online", online)
                                         putExtra("selectedHobby", dataSnapshot.child("hobby").getValue(String::class.java))
                                         data = dataSnapshot.child("imageUrl").getValue(String::class.java)!!.toUri()
                                     })
@@ -129,8 +120,6 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
                             override fun onCancelled(error: DatabaseError) { }
                         })
                 }
-
-//                startActivity(Intent())
             }
         })
 
@@ -138,12 +127,7 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
         fragmentGroupBinding.groupChatListRecyclerView.layoutManager = LinearLayoutManager(context)
 
 
-
         chatRoomList.clear()
-        if (auth.currentUser == null) {
-            return
-        }
-
         val chatDB = Firebase.database.reference.child(DBKey.DB_USERS).child(auth.currentUser!!.uid)
             .child(DBKey.CHILD_CHAT).child(DBKey.DB_GROUP)
 
@@ -155,13 +139,11 @@ class GroupFragment : Fragment(R.layout.fragment_group) {
 
                     chatRoomList.add(model)
                 }
-
                 groupChatListAdapter.submitList(chatRoomList)
                 groupChatListAdapter.notifyDataSetChanged()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-            }
+            override fun onCancelled(error: DatabaseError) { }
         })
     }
 

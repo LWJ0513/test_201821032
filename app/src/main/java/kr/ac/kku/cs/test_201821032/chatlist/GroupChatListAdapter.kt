@@ -3,18 +3,27 @@ package kr.ac.kku.cs.test_201821032.chatlist
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_groups_offline_detail.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.databinding.ItemChatListGroupBinding
 
 class GroupChatListAdapter(val onChatRoomClicked: (ChatListItem) -> Unit, val onCommunityClicked: (ChatListItem) -> Unit) :
     ListAdapter<ChatListItem, GroupChatListAdapter.ViewHolder>(diffUtil) {
+
+    private val groupsDB: DatabaseReference by lazy {
+        Firebase.database.reference.child(DBKey.DB_GROUPS_LIST)
+    }
 
     inner class ViewHolder(private val binding: ItemChatListGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,10 +38,17 @@ class GroupChatListAdapter(val onChatRoomClicked: (ChatListItem) -> Unit, val on
             }
 
             binding.chatRoomTitleTextView.text = chatListItem.roomName
-            Glide.with(binding.groupsRoomImageView)
-                .load(chatListItem.roomImage.toUri())
-                .centerCrop()
-                .into(binding.groupsRoomImageView)
+
+            groupsDB.child(chatListItem.onOff).child(chatListItem.hobby).child(chatListItem.roomNumber).child("imageUrl").addValueEventListener(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val photo = snapshot.getValue(String::class.java)
+                    Glide.with(binding.groupsRoomImageView)
+                        .load(photo!!.toUri())
+                        .centerCrop()
+                        .into(binding.groupsRoomImageView)
+                }
+                override fun onCancelled(error: DatabaseError) { }
+            })
         }
     }
 

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -28,7 +27,6 @@ import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.MainActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMypageBinding
-import kr.ac.kku.cs.test_201821032.signIn.LoginActivity
 
 
 class MyPageFragment : Fragment(R.layout.fragment_mypage) {
@@ -49,12 +47,56 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         userDB = Firebase.database.reference.child(DB_USERS)
         val userId = auth.currentUser?.uid.orEmpty()
 
-        // (activity as HomeActivity?)!!.supportActionBar!!.hide()
+
         setHasOptionsMenu(true)
         val actionBar = (activity as HomeActivity?)!!.supportActionBar
         actionBar!!.setDisplayShowTitleEnabled(false)
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
         actionBar.setCustomView(R.layout.title_mypage)
+
+
+        if (auth.currentUser == null) {      // 로그인 안되어있을 때
+            activity?.let {
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+            }
+        } else {
+            binding?.let {
+
+                emailEditText.setText(auth.currentUser!!.email)
+                emailEditText.isEnabled = false
+
+                signOutButton.text = "로그아웃"
+                signOutButton.isEnabled = true
+
+                userNameEditText.isEnabled = false
+                userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            userNameEditText.setText(dataSnapshot.getValue(String::class.java))
+                        }
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+
+                userDB.child(auth.currentUser!!.uid).child(DB_USER_PROFILE_IMAGE)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            val photoImageUrl = dataSnapshot.getValue(String::class.java)
+
+                            Glide.with(this@MyPageFragment)
+                                .load(photoImageUrl)
+                                .centerCrop()
+                                .into(userProfileImageView)
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {        // 에러문 출력
+                            Toast.makeText(context, "사진을 불러오는 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+            }
+        }
+
 
 
         initChangeUserName()
@@ -89,53 +131,6 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             activity?.let {
                 val intent = Intent(context, MainActivity::class.java)
                 startActivity(intent)
-            }
-        }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-
-        if (auth.currentUser == null) {      // 로그인 안되어있을 때
-            activity?.let {
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-            }
-        } else {
-            binding?.let { binding ->
-
-                emailEditText.setText(auth.currentUser!!.email)
-                emailEditText.isEnabled = false
-
-                signOutButton.text = "로그아웃"
-                signOutButton.isEnabled = true
-
-                userNameEditText.isEnabled = false
-                userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME)
-                    .addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            userNameEditText.setText(dataSnapshot.getValue(String::class.java))
-                        }
-                        override fun onCancelled(error: DatabaseError) {}
-                    })
-
-                userDB.child(auth.currentUser!!.uid).child(DB_USER_PROFILE_IMAGE)
-                    .addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                            val photoImageUrl = dataSnapshot.getValue(String::class.java)
-
-                            Glide.with(this@MyPageFragment)
-                                .load(photoImageUrl)
-                                .centerCrop()
-                                .into(userProfileImageView)
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {        // 에러문 출력
-                            Toast.makeText(context, "사진을 불러오는 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
-                        }
-                    })
             }
         }
     }

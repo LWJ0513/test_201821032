@@ -114,8 +114,7 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     key = key,
                     roomNumber = roomNumber,
                     onOff = "Offline",
-                    hobby = selectedHobby,
-                    roomImage = intent.data.toString()
+                    hobby = selectedHobby
                 )
                 Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 

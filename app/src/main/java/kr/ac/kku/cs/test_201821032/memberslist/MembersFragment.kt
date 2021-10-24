@@ -1,10 +1,13 @@
 package kr.ac.kku.cs.test_201821032.memberslist
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +28,7 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.FragmentMemberslistBinding
+import kr.ac.kku.cs.test_201821032.editRooms.EditMembersActivity
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.BEAUTY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.COUNSELING
@@ -42,6 +46,7 @@ import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.SPORTS
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.STUDY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
 
+
 class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
     private lateinit var memberDB: DatabaseReference
@@ -55,12 +60,13 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
             membersModel ?: return
 
             memberList.add(membersModel)
+
             memberList.shuffle()
             memberAdapter.submitList(memberList)
             memberAdapter.notifyDataSetChanged()
         }
 
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {        }
         override fun onChildRemoved(snapshot: DataSnapshot) {}
         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
         override fun onCancelled(error: DatabaseError) {}
@@ -112,9 +118,15 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
 
 
         swipeRefreshLayout.setOnRefreshListener {   // 당겨서 새로고침
-            memberList.shuffle()
+//
+//            memberList.shuffle()
+//            memberAdapter.submitList(memberList)
+//            memberAdapter.notifyDataSetChanged()        // 새로고침
+//            swipeRefreshLayout.setRefreshing(false)
+            memberList.clear()
+            initHobbyList()
             memberAdapter.submitList(memberList)
-            memberAdapter.notifyDataSetChanged()        // 새로고침
+           memberAdapter.notifyDataSetChanged()
             swipeRefreshLayout.setRefreshing(false)
         }
 
@@ -129,6 +141,10 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
             }
         }
 
+        initHobbyList()
+    }
+
+    private fun initHobbyList() {
         userDB.child(auth.currentUser!!.uid).child(DB_HOBBY1).addValueEventListener(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -264,15 +280,6 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
             override fun onCancelled(error: DatabaseError) {
             }
         })
-
-
-        //memberDB.addChildEventListener(listener)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        memberAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {
@@ -282,9 +289,17 @@ class MembersFragment : Fragment(R.layout.fragment_memberslist) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // TODO Add your menu entries here
         menu.findItem(R.id.action_toggle).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_edit_hobby -> {
+                startActivity(Intent(context, EditMembersActivity::class.java))
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 }

@@ -1,19 +1,15 @@
 package kr.ac.kku.cs.test_201821032.chatdetail
 
-import android.graphics.Color
 import android.os.Bundle
-import android.text.method.Touch.scrollTo
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_add_group_second.*
 import kotlinx.android.synthetic.main.activity_chat_room.*
-import kotlinx.android.synthetic.main.activity_chat_room.view.*
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_CHATS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
@@ -47,11 +43,12 @@ class ChatRoomActivity : AppCompatActivity() {
                 val chatItem = snapshot.getValue(ChatItem::class.java)
                 chatItem ?: return
 
-                chatList.add(chatItem)
-                adapter.submitList(chatList)
-                adapter.notifyDataSetChanged()
-                chatRecyclerView.scrollToPosition(chatList.size-1)
-
+                if (chatItem.message != "") {
+                    chatList.add(chatItem)
+                    adapter.submitList(chatList)
+                    adapter.notifyDataSetChanged()
+                    chatRecyclerView.scrollToPosition(chatList.size - 1)
+                }
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -69,9 +66,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         initBackButton()
         initSendButton()
-
     }
-
 
     private fun initBackButton() {
         chatRoomBackButton.setOnClickListener {
@@ -81,26 +76,28 @@ class ChatRoomActivity : AppCompatActivity() {
 
     private fun initSendButton() {
         sendButton.setOnClickListener {
-            var userName: String
-            var chatItem: ChatItem
-            userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+            if (messageEditText.text.toString() == "") {
+                Toast.makeText(this, "문자를 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                var userName: String
+                var chatItem: ChatItem
+                userDB.child(auth.currentUser!!.uid).child(DB_USER_NAME)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                        userName = dataSnapshot.getValue(String::class.java)!!
+                            userName = dataSnapshot.getValue(String::class.java)!!
 
-                        chatItem = ChatItem(
-                            senderName = userName,
-                            message = messageEditText.text.toString(),
-                            senderUid = auth.currentUser!!.uid
-                        )
-                        chatDB.push().setValue(chatItem)
-                        messageEditText.setText("")
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-                })
+                            chatItem = ChatItem(
+                                message = messageEditText.text.toString(),
+                                senderUid = auth.currentUser!!.uid
+                            )
+                            chatDB.push().setValue(chatItem)
+                            messageEditText.setText("")
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                        }
+                    })
+            }
         }
     }
 }

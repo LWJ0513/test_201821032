@@ -10,6 +10,7 @@
     <color name="red">#AAF61919</color>
 
     <color name="gray_cc">#cccccc</color>
+    <color name="gray">#5C5C5C</color>
     <color name="main_color">#0055FF</color>
     <color name="chat_receive">#DFDFDF</color>
     <color name="chat_send">#0D7AFF</color>

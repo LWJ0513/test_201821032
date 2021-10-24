@@ -89,8 +89,7 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
                     key = key,
                     roomNumber = roomNumber,
                     onOff = "Online",
-                    hobby = selectedHobby,
-                    roomImage = intent.data.toString()
+                    hobby = selectedHobby
                 )
 
                 userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가

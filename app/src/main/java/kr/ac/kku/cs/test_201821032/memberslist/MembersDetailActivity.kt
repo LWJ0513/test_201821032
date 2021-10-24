@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_members_detail.*
 import kotlinx.android.synthetic.main.item_members.*
 import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.CHILD_CHAT
-import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_ONE
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBER
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USERS
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_USER_NAME
 import kr.ac.kku.cs.test_201821032.chatdetail.ChatRoomActivity
@@ -105,19 +105,18 @@ class MembersDetailActivity : AppCompatActivity() {
                             key = System.currentTimeMillis().toString(),
                             roomNumber = roomNumber,
                             hobby = "",
-                            onOff = "members",
-                            roomImage = profileImageUrl
+                            onOff = "members"
                         )
 
                         userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
                             .child(CHILD_CHAT)
-                            .child(DB_ONE)
+                            .child(DB_MEMBER)
                             .push()
                             .setValue(chatRoom)
 
                         userDB.child(roomManager)      // 개설자 유저디비에 채팅방 추가
                             .child(CHILD_CHAT)
-                            .child(DB_ONE)
+                            .child(DB_MEMBER)
                             .push()
                             .setValue(chatRoom)
 

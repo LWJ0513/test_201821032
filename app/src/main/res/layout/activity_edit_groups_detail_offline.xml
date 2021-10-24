@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="15dp"
+    android:orientation="vertical"
+    tools:context=".editRooms.EditGroupsDetailOfflineActivity">
+
+    <LinearLayout
+        android:id="@+id/LinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ff0000"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="저장하기"
+            android:textColor="@color/main_color" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/LinearLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/editGroupsOfflineRoomImageView2"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/blackImageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#50000000" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+                <ImageView
+                    android:id="@+id/cameraImageView"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_camera"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editGroupsOfflineRoomImageView2"
+                android:layout_marginHorizontal="23dp"
+                android:layout_marginTop="20dp"
+                android:text="모임 이름"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editGroupsOfflineRoomTitleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/title"
+                android:layout_marginHorizontal="20dp"
+                android:enabled="false"
+                android:text="갈매기살"
+                android:textColor="@color/gray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editGroupsOfflineRoomTitleEditText"
+                android:layout_marginHorizontal="23dp"
+                android:layout_marginTop="15dp"
+                android:text="주제"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editGroupsOfflineRoomTopicEditText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/topic"
+                android:layout_marginHorizontal="20dp"
+                android:enabled="false"
+                android:textColor="@color/gray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/onOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editGroupsOfflineRoomTopicEditText"
+                android:layout_marginHorizontal="23dp"
+                android:layout_marginTop="15dp"
+                android:text="모임 분류"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editGroupsOnOffRoomOfflineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/onOff"
+                android:layout_marginHorizontal="20dp"
+                android:enabled="false"
+                android:text="오프라인 모임"
+                android:textColor="@color/gray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editGroupsOnOffRoomOfflineEditText"
+                android:layout_marginHorizontal="23dp"
+                android:layout_marginTop="15dp"
+                android:text="모임 장소"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editGroupsOfflinePlaceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/place"
+                android:layout_marginHorizontal="20dp"
+                android:enabled="false"
+                android:text="우리집"
+                android:textColor="@color/gray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/hashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editGroupsOfflinePlaceEditText"
+                android:layout_marginHorizontal="23dp"
+                android:layout_marginTop="15dp"
+                android:text="해시태그"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editGroupsOfflineRoomHashTagEditText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/hashtag"
+                android:layout_marginHorizontal="20dp"
+                android:text="#맛집탐방"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/groupsOfflineRoomDescriptionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editGroupsOfflineRoomHashTagEditText"
+                android:layout_marginHorizontal="23dp"
+                android:layout_marginTop="15dp"
+                android:text="모임 설명"
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/editGroupsOfflineRoomDescriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/groupsOfflineRoomDescriptionTextView"
+                android:layout_marginHorizontal="20dp"
+                android:inputType="textMultiLine"
+                android:text="가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/editGroupsOfflineProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</RelativeLayout>

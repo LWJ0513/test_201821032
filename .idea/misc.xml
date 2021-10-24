@@ -65,15 +65,33 @@
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/layout/viewholder_search_result_item.xml" value="0.28703703703703703" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/AndroidStudioProjects/test_201821032/app/src/main/res/menu/nav_menu.xml" value="0.1787037037037037" />
+        <entry key="..\:/Users/PC/Desktop/madeEdit/test_201821032/app/src/main/res/layout/activity_add_groups_third.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/madeEdit/test_201821032/app/src/main/res/layout/dropdown_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_add_group.xml" value="0.17407407407407408" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_add_members.xml" value="0.26358695652173914" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_chat_room.xml" value="0.31068840579710144" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_groups.xml" value="0.13677811550151975" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_groups_detail.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_groups_detail_offline.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_groups_detail_online.xml" value="0.26666666666666666" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_groups_room.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_members.xml" value="0.1" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_edit_members_detail.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_groups_offline_detail.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_groups_online_detail.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_hobby.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_home.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/activity_members_detail.xml" value="0.240625" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_chatlist.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_grouplist.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_memberslist.xml" value="0.11803444782168186" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_mypage.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/fragment_one_to_one.xml" value="0.240625" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_chat_list_members.xml" value="0.31068840579710144" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_chat_row.xml" value="0.31068840579710144" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_edit_members.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_groups.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/item_members.xml" value="0.17314814814814813" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/layout/nav_header.xml" value="0.1" />
         <entry key="..\:/Users/PC/Desktop/test_201821032/app/src/main/res/menu/nav_menu.xml" value="0.2520833333333333" />
       </map>

@@ -19,10 +19,14 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_add_members.*
 import kotlinx.android.synthetic.main.activity_add_members.view.*
 import kotlinx.android.synthetic.main.activity_members_detail.*
+import kr.ac.kku.cs.test_201821032.DBKey
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MADE
+import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBER
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_MEMBERS_LIST
 import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddMembersBinding
+import kr.ac.kku.cs.test_201821032.editRooms.EditModel
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.ART
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.BEAUTY
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.COUNSELING
@@ -43,6 +47,7 @@ import kr.ac.kku.cs.test_201821032.signIn.Hobbylist.Companion.TRAVEL
 class AddMembersActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddMembersBinding
+    private lateinit var userDB: DatabaseReference
     private var selectedUri: Uri? = null
     private var selectedHobby: String = ""
     private var hobbyDB: String = ""
@@ -62,6 +67,8 @@ class AddMembersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMembersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        userDB = Firebase.database.reference.child(DBKey.DB_USERS)
 
         val hobby = resources.getStringArray(R.array.hobby)
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
@@ -109,9 +116,6 @@ class AddMembersActivity : AppCompatActivity() {
                 ) -> {
                     startContentProvider()
                 }
-                /*   shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                       showPermissionContextPopup()
-                   }*/
                 else -> {
                     requestPermissions(
                         arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -135,7 +139,7 @@ class AddMembersActivity : AppCompatActivity() {
                 val photoUri = selectedUri ?: return@setOnClickListener
                 uploadPhoto(photoUri,
                     successHandler = { uri ->     // 비동기
-                        uploadMember(roomManager, title, description, hashTag,uri)
+                        uploadMember(roomManager, title, description, hashTag, uri)
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
@@ -168,21 +172,27 @@ class AddMembersActivity : AppCompatActivity() {
             }
     }
 
-    private fun uploadMember(
-        roomManager: String,
-        title: String,
-        description: String,
-        hashTag: String,
-        imageUrl: String
-    ) {
-        if (hobbyDB=="") {
+    private fun uploadMember(roomManager: String, title: String, description: String, hashTag: String, imageUrl: String ) {
+        if (hobbyDB == "") {
             hideProgress()
             Toast.makeText(this, "주제를 선택해주세요", Toast.LENGTH_SHORT).show()
         } else {
             val roomNumber = membersDB.child(hobbyDB).push().key!!
-            val model =
-                MembersModel(roomManager, title, System.currentTimeMillis(), description, hashTag, imageUrl, roomNumber)
+            val model = MembersModel(
+                roomManager,
+                title,
+                System.currentTimeMillis(),
+                description,
+                hashTag,
+                imageUrl,
+                roomNumber
+            )
             membersDB.child(hobbyDB).child(roomNumber).setValue(model)
+
+            val madeRoom = EditModel(roomNumber, hobbyDB, "members")
+            userDB.child(auth.currentUser!!.uid).child(DB_MADE).child(DB_MEMBER).child(roomNumber)
+                .setValue(madeRoom)
+
             hideProgress()
             finish()
             overridePendingTransition(0, 0)
@@ -244,15 +254,4 @@ class AddMembersActivity : AppCompatActivity() {
             }
         }
     }
-
-    /* private fun showPermissionContextPopup() {
-         AlertDialog.Builder(this)
-             .setTitle("권한이 필요합니다.")
-             .setMessage("사진을 가져오기 위해 필요합니다.")
-             .setPositiveButton("동의", { _, _ ->
-                 requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
-             })
-             .create()
-             .show()
-     }*/
 }

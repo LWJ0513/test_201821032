@@ -53,7 +53,7 @@ class OneToOneFragment : Fragment(R.layout.fragment_one_to_one) {
         }
 
         val chatDB = Firebase.database.reference.child(DBKey.DB_USERS).child(auth.currentUser!!.uid)
-            .child(DBKey.CHILD_CHAT).child(DBKey.DB_ONE)
+            .child(DBKey.CHILD_CHAT).child(DBKey.DB_MEMBER)
 
         chatDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

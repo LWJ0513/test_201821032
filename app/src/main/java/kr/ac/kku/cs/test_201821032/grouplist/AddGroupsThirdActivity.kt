@@ -41,6 +41,7 @@ import kr.ac.kku.cs.test_201821032.DBKey
 import kr.ac.kku.cs.test_201821032.HomeActivity
 import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityAddGroupsThirdBinding
+import kr.ac.kku.cs.test_201821032.editRooms.EditModel
 import kr.ac.kku.cs.test_201821032.location.model.LocationLatLngEntity
 import kr.ac.kku.cs.test_201821032.location.model.SearchResultEntity
 import kr.ac.kku.cs.test_201821032.location.utillity.RetrofitUtil
@@ -55,6 +56,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     private lateinit var locationManager: LocationManager
     private lateinit var myLocationListener: MyLocationListener
 
+    private lateinit var userDB: DatabaseReference
     private lateinit var roomManager: String
     private lateinit var title: String
     private lateinit var description: String
@@ -92,6 +94,7 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         binding = ActivityAddGroupsThirdBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        userDB = Firebase.database.reference.child(DBKey.DB_USERS)
         job = Job()
 
         if (::searchResult.isInitialized.not()) {
@@ -116,10 +119,6 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         selectedHobby = intent.getStringExtra("selectedHobby").toString()
 
 
-        val hobby = resources.getStringArray(R.array.hobby)
-        val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, hobby)
-        //todo
-
         initBackButton()
         initSubmitOfflineGroupButton()
     }
@@ -139,7 +138,6 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
         submitOfflineGroupButton.setOnClickListener {
             val roomManager = auth.currentUser?.uid.orEmpty()
 
-
             if (photoUri != null) {            // 이미지가 있으면 업로드
                 showProgress()
                 val photoUri = photoUri ?: return@setOnClickListener
@@ -156,8 +154,6 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                             latitude,
                             longitude
                         )
-                        // todo 업로드
-
                     },
                     errorHandler = {
                         Toast.makeText(this, "사진 업로드에 실패했습니다", Toast.LENGTH_SHORT).show()
@@ -358,7 +354,6 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
     }
 
     inner class MyLocationListener : LocationListener {
-
         override fun onLocationChanged(location: Location) {
             val locationLatLngEntity = LocationLatLngEntity(
                 location.latitude.toFloat(),
@@ -367,7 +362,6 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
             onCurrentLocationChanged(locationLatLngEntity)
         }
     }
-
 
     private fun uploadGroup(
         roomManager: String,
@@ -398,6 +392,10 @@ class AddGroupsThirdActivity : AppCompatActivity(), OnMapReadyCallback, Coroutin
                 roomManager+System.currentTimeMillis()
             )
         groupsDB.child(selectedHobby).child(roomNumber).setValue(model)
+
+        val madeRoom = EditModel(roomNumber, selectedHobby, DBKey.DB_OFFLINE)
+        userDB.child(auth.currentUser!!.uid).child(DBKey.DB_MADE).child(DBKey.DB_GROUP).child(roomNumber)
+            .setValue(madeRoom)
         hideProgress()
         finish()
     }

@@ -16,9 +16,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoActionBar">
         <activity
-            android:name=".mypage.WithdrawalActivity"
-            android:theme="@style/Theme.Dialog"
+            android:name=".editRooms.EditGroupsDetailOfflineActivity"
             android:exported="true" />
+        <activity
+            android:name=".editRooms.EditGroupsDetailOnlineActivity"
+            android:exported="true" />
+        <activity
+            android:name=".editRooms.EditMembersDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".editRooms.EditGroupsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".editRooms.EditMembersActivity"
+            android:exported="true" />
+        <activity
+            android:name=".mypage.WithdrawalActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Dialog" />
         <activity
             android:name=".grouplist.GroupsOnlineDetailActivity"
             android:exported="true" />
