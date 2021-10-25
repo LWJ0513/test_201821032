@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="15dp"
-    android:orientation="vertical"
     tools:context=".editRooms.EditMembersDetailActivity">
 
     <LinearLayout
@@ -139,7 +138,7 @@
                 android:layout_below="@id/hashtag"
                 android:layout_marginHorizontal="20dp"
                 android:text="#맛집탐방"
-                android:textColor="@color/black"
+                android:textColor="@color/com_facebook_blue"
                 android:textSize="20sp" />
 
             <TextView

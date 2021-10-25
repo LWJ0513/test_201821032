@@ -4,10 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -33,8 +32,6 @@ import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_DESCRIPTION
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_HASHTAG
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_IMAGE_URL
 import kr.ac.kku.cs.test_201821032.DBKey.Companion.DB_TITLE
-import kr.ac.kku.cs.test_201821032.HomeActivity
-import kr.ac.kku.cs.test_201821032.R
 import kr.ac.kku.cs.test_201821032.databinding.ActivityEditMembersDetailBinding
 import kr.ac.kku.cs.test_201821032.signIn.Hobbylist
 

@@ -74,7 +74,6 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val chatKey = intent.getStringExtra("chatKey")
         chatDB = Firebase.database.reference.child(DBKey.DB_CHATS).child("$chatKey")
-        Toast.makeText(this@GroupsOfflineDetailActivity, "$chatKey", Toast.LENGTH_SHORT).show()
         chatDB.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val chatItem = snapshot.getValue(QnAChatItem::class.java)
@@ -167,7 +166,6 @@ class GroupsOfflineDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     onOff = "Offline",
                     hobby = selectedHobby
                 )
-                Toast.makeText(this, "$chatRoom", Toast.LENGTH_SHORT).show()
 
                 userDB.child(auth.currentUser!!.uid)      // 사용자 유저디비에 채팅방 추가
                     .child(DBKey.CHILD_CHAT)

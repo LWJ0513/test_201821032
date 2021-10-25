@@ -108,7 +108,23 @@ class AddMembersActivity : AppCompatActivity() {
     }
 
     private fun initImageAddMembersButton() {
-        imageAddMembersButton.setOnClickListener {
+        blackImageView.setOnClickListener {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(          // 저장소 권한
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) -> {
+                    startContentProvider()
+                }
+                else -> {
+                    requestPermissions(
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        1010
+                    )
+                }
+            }
+        }
+        cameraImageView.setOnClickListener {
             when (PackageManager.PERMISSION_GRANTED) {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
                     this,

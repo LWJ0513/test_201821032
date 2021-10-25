@@ -56,7 +56,6 @@ class GroupsOnlineDetailActivity : AppCompatActivity() {
 
         val chatKey = intent.getStringExtra("chatKey")
         chatDB = Firebase.database.reference.child(DB_CHATS).child("$chatKey")
-        Toast.makeText(this@GroupsOnlineDetailActivity, "$chatKey", Toast.LENGTH_SHORT).show()
         chatDB.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val chatItem = snapshot.getValue(QnAChatItem::class.java)

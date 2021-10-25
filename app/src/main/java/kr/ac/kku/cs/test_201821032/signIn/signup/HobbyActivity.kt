@@ -69,7 +69,6 @@ class HobbyActivity : AppCompatActivity() {
 
 
         if (auth.currentUser != null) {
-            Toast.makeText(this, auth.currentUser!!.email.toString(), Toast.LENGTH_SHORT).show()
             initHobby()
             initNextButton()
         } else {
@@ -327,37 +326,6 @@ class HobbyActivity : AppCompatActivity() {
             }
         }
     }
-/*
-    private fun initArt() {
-
-        var artClicked: Boolean = false
-        artImageView.setOnClickListener {
-            if (!artClicked) {
-                sportsImageView.setImageResource(R.drawable.select)
-                artClicked = true
-                Toast.makeText(this, "선택되었습니다", Toast.LENGTH_SHORT).show()
-            } else {
-                sportsImageView.setImageResource(R.drawable.art)
-                artClicked = false
-                Toast.makeText(this, "취소되었습니다", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun initBeauty() {
-        var beautyClicked: Boolean = false
-        beautyImageView.setOnClickListener {
-            if (!beautyClicked) {
-                sportsImageView.setImageResource(R.drawable.select)
-                beautyClicked = true
-                Toast.makeText(this, "선택되었습니다", Toast.LENGTH_SHORT).show()
-            } else {
-                sportsImageView.setImageResource(R.drawable.beauty)
-                beautyClicked = false
-                Toast.makeText(this, "취소되었습니다", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }*/
 
     private fun initNextButton() {
         nextButton.setOnClickListener {

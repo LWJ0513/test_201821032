@@ -182,7 +182,7 @@
                 android:layout_below="@id/hashtag"
                 android:layout_marginHorizontal="20dp"
                 android:text="#맛집탐방"
-                android:textColor="@color/black"
+                android:textColor="@color/com_facebook_blue"
                 android:textSize="20sp" />
 
             <TextView

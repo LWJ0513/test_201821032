@@ -89,7 +89,26 @@ class AddGroupsActivity : AppCompatActivity() {
     }
 
     private fun initImageAddGroupsButton() {
-        imageAddGroupsButton.setOnClickListener {
+        blackImageView.setOnClickListener {
+            when {
+                ContextCompat.checkSelfPermission(          // 저장소 권한
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    startContentProvider()
+                }
+                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                    showPermissionContextPopup()
+                }
+                else -> {
+                    requestPermissions(
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        1010
+                    )
+                }
+            }
+        }
+        cameraImageView.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(          // 저장소 권한
                     this,

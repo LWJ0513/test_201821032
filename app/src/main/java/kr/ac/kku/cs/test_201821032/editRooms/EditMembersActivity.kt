@@ -59,6 +59,14 @@ class EditMembersActivity : AppCompatActivity() {
                 }
                 override fun onCancelled(error: DatabaseError) {}
             })
+
+        initBackButton()
+    }
+
+    private fun initBackButton() {
+        editMemberBackButton.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onResume() {

@@ -19,7 +19,6 @@ import kr.ac.kku.cs.test_201821032.databinding.ActivityEditGroupsBinding
 class EditGroupsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditGroupsBinding
-    private lateinit var memberDB: DatabaseReference
     private lateinit var userDB: DatabaseReference
     private lateinit var editGroupsAdapter: EditGroupsAdapter
     private val editGroupsList = mutableListOf<EditModel>()
@@ -68,6 +67,14 @@ class EditGroupsActivity : AppCompatActivity() {
 
                 override fun onCancelled(error: DatabaseError) {}
             })
+
+        initBackButton()
+    }
+
+    private fun initBackButton() {
+        editGroupBackButton.setOnClickListener {
+            finish()
+        }
     }
 
     override fun onResume() {
